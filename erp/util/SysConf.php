@@ -12,7 +12,7 @@ class SysConf
      * @param string $prefix
      * @return string
      */
-    function uuid($prefix = ''){
+    public static function uuid($prefix = ''){
         $chars = md5(uniqid(mt_rand(), true));
         $uuid  = substr($chars,0,8) . '-';
         $uuid .= substr($chars,8,4) . '-';
