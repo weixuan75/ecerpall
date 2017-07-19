@@ -2,8 +2,10 @@
 
 namespace app\erp\models;
 
+use app\erp\util\LogUntils;
 use app\erp\util\SysConf;
 use Yii;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "{{%platform}}".
@@ -35,21 +37,20 @@ class Platform extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'ename', 'content'], 'required'],
-            [['state', 'create_time', 'update_time'], 'integer'],
+            [['name', 'ename', 'content'], 'required','message'=>"不能为空"],
+            [['state','admin_id', 'create_time', 'update_time'], 'integer'],
             [['name', 'ename'], 'string', 'max' => 100],
             [['content'], 'string', 'max' => 500],
-            [['admin_id', 'auth_code', 'key_code'], 'string', 'max' => 36],
-            [['name'], 'unique'],
-            [['ename'], 'unique'],
+            [['auth_code', 'key_code'], 'string', 'max' => 45],
+            [['name'], 'unique','message'=>"平台已经存在"],
+            [['ename'], 'unique','message'=>"英文名称已经存在"],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels(){
         return [
             'id' => 'ID',
             'name' => '名称',
@@ -67,8 +68,8 @@ class Platform extends \yii\db\ActiveRecord
         if($this->load($data)){
             $this->auth_code = SysConf::uuid("auth-");
             $this->key_code= SysConf::uuid("key-");
-            $this->create_time=$this->create_time=time();
-            if($this->save()){
+            $this->create_time=$this->update_time=time();
+            if($this->save()&&LogUntils::write(Json::encode($data['Platform']),$this->getPrimaryKey(),"add")){
                 return true;
             }
             return false;

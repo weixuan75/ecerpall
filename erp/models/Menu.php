@@ -38,10 +38,10 @@ class Menu extends \yii\db\ActiveRecord
     {
         return [
             [['menu_pid', 'name', 'ename', 'content', 'url'], 'required'],
-            [['menu_pid', 'state', 'create_time', 'update_time'], 'integer'],
+            [['admin_id', 'menu_pid', 'state', 'create_time', 'update_time'], 'integer'],
             [['name', 'ename'], 'string', 'max' => 100],
             [['content', 'url'], 'string', 'max' => 500],
-            [['admin_id', 'auth_code', 'key_code'], 'string', 'max' => 36],
+            [['auth_code', 'key_code'], 'string', 'max' => 45],
             [['name'], 'unique'],
             [['ename'], 'unique'],
         ];
@@ -77,7 +77,7 @@ class Menu extends \yii\db\ActiveRecord
         if($this->load($data)){
             $this->auth_code = SysConf::uuid("auth-");
             $this->key_code= SysConf::uuid("key-");
-            $this->create_time=$this->create_time=time();
+            $this->create_time=$this->update_time=time();
             if($this->save()){
                 return true;
             }

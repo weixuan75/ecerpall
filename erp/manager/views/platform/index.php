@@ -5,7 +5,7 @@ use yii\helpers\Url;
 <div class="row">
     <div class="col-md-12">
         <div class="card-footer">
-            <a href="<?=Url::to(['menu/add']) ?>" class="btn btn-bg btn-primary"><i class="fa fa-dot-circle-o"></i> 添 加 菜 单 </a>
+            <a href="<?=Url::to(['platform/add']) ?>" class="btn btn-bg btn-primary"><i class="fa fa-dot-circle-o"></i> 添 加 </a>
         </div>
         <div class="card">
             <div class="card-header">
@@ -16,38 +16,34 @@ use yii\helpers\Url;
                     <thead class="thead-default">
                     <tr>
                         <th class="text-center">ID</th>
-                        <th class="text-center">父级ID</th>
                         <th class="text-center">名称</th>
                         <th class="text-center">英文名称</th>
                         <th class="text-center">介绍</th>
                         <th class="text-center">管理员</th>
-                        <th class="text-center">URL地址</th>
                         <th class="text-center">状态</th>
                         <th class="text-center">时间</th>
                         <th class="text-center">操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($managers as $manager): ?>
+                    <?php foreach($platforms as $platform): ?>
                         <tr>
-                            <td class="text-center"><?=$manager->id?></td>
-                            <td class="text-center"><?=$manager->menu_pid?></td>
-                            <td class="text-center"><?=$manager->name?></td>
-                            <td class="text-center"><?=$manager->ename?></td>
-                            <td class="text-center"><?=$manager->content?></td>
-                            <td class="text-center"><?=$manager->admin_id?></td>
-                            <td class="text-center"><?=$manager->url?></td>
-                            <td class="text-center"><?=$manager->state?></td>
+                            <td class="text-center"><?=$platform->id?></td>
+                            <td class="text-center"><?=$platform->name?></td>
+                            <td class="text-center"><?=$platform->ename?></td>
+                            <td class="text-center"><?=$platform->content?></td>
+                            <td class="text-center"><?=$platform->admin_id?></td>
+                            <td class="text-center"><?=$platform->state?></td>
                             <td class="text-center">
-                                <?=date("Y-m-d H:i:s", $manager->create_time)?>
+                                <?=date("Y-m-d H:i:s", $platform->create_time)?>
                                 <br/>
-                                <?=date("Y-m-d H:i:s", $manager->update_time)?>
+                                <?=date("Y-m-d H:i:s", $platform->update_time)?>
                             </td>
                             <td class="text-center">
-                                禁用
-                                激活
-                                <a href="<?=Url::to(['user/del', 'id' => $manager->id]) ?>">删除</a>
-                                编辑
+                                <a href="<?=Url::to(['platform/del', 'id' => $platform->id]) ?>">禁用</a>
+                                <a href="<?=Url::to(['platform/del', 'id' => $platform->id]) ?>">激活</a>
+                                <a href="<?=Url::to(['platform/del', 'id' => $platform->id]) ?>">删除</a>
+                                <a href="<?=Url::to(['platform/edit', 'id' => $platform->id]) ?>">编辑</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
