@@ -2,6 +2,7 @@
 
 namespace app\erp\models;
 
+use app\erp\util\UserUtil;
 use Yii;
 
 /**
@@ -9,12 +10,13 @@ use Yii;
  *
  * @property string $id
  * @property string $admin_id
+ * @property integer $model_id
  * @property string $content
  * @property integer $state
  * @property integer $tag
  * @property string $time
  */
-class LogSysAdmin11 extends \yii\db\ActiveRecord
+class LogSysAdmin extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -31,7 +33,7 @@ class LogSysAdmin11 extends \yii\db\ActiveRecord
     {
         return [
             [['admin_id', 'content'], 'required'],
-            [['admin_id', 'state', 'tag', 'time'], 'integer'],
+            [['admin_id', 'model_id', 'state', 'tag', 'time'], 'integer'],
             [['content'], 'string'],
         ];
     }
@@ -44,10 +46,20 @@ class LogSysAdmin11 extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'admin_id' => '管理员ID',
+            'model_id' => '模块ID',
             'content' => '操作内容',
             'state' => '状态',
             'tag' => '操作标签',
             'time' => '时间',
         ];
+    }
+    public function add($data){
+        $this->content=$data;
+        $this->time = time();
+        $this->admin_id = UserUtil::UserId();
+        if($this->save()){
+            return true;
+        }
+        return false;
     }
 }

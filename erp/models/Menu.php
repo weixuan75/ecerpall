@@ -2,8 +2,8 @@
 
 namespace app\erp\models;
 
+use app\erp\util\SysConf;
 use Yii;
-use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -14,12 +14,16 @@ use yii\helpers\ArrayHelper;
  * @property string $name
  * @property string $ename
  * @property string $content
- * @property string $sys_admin_id
+ * @property string $url
+ * @property string $admin_id
+ * @property string $auth_code
+ * @property string $key_code
  * @property integer $state
  * @property string $create_time
  * @property string $update_time
  */
-class Menu extends ActiveRecord{
+class Menu extends \yii\db\ActiveRecord
+{
     /**
      * @inheritdoc
      */
@@ -34,13 +38,13 @@ class Menu extends ActiveRecord{
     public function rules()
     {
         return [
-            [['url', 'name','menu_pid', 'ename', 'content'], 'required',"message"=>"不可以为空"],
-            [['create_time', 'update_time'], 'integer'],
-            [['name', 'ename'], 'string', 'max' => 100, 'message' => '名字最大100'],
-            [['content','url'], 'string', 'max' => 500, 'message' => '介绍最大500'],
-            [['sys_admin_id'], 'string', 'max' => 36, 'message' => '授权管理员最大'],
-            [['name'],'unique', 'message' => '名字重复'],
-            [['ename'],'unique', 'message' => '英文名字重复'],
+            [['menu_pid', 'name', 'ename', 'content', 'url'], 'required'],
+            [['menu_pid', 'state', 'create_time', 'update_time'], 'integer'],
+            [['name', 'ename'], 'string', 'max' => 100],
+            [['content', 'url'], 'string', 'max' => 500],
+            [['admin_id', 'auth_code', 'key_code'], 'string', 'max' => 36],
+            [['name'], 'unique'],
+            [['ename'], 'unique'],
         ];
     }
 
@@ -55,23 +59,34 @@ class Menu extends ActiveRecord{
             'name' => '名称',
             'ename' => '英文名称',
             'content' => '介绍',
-            'sys_admin_id' => '管理员',
-            'url' => 'URL地址',
+            'url' => 'url',
+            'admin_id' => '管理员',
+            'auth_code' => '授权码',
+            'key_code' => '认证码',
             'state' => '状态',
             'create_time' => '创建时间',
             'update_time' => '修改时间',
         ];
     }
 
+    /**
+     * 创建
+     * @param $data
+     * @return bool
+     */
     public function add($data){
-        $data['create_time'] = time();
-        $data['update_time'] = $data['create_time'];
-        if ($this->load($data)&&$this->save()) {
-            return true;
+        if($this->load($data)){
+            $this->auth_code = SysConf::uuid("auth-");
+            $this->key_code= SysConf::uuid("key-");
+            $this->create_time=$this->create_time=time();
+            if($this->save()){
+                return true;
+            }
+            return false;
         }
         return false;
-//        $this->load($data) && $this->save()
     }
+
     public function getData()
     {
         $cates = self::find()->all();
