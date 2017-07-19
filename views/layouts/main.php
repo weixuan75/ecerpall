@@ -27,7 +27,6 @@ use yii\helpers\Url;
     </style>
 </head>
 
-{include file="public/header" /}
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
 <div class="header">
     <div class="logo pull-left">
@@ -56,6 +55,9 @@ use yii\helpers\Url;
     <nav class="navbar-default navbar-static-side" style="display:block" role="navigation">
         <div class="nav-close"><i class="fa fa-times-circle"></i>
         </div>
+        <?php
+        $session = Yii::$app->session;
+        ?>
         <div class="sidebar-collapse">
             <ul class="nav" id="side-menu">
                 <li class="nav-header">
@@ -63,8 +65,11 @@ use yii\helpers\Url;
                         <span><img alt="image" class="img-circle" width="70px" height="70px" src="/uploads/face/{$portrait}" onerror="this.src='/admin/images/head_default.gif'"/></span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear">
-                                <span class="block m-t-xs"><strong class="font-bold">{$username}</strong></span>
-                                <span class="text-muted text-xs block">{$rolename}<b class="caret"></b></span>
+                                <span class="block m-t-xs"><strong class="font-bold">
+                                        <?php
+                                        echo $session["userData"]['user']['account'];
+                                        ?></strong></span>
+                                <span class="text-muted text-xs block"><b class="caret"></b></span>
                             </span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -75,40 +80,42 @@ use yii\helpers\Url;
                     <div class="logo-element">壹仓
                     </div>
                 </li>
-                {if !empty($menu)}
-                {foreach name="menu" item="vo"}
+                <?php
+                    $menu = app\erp\util\MenuUtil::getList();
+                if(isset($menu))
+                {
+                    foreach($menu as $key=>$vo)
+                    {
+                ?>
                 <li class="menu">
-                    {if empty($vo['child'])}
-                    {if condition="$vo.id eq 123"}
-                    <a class="J_menuItem" href="{$vo.href}" >
-                        {else /}
-                        <a class="J_menuItem" href="{$vo.href}?cid={$vo.id}" >
-                            {/if}
-                            <i class="{$vo.css}"></i>
-                            <span class="nav-label">{$vo.title} </span>
+                        <?php
+                        if(isset($vo['children']) && count($vo['children']) > 0)
+                        {?>
+                            <a href="1">
+                                <i class="fa fa-home"></i>
+                                <span class="nav-label"><?php echo $vo['name']; ?></span>
+                                <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <?php foreach($vo['children'] as $key=>$vol){ ?>
+                                <li>
+                                    <a  class="J_menuItem" href="2">
+                                        <?php echo $vol['name'];?></a>
+                                    <!--<ul class="nav nav-second-level">
+                                            <li><a class="J_menuItem" href="fasdf">fafd</a></li>
+                                        </ul>-->
+                                </li>
+                                <?php }?>
+                            </ul>
+                        <?php }else{?>
+                        <a class="J_menuItem" href="<?php echo $vo['name']; ?>" >
+                            <i class="fa fa-home"></i>
+                            <span class="nav-label"><?php echo $vo['name']; ?> </span>
                         </a>
-                        {else /}
-                        <a href="{$vo.href}?cid={$vo.id}">
-                            <i class="{$vo.css}"></i>
-                            <span class="nav-label">{$vo.title}</span>
-                            <span class="fa arrow"></span>
-                        </a>
-                        <ul class="nav nav-second-level">
-                            {if !empty($vo['child'])}
-                            {foreach name="$vo['child']" item="v"}
-                            <li>
-                                <a  class="J_menuItem" href="{$v.href}?cid={$v.id}">{$v.title}</a>
-                                <!--<ul class="nav nav-second-level">
-                                    <li><a class="J_menuItem" href="fasdf">fafd</a></li>
-                                </ul>-->
-                            </li>
-                            {/foreach}
-                            {/if}
-                        </ul>
-                        {/if}
+                        <?php }?>
+
                 </li>
-                {/foreach}
-                {/if}
+                <?php }}?>
             </ul>
         </div>
     </nav>
@@ -163,6 +170,7 @@ use yii\helpers\Url;
         </div>
         <div class="footer">
             <div class="pull-right">{:config('web_site_copy')}</div>
+
         </div>
     </div>
     <!--右侧部分结束-->
@@ -251,12 +259,28 @@ use yii\helpers\Url;
     <!--右侧边栏结束-->
 
 </div>
-{include file="public/footer" /}
-<script src="/admin/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="/admin/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<script src="/admin/hplus.min.js?v=4.1.0"></script>
-<script src="/admin/contabs.js"></script>
-<script src="/admin/plugins/pace/pace.min.js"></script>
+
+<script src="/admin/js/jquery.min.js?v=2.1.4"></script>
+<script src="/admin/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="/admin/js/content.min.js?v=1.0.0"></script>
+<script src="/admin/js/plugins/chosen/chosen.jquery.js"></script>
+<script src="/admin/js/plugins/iCheck/icheck.min.js"></script>
+<script src="/admin/js/plugins/layer/laydate/laydate.js"></script>
+<script src="/admin/js/plugins/switchery/switchery.js"></script><!--IOS开关样式-->
+<script src="/admin/js/jquery.form.js"></script>
+<script src="/admin/js/layer/layer.js"></script>
+<script src="/admin/js/laypage/laypage.js"></script>
+<script src="/admin/js/laytpl/laytpl.js"></script>
+<script src="/admin/js/lunhui.js"></script>
+<script>
+    $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
+</script>
+
+<script src="/admin/js//plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/admin/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/admin/js/hplus.min.js?v=4.1.0"></script>
+<script src="/admin/js/contabs.js"></script>
+<script src="/admin/js/plugins/pace/pace.min.js"></script>
 <script type="text/javascript">
 
     //退出登录
@@ -301,20 +325,7 @@ use yii\helpers\Url;
     }
 
 </script>
+
+
 </body>
 </html>
-<script src="/admin/jquery.min.js?v=2.1.4"></script>
-<script src="/admin/bootstrap.min.js?v=3.3.6"></script>
-<script src="/admin/content.min.js?v=1.0.0"></script>
-<script src="/admin/plugins/chosen/chosen.jquery.js"></script>
-<script src="/admin/plugins/iCheck/icheck.min.js"></script>
-<script src="/admin/plugins/layer/laydate/laydate.js"></script>
-<script src="/admin/plugins/switchery/switchery.js"></script><!--IOS开关样式-->
-<script src="/admin/jquery.form.js"></script>
-<script src="/admin/layer/layer.js"></script>
-<script src="/admin/laypage/laypage.js"></script>
-<script src="/admin/laytpl/laytpl.js"></script>
-<script src="/admin/lunhui.js"></script>
-<script>
-    $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
-</script>
