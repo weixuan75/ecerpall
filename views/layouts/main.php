@@ -74,50 +74,53 @@ use yii\helpers\Url;
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
                             <li><a href="javascript:;" id="cache">清除缓存</a></li>
-                            <li><a href="{:url('admin/login/loginOut')}">安全退出</a></li>
+                            <li><a href="/admin?r=public/actionLogout">安全退出</a></li>
                         </ul>
                     </div>
                     <div class="logo-element">壹仓
                     </div>
                 </li>
                 <?php
-                    $menu = app\erp\util\MenuUtil::getList();
-                if(isset($menu))
-                {
-                    foreach($menu as $key=>$vo)
-                    {
+                    function toMenu($menu){
+                        foreach($menu as $key=>$vo){
+                            if(isset($vo['children']) && count($vo['children']) > 0)
+                            {
+                                ?>
+                                <a href="1">
+                                    <i class="fa fa-home"></i>
+                                    <span class="nav-label"><?php echo $vo['name']; ?></span>
+                                    <span class="fa arrow"></span>
+                                </a>
+                                <ul class="nav nav-second-level">
+                                <li><?php
+                                    toMenu($vo['children']);
+                                    ?>
+                                </li></ul>
+                             <?php
+                            }
+                            else
+                            {?>
+                                <a class="J_menuItem" href="<?php echo $vo['name']; ?>" >
+                                    <i class="fa fa-home"></i>
+                                    <span class="nav-label"><?php echo $vo['name']; ?> </span>
+                                </a>
+                            <?php
+                            }
+                        }
+                    }
                 ?>
                 <li class="menu">
-                        <?php
-                        if(isset($vo['children']) && count($vo['children']) > 0)
-                        {?>
-                            <a href="1">
-                                <i class="fa fa-home"></i>
-                                <span class="nav-label"><?php echo $vo['name']; ?></span>
-                                <span class="fa arrow"></span>
-                            </a>
-                            <ul class="nav nav-second-level">
-                                <?php foreach($vo['children'] as $key=>$vol){ ?>
-                                <li>
-                                    <a  class="J_menuItem" href="2">
-                                        <?php echo $vol['name'];?></a>
-                                    <!--<ul class="nav nav-second-level">
-                                            <li><a class="J_menuItem" href="fasdf">fafd</a></li>
-                                        </ul>-->
-                                </li>
-                                <?php }?>
-                            </ul>
-                        <?php }else{?>
-                        <a class="J_menuItem" href="<?php echo $vo['name']; ?>" >
-                            <i class="fa fa-home"></i>
-                            <span class="nav-label"><?php echo $vo['name']; ?> </span>
-                        </a>
-                        <?php }?>
-
+                <?php
+                    toMenu(\app\erp\util\MenuUtil::getList());
+                ?>
                 </li>
-                <?php }}?>
-            </ul>
-        </div>
+
+
+
+
+
+
+
     </nav>
     <!--左侧导航结束-->
     <!--右侧部分开始-->
