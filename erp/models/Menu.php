@@ -145,57 +145,65 @@ class Menu extends \yii\db\ActiveRecord
         return $tree = $this->setPrefix($tree);
     }
 
-    public static function getMenu()
+    public static function getMenu($id)
     {
-        $top = self::find()->where('menu_pid = :pid', [":pid" => 0])->limit(11)->orderby('create_time asc')->asArray()->all();
-        $data = [];
-        $stack = array();
-        $current = $top;
-        $i = 0;
-        for(; $i < count($current);)
-        {
-            $k = self::find()->where("menu_pid=:pid", [":pid" => $current[$i]['id']])->orderby('create_time asc')->asArray()->all();
-            //有子集菜单
-            if ($k && count($k) > 0)
-            {
-                //---------------------------------
-                $current['children'] = $k;
-                //入栈
-                $stack[count($stack)] = ['obj' => $current, 'index' => ($i + 1)];
-                $current = $k;
-                $i = 0;
-            }
-            else {
-                $i++;
-            }
-            if($i >= count($current) && count($stack) > 0)
-            {
-                $current = $stack[count($stack)-1]['obj'];
-                $i = $stack[count($stack)-1]['index'];
-                $stack[count($stack)-1] = null;
-            }
-                //已经遍历完当前这一列的菜单数
-                //         while(count($stack) > 0 && $i >= count($current))
-                //        {
-                //            $current = $stack[count($stack) - 1]['obj'];
-                //            $i = $stack[count($stack) - 1]['index'];
-                //出栈
-                //            $stack[count($stack) - 1] = null;
-                //       }
-                //已经遍历完当前这一列的菜单数
-//                while(count($stack) > 0 && $i >= count($current))
-//                {
-//                    $current = $stack[count($stack) - 1]['obj'];
-//                    $i = $stack[count($stack) - 1]['index'];
-//                    出栈
-//                    $stack[count($stack) - 1] = null;
-//                }
+        $top = self::find()->where("menu_pid=:pid", [":pid"=>$id])->orderby("create_time asc")->asArray()->all();
+        foreach($top as $key=>$val){
+            $top[$key]['children'] = Menu::getMenu($val['id']);
         }
+        return $top;
+//        $top = self::find()->where('menu_pid = :pid', [":pid" => 0])->limit(11)->orderby('create_time asc')->asArray()->all();
+//        $data = [];
+//        $stack = array();
+//        $current = $top;
+//        $i = (int)0;
+//        for(; $i < count($current);)
+//        {
+//            $k = self::find()->where("menu_pid=:pid", [":pid" => $current[$i]['id']])->orderby('create_time asc')->asArray()->all();
+//            //有子集菜单
+//            if ($k && count($k) > 0)
+//            {
+//                $current[$i]['children'] = $k;
+//                //入栈
+//                $stack[count($stack)] = ['obj' => $current, 'index' => ($i + 1)];
+//                $current = $k;
+//                $i = 0;
+//            }
+//            else {
+//                $i++;
+//            }
+//            while($i >= count($current) && count($stack) > 0)
+//            {
+//                $current = $stack[count($stack)-1]['obj'];
+//                $i = $stack[count($stack)-1]['index'];
+//                unset($stack[count($stack)-1]);
+//            }
+//        }
+//        foreach($current as $key=>$val){
+//            if(isset($val['children']))
+//            {
+//                echo $val['name']."<br />";
+//                 foreach($val['children'] as $k=>$v){
+//                     if(isset($v['children']))
+//                     {
+//                         foreach($v['children'] as $kk=>$vv){
+//                             echo "----".$vv['name'];
+//                         }
+//                     }
+//                     else
+//                        echo "--".$v['name']."<br />";
+//                 }
+//            }
+//            else
+//            {
+//                echo $val['name']."<br />";
+//            }
+//        }
         /*
         foreach((array)$top as $k=>$cate) {
             $cate['children'] = self::find()->where("menu_pid = :pid", [":pid" => $cate['id']])->limit(10)->asArray()->all();
             $data[$k] = $cate;
         }*/
-        return $top;
+      //  return $current;
     }
 }
