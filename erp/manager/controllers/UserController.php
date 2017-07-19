@@ -1,6 +1,7 @@
 <?php
 
-namespace app\erp\admin\controllers;
+namespace app\erp\manager\controllers;
+use app\erp\admin\controllers\ConfController;
 use app\erp\admin\models\Sysadmin;
 use yii\data\Pagination;
 use Yii;
@@ -8,7 +9,7 @@ use Yii;
 /**
  * Default controller for the `admin` module
  */
-class UserController extends ConfController{
+class UserController extends ConfController {
     public $layout="js";
     /**
      * 列表
