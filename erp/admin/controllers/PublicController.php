@@ -11,6 +11,7 @@ use Yii;
  * Default controller for the `admin` module
  */
 class PublicController extends Controller{
+    public $layout = false;
     /**
      * 登陆
      * @return string
@@ -24,13 +25,13 @@ class PublicController extends Controller{
         $session = Yii::$app->session;
         $redis = Yii::$app->redis;
         if((boolean)$redis->get($session['userData']['user']['auth_code'])){
-            return $this->redirect(['/manager']);
+            return $this->redirect(['/index']);
         };
         $admin = new Sysadmin();
         $post = Yii::$app->request->post();
         if(Yii::$app->request->isPost){
             if ($admin->login($post)){
-                return $this->redirect(['/manager']);
+                return $this->redirect(['/index']);
             }
         }
         return $this->render(

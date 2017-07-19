@@ -27,6 +27,7 @@ use yii\helpers\Json;
 class Sysadmin extends ActiveRecord{
 
     public $repass;
+    public $captcha;
 
     public static function tableName(){
         return '{{%sys_admin}}';
@@ -49,6 +50,8 @@ class Sysadmin extends ActiveRecord{
 
             [['password'], 'validatePass', 'on' => ['login', 'changeemail']],
             [['password'], 'required','message' => '密码不能为空', 'on' => ['login','', 'changeemail']],
+            [['captcha'], 'validateCaptcha', 'on' => ['login', 'changeemail']],
+            [['captcha'], 'required','message' => '验证码不能为空', 'on' => ['login','', 'changeemail']],
             [['account'], 'required','message' => '账号不能为空','on' => ['login','add']],
             [['email'], 'required','message' => '邮箱不能为空','on' => 'add'],
             [['email'], 'email','message' => '邮箱格式错误','on' => 'add'],
@@ -77,6 +80,7 @@ class Sysadmin extends ActiveRecord{
             'login_ip' => '登陆IP地址',
             'login_time' => '登陆时间',
             'sys_group_id' => '会员组',
+            'captcha' => '验证码',
             'create_time' => '创建时间',
             'update_time' => '修改时间',
         ];
@@ -92,6 +96,19 @@ class Sysadmin extends ActiveRecord{
             )->one();
             if (is_null($data)) {
                 $this->addError("password", "用户名或者密码错误");
+            }
+        }
+    }
+    /**
+     * 验证码是否正确
+     */
+    public function validateCaptcha(){
+        if (!$this->hasErrors()) {
+            $session = Yii::$app->session;
+            if($this->captcha == $session['captchaCode']){
+                return true;
+            }else{
+                $this->addError("captcha", "验证码错误");
             }
         }
     }
