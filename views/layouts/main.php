@@ -1,17 +1,22 @@
+<?php
+use yii\helpers\Html;
+use yii\helpers\Json;
+use yii\helpers\Url;
+?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{:config('WEB_SITE_TITLE')}</title>
-    <link href="/static/admin/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="/static/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
-    <link href="/static/admin/css/animate.min.css" rel="stylesheet">
-    <link href="/static/admin/css/plugins/iCheck/custom.css" rel="stylesheet">
-    <link href="/static/admin/css/plugins/chosen/chosen.css" rel="stylesheet">
-    <link href="/static/admin/css/plugins/switchery/switchery.css" rel="stylesheet">
-    <link href="/static/admin/css/style.min.css?v=4.1.0" rel="stylesheet">
-    <link href="/static/admin/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="/admin/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="/admin/css/animate.min.css" rel="stylesheet">
+    <link href="/admin/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/admin/css/plugins/chosen/chosen.css" rel="stylesheet">
+    <link href="/admin/css/plugins/switchery/switchery.css" rel="stylesheet">
+    <link href="/admin/css/style.min.css?v=4.1.0" rel="stylesheet">
+    <link href="/admin/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <style type="text/css">
         .long-tr th{
             text-align: center
@@ -26,7 +31,7 @@
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
 <div class="header">
     <div class="logo pull-left">
-        <img src="/static/admin/images/logo.png" alt="">
+        <img src="/admin/images/logo.png" alt="">
         <h3>代理商管理系统</h3>
     </div>
     <div class="header-right pull-right">
@@ -55,7 +60,7 @@
             <ul class="nav" id="side-menu">
                 <li class="nav-header">
                     <div class="dropdown profile-element">
-                        <span><img alt="image" class="img-circle" width="70px" height="70px" src="/uploads/face/{$portrait}" onerror="this.src='/static/admin/images/head_default.gif'"/></span>
+                        <span><img alt="image" class="img-circle" width="70px" height="70px" src="/uploads/face/{$portrait}" onerror="this.src='/admin/images/head_default.gif'"/></span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear">
                                 <span class="block m-t-xs"><strong class="font-bold">{$username}</strong></span>
@@ -154,7 +159,7 @@
             </a>
         </div>
         <div class="row J_mainContent" id="content-main">
-            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="{:url('Index/indexPage')}" frameborder="0" data-id="index.html" seamless></iframe>
+            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="<?= Url::to(['/manager'])?>" frameborder="0" data-id="index.html" seamless></iframe>
         </div>
         <div class="footer">
             <div class="pull-right">{:config('web_site_copy')}</div>
