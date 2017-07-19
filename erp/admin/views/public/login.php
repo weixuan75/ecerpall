@@ -42,6 +42,14 @@ use yii\bootstrap\ActiveForm;
                         )->textInput(['placeholder'=>"账号"])?>
                         <?=$form->field($admin,'password',['template' => '<div class="input-group mb-2"><span class="input-group-addon"><i class="icon-lock"></i></span>{input}</div>{error}']
                         )->passwordInput(['placeholder'=>"密码"])?>
+                        <?=$form->field($admin,'captcha',['template' => '<div class="input-group mb-2">{input}</div>{error}']
+                        )->textInput(['placeholder'=>"验证码"])?>
+                        <img
+                                title="点击刷新"
+                                src="<?=\yii\helpers\Url::to(['/app/captcha'])?>"
+                                align="absbottom"
+                                onclick="this.src='<?=\yii\helpers\Url::to(['/app/captcha'])?>'+Math.random();"
+                        />
                         <div class="row">
                             <div class="col-6">
                                 <?=Html::submitInput('登陆',['class'=>"btn btn-primary px-2"])?>

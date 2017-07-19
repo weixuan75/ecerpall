@@ -2,6 +2,7 @@
 
 namespace app\erp\models;
 
+use app\erp\util\SysConf;
 use Yii;
 
 /**
@@ -11,8 +12,9 @@ use Yii;
  * @property string $name
  * @property string $ename
  * @property string $content
- * @property string $sys_admin_id
+ * @property string $admin_id
  * @property string $auth_code
+ * @property string $key_code
  * @property integer $state
  * @property string $create_time
  * @property string $update_time
@@ -37,7 +39,7 @@ class Platform extends \yii\db\ActiveRecord
             [['state', 'create_time', 'update_time'], 'integer'],
             [['name', 'ename'], 'string', 'max' => 100],
             [['content'], 'string', 'max' => 500],
-            [['sys_admin_id', 'auth_code'], 'string', 'max' => 36],
+            [['admin_id', 'auth_code', 'key_code'], 'string', 'max' => 36],
             [['name'], 'unique'],
             [['ename'], 'unique'],
         ];
@@ -53,11 +55,24 @@ class Platform extends \yii\db\ActiveRecord
             'name' => '名称',
             'ename' => '英文名称',
             'content' => '介绍',
-            'sys_admin_id' => '管理员',
+            'admin_id' => '管理员',
             'auth_code' => '授权码',
+            'key_code' => '认证码',
             'state' => '状态',
             'create_time' => '创建时间',
             'update_time' => '修改时间',
         ];
+    }
+    public function add($data){
+        if($this->load($data)){
+            $this->auth_code = SysConf::uuid("auth-");
+            $this->key_code= SysConf::uuid("key-");
+            $this->create_time=$this->create_time=time();
+            if($this->save()){
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 }

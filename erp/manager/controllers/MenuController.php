@@ -10,6 +10,7 @@ use yii\data\Pagination;
  * Default controller for the `manager` module
  */
 class MenuController extends ConfController {
+    public $layout=false;
     public function actionIndex(){
         $model = Menu::find();
         $count = $model->count();
@@ -19,6 +20,7 @@ class MenuController extends ConfController {
         return $this->render("index", ['managers' => $managers, 'pager' => $pager]);
     }
     public function actionAdd(){
+
         $Menu = new Menu();
         $option = $Menu->getOptions();
         $post = Yii::$app->request->post();
