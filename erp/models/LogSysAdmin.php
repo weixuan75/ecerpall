@@ -29,8 +29,7 @@ class LogSysAdmin extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules(){
         return [
             [['admin_id', 'content'], 'required'],
             [['admin_id', 'model_id', 'state', 'tag', 'time'], 'integer'],

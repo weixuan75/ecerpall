@@ -18,10 +18,21 @@ return [
     'menu'=>[
         'list'=>10,
         'state'=>[
-            ['启动','禁用'],
+            ['禁用','启动'],
             [
-                '<span class="badge badge-success">激活</span>',
                 '<span class="badge badge-danger">禁用</span>',
+                '<span class="badge badge-success">激活</span>',
+            ]
+        ],
+    ],
+//    平台状态
+    'platform'=>[
+        'list'=>10,
+        'state'=>[
+            ['禁用','启动'],
+            [
+                '<span class="badge badge-danger">禁用</span>',
+                '<span class="badge badge-success">激活</span>',
             ]
         ],
     ],

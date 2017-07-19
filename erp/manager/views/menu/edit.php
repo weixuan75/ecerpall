@@ -36,7 +36,7 @@ use yii\bootstrap\ActiveForm;
 
         <?=$form->field($menu,'content')->textInput()?>
         <?=$form->field($menu,'url')->textInput()?>
-        <?=$form->field($menu,'sys_admin_id')->textInput()?>
+        <?=$form->field($menu,'admin_id')->textInput()?>
         <?php
         $menu_state = 0;
         if($menu->state!=0||$menu->state!=null){
