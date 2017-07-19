@@ -2,6 +2,7 @@
 
 namespace app\erp\admin\controllers;
 
+use app\erp\models\Menu;
 use app\erp\models\SysAttachment;
 use yii\web\Controller;
 use Yii;
@@ -14,6 +15,6 @@ class ConfController extends Controller{
         $redis = Yii::$app->redis;
         if(!(boolean)$redis->get($session['userData']['user']['auth_code'])){
             return $this->redirect(['/admin/public/login']);
-        };
+        }
     }
 }

@@ -11,7 +11,6 @@ class Index extends \yii\base\Module
      * @inheritdoc
      */
     public $controllerNamespace = 'app\erp\index\controllers';
-
     /**
      * @inheritdoc
      */

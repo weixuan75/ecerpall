@@ -33,6 +33,7 @@ class PublicController extends Controller{
             if ($admin->login($post)){
                 return $this->redirect(['/index']);
             }
+//            var_dump($post);
         }
         return $this->render(
             'login',

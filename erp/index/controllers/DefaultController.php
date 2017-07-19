@@ -9,12 +9,14 @@ use app\erp\admin\controllers\ConfController;
  */
 class DefaultController extends ConfController
 {
+//    public $layout =false;
     /**
      * Renders the index view for the module
      * @return string
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        //var_dump($this->param);
+        return $this->render('index', ["param"=>$this->param]);
     }
 }

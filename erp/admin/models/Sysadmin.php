@@ -183,6 +183,7 @@ class Sysadmin extends ActiveRecord{
                     'update_time',
                 ])
                 ->where('account=:account',[':account'=>$this->account])
+//                ->where(['account'=>$this->account])
                 ->one()
                 ->toArray();
             $userdate = Sysadmindate::find()
