@@ -194,6 +194,7 @@ class Menu extends \yii\db\ActiveRecord
             $top[$key]['children'] = Menu::getMenu($val['id']);
         }
         return $top;
+
 //        $top = self::find()->where('menu_pid = :pid', [":pid" => 0])->limit(11)->orderby('create_time asc')->asArray()->all();
 //        $data = [];
 //        $stack = array();
