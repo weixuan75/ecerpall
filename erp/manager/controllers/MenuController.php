@@ -15,7 +15,7 @@ class MenuController extends ConfController {
     public $layout="js";
     public function actionIndex(){
         $model = new Menu();
-        $managers = $model::getMenu(0);
+        $managers = $model->getTreeList();
         return $this->render("index", ['managers' => $managers]);
     }
     public function actionAdd(){
