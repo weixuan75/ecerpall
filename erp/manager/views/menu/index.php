@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\erp\util\UserUtil;
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -37,7 +38,7 @@ use yii\helpers\Url;
                             <td class="text-center"><?=$manager->name?></td>
                             <td class="text-center"><?=$manager->ename?></td>
                             <td class="text-center"><?=$manager->content?></td>
-                            <td class="text-center"><?=$manager->admin_id?></td>
+                            <td class="text-center"><?=UserUtil::getUserNickname($manager->admin_id)["nickname"]?></td>
                             <td class="text-center"><?=$manager->url?></td>
                             <td class="text-center"><?=$manager->state?></td>
                             <td class="text-center">
