@@ -15,6 +15,7 @@ use yii\helpers\Url;
                 <table class="table table-hover table-outline mb-0 hidden-sm-down">
                     <thead class="thead-default">
                     <tr>
+                        <th class="text-center">排序</th>
                         <th class="text-center">ID</th>
                         <th class="text-center">父级ID</th>
                         <th class="text-center">名称</th>
@@ -30,6 +31,7 @@ use yii\helpers\Url;
                     <tbody>
                     <?php foreach($managers as $manager): ?>
                         <tr>
+                            <td class="text-center"><?=$manager->sort?></td>
                             <td class="text-center"><?=$manager->id?></td>
                             <td class="text-center"><?=$manager->menu_pid?></td>
                             <td class="text-center"><?=$manager->name?></td>

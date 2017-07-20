@@ -14,9 +14,9 @@ use yii\bootstrap\ActiveForm;
         <script src="/js/pinyin.js"></script>
         <script>
             $(function () {
-                $("#platform-name").blur(function(){
+                $("#model-name").blur(function(){
                     console.log("开始");
-                    $("#platform-ename").val(pinyin.getFullChars($("#platform-name").val()));
+                    $("#model-ename").val(pinyin.getFullChars($("#model-name").val()));
                 });
             });
         </script>

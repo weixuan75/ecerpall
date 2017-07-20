@@ -18,10 +18,7 @@ class LogUntils
 
     public static function write($str,$modelId,$tag){;
         $s = new LogSysAdmin();
-        $session = Yii::$app->session;
-        $redis = Yii::$app->redis;
-        $user_id = Json::decode($redis->get($session['userData']['user']['auth_code']))['user']['id'];
-        $s->admin_id = $user_id;
+        $s->admin_id = UserUtil::UserId();
         $s->content = $str;
         $s->model_id = $modelId;
         $s->tag = $tag;
