@@ -40,7 +40,7 @@ class Menu extends \yii\db\ActiveRecord
     {
         return [
             [['menu_pid', 'name', 'ename', 'content', 'url'], 'required'],
-            [['admin_id', 'menu_pid', 'state', 'create_time', 'update_time'], 'integer'],
+            [['sort','admin_id', 'menu_pid', 'state', 'create_time', 'update_time'], 'integer'],
             [['name', 'ename'], 'string', 'max' => 100],
             [['content', 'url'], 'string', 'max' => 500],
             [['auth_code', 'key_code'], 'string', 'max' => 45],
@@ -57,6 +57,7 @@ class Menu extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'menu_pid' => '父级ID',
+            'sort' => '排序',
             'name' => '名称',
             'ename' => '英文名称',
             'content' => '介绍',
