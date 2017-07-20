@@ -87,7 +87,6 @@ use yii\helpers\Url;
                             {
                                 ?>
                                 <a href="1">
-                                    <i class="fa fa-home"></i>
                                     <span class="nav-label"><?php echo $vo['name']; ?></span>
                                     <span class="fa arrow"></span>
                                 </a>
@@ -101,7 +100,6 @@ use yii\helpers\Url;
                             else
                             {?>
                                 <a class="J_menuItem" href="<?php echo $vo['url']; ?>" >
-                                    <i class="fa fa-home"></i>
                                     <span class="nav-label"><?php echo $vo['name']; ?> </span>
                                 </a>
                             <?php
