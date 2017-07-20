@@ -71,7 +71,7 @@ class Model extends \yii\db\ActiveRecord
             $this->auth_code = SysConf::uuid("auth-");
             $this->key_code= SysConf::uuid("key-");
             $this->create_time=$this->update_time=time();
-            if($this->save()&&LogUntils::write(Json::encode($data['Model']),$this->getPrimaryKey(),"add")){
+            if($this->save()&&LogUntils::write(Json::encode($data['Model']),2,"add")){
                 return true;
             }
             return false;
@@ -80,7 +80,7 @@ class Model extends \yii\db\ActiveRecord
     }
     public function edit($data){
         if($this->load($data)){
-            if($this->update()&&LogUntils::write(Json::encode($data['Model']),$this->getPrimaryKey(),"edit")){
+            if($this->update()&&LogUntils::write(Json::encode($data['Model']),2,"edit")){
                 return true;
             }
             return false;

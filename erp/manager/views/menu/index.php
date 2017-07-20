@@ -33,7 +33,7 @@ use app\erp\util\UserUtil;
                     </thead>
                     <tbody>
                     <?php foreach($managers as $manager): ?>
-                        <tr>
+                        <tr id="list_<?=$manager['id']?>">
                             <td><?=$manager['sort']?></td>
                             <td><?=$manager['id']?></td>
                             <td><?=$manager['menu_pid']?></td>
@@ -42,15 +42,26 @@ use app\erp\util\UserUtil;
                             <td><?=$manager['content']?></td>
                             <td><?=UserUtil::getUserNickname($manager['admin_id'])["nickname"]?></td>
                             <td><?=$manager['url']?></td>
-                            <td><?=$manager['state']?></td>
+                            <td class="text-center"><?=Yii::$app->params['menu']['state'][1][$manager['state']]?></td>
                             <td>
                                 <?=date("Y-m-d H:i:s", $manager['create_time'])?>
                                 <br/>
                                 <?=date("Y-m-d H:i:s", $manager['update_time'])?>
                             </td>
                             <td>
-                                <a href="<?=Url::to(['user/del', 'id' => $manager['id']]) ?>">禁用</a>
-                                <a href="<?=Url::to(['user/del', 'id' => $manager['id']]) ?>">激活</a>
+                                <?php
+                                if ((boolean)$manager['state']) {
+                                    ?>
+                                    <a href="<?= Url::to(['/manager/menu/state', 'id' => $manager['id'],'state'=>0,'reqURL'=>(Url::to(['/manager/menu'])."#list_".$manager['id'])]) ?>"
+                                    >禁用</a>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <a href="<?= Url::to(['/manager/menu/state', 'id' => $manager['id'],'state'=>1,'reqURL'=>(Url::to(['/manager/menu'])."#list_".$manager['id'])]) ?>"
+                                    >启动</a>
+                                    <?php
+                                }
+                                ?>
                                 <a href="<?=Url::to(['user/del', 'id' => $manager['id']]) ?>">删除</a>
                                 <a href="<?=Url::to(['menu/edit', 'id' => $manager['id']]) ?>">编辑</a>
                             </td>

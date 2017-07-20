@@ -100,7 +100,8 @@ class Menu extends \yii\db\ActiveRecord
      */
     public function edit($data){
         if($this->load($data)){
-            if($this->update()&&LogUntils::write(Json::encode($data['Menu']),$this->getPrimaryKey(),"edit")){
+            $this->update_time = time();
+            if($this->update()&&LogUntils::write(Json::encode($data['Menu']),3,"edit")){
                 return true;
             }
             return false;

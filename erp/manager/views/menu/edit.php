@@ -20,13 +20,6 @@ use app\erp\util\UserUtil;
                 });
             });
         </script>
-
-        <?php
-        $menu_state = 0;
-        if($menu->state!=0||$menu->state!=null){
-            $menu_state=$menu->state;
-        }
-        ?>
         <?=$form->field($menu,'sort')->textInput()?>
         <?=$form->field($menu,'name')->textInput()?>
         <?=$form->field($menu,'ename')->textInput()?>

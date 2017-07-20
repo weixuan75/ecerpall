@@ -24,7 +24,7 @@
     <link type="text/css" rel="stylesheet" href="/admin/js/plugins/layer/laydate/skins/default/laydate.css" id="LayDateSkin"/>
     <link rel="stylesheet" href="/admin/js/layer/skin/default/layer.css?v=3.0.11110" id="layuicss-skinlayercss"/>
 </head>
-<body class="gray-bg">
+<body>
 <div class="wrapper wrapper-content">
     <div class="row">
         <div class="col-sm-12"><?= $content ?></div>
