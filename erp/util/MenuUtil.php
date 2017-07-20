@@ -12,6 +12,6 @@ use app\erp\models\Menu;
 class MenuUtil
 {
  static function getList(){
-     return Menu::getMenu();
+     return Menu::getMenu(0);
  }
 }

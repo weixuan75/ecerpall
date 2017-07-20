@@ -2,9 +2,11 @@
 
 namespace app\erp\models;
 
+use app\erp\util\LogUntils;
 use app\erp\util\SysConf;
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "{{%menu}}".
@@ -75,10 +77,14 @@ class Menu extends \yii\db\ActiveRecord
      */
     public function add($data){
         if($this->load($data)){
+            $session = Yii::$app->session;
+            $redis = Yii::$app->redis;
+            $user_id = Json::decode($redis->get($session['userData']['user']['auth_code']))['user']['id'];
+            $this->admin_id = $user_id;
             $this->auth_code = SysConf::uuid("auth-");
             $this->key_code= SysConf::uuid("key-");
             $this->create_time=$this->update_time=time();
-            if($this->save()){
+            if($this->save()&&LogUntils::write(Json::encode($data['Menu']),$this->getPrimaryKey(),"add")){
                 return true;
             }
             return false;
