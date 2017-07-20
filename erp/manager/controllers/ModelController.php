@@ -2,7 +2,7 @@
 
 namespace app\erp\manager\controllers;
 use app\erp\admin\controllers\ConfController;
-use app\erp\models\Menu;
+use app\erp\models\Model;
 use app\erp\models\Platform;
 use app\erp\util\LogUntils;
 use Yii;
@@ -16,7 +16,7 @@ use yii\web\Controller;
 class ModelController extends ConfController {
     public $layout="js";
     public function actionIndex(){
-        $model = Platform::find();
+        $model = Model::find();
         $count = $model->count();
         $pageSize = Yii::$app->params['menu']['list'];
         $pager = new Pagination(['totalCount' => $count, 'pageSize' => $pageSize]);
@@ -24,11 +24,11 @@ class ModelController extends ConfController {
         return $this->render("index", ['platforms' => $platforms, 'pager' => $pager]);
     }
     public function actionAdd(){
-        $platform = new Platform();
+        $platform = new Model();
         $post = Yii::$app->request->post();
         if(Yii::$app->request->isPost){
             if($platform->add($post)){
-                return $this->redirect(['/manager/platform']);
+                return $this->redirect(['model']);
             }else{
                 var_dump($platform->errors);
             }

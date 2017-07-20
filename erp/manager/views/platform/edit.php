@@ -23,7 +23,19 @@ use yii\bootstrap\ActiveForm;
         <?=$form->field($platform,'name')->textInput()?>
         <?=$form->field($platform,'ename')->textInput()?>
         <?=$form->field($platform,'content')->textInput()?>
-        <?=$form->field($platform,'admin_id')->textInput()?>
+        <?php
+        $platform_adminId = 0;
+        if($platform->admin_id!=0||$platform->admin_id!=null){
+            $platform_adminId=$platform->admin_id;
+            ?>
+            <?=$platform_adminId?>
+            <?php
+        }else{
+        ?>
+            <?=$form->field($platform,'admin_id')->textInput(['value'=>\app\erp\util\UserUtil::UserId()])?>
+        <?php
+        }
+        ?>
         <?php
         $platform_state = 0;
         if($platform->state!=0||$platform->state!=null){

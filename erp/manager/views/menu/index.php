@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\erp\util\UserUtil;
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -15,6 +16,7 @@ use yii\helpers\Url;
                 <table class="table table-hover table-outline mb-0 hidden-sm-down">
                     <thead class="thead-default">
                     <tr>
+                        <th class="text-center">排序</th>
                         <th class="text-center">ID</th>
                         <th class="text-center">父级ID</th>
                         <th class="text-center">名称</th>
@@ -30,12 +32,13 @@ use yii\helpers\Url;
                     <tbody>
                     <?php foreach($managers as $manager): ?>
                         <tr>
+                            <td class="text-center"><?=$manager->sort?></td>
                             <td class="text-center"><?=$manager->id?></td>
                             <td class="text-center"><?=$manager->menu_pid?></td>
                             <td class="text-center"><?=$manager->name?></td>
                             <td class="text-center"><?=$manager->ename?></td>
                             <td class="text-center"><?=$manager->content?></td>
-                            <td class="text-center"><?=$manager->admin_id?></td>
+                            <td class="text-center"><?=UserUtil::getUserNickname($manager->admin_id)["nickname"]?></td>
                             <td class="text-center"><?=$manager->url?></td>
                             <td class="text-center"><?=$manager->state?></td>
                             <td class="text-center">

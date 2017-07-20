@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use app\erp\util\UserUtil;
 ?>
 
 <div class="card">
@@ -19,19 +20,39 @@ use yii\bootstrap\ActiveForm;
                 });
             });
         </script>
-        <?=$form->field($menu,'name')->textInput()?>
-        <?=$form->field($menu,'ename')->textInput()?>
-        <?=$form->field($menu,'menu_pid')->dropDownList($option)?>
-        <?=$form->field($menu,'content')->textInput()?>
-        <?=$form->field($menu,'url')->textInput()?>
-        <?=$form->field($menu,'admin_id')->textInput()?>
+
         <?php
         $menu_state = 0;
         if($menu->state!=0||$menu->state!=null){
             $menu_state=$menu->state;
         }
         ?>
-        <?=$form->field($menu,'state')->radioList(Yii::$app->params['menu']['state'][1],['value'=>$menu_state])?>
+        <?=$form->field($menu,'sort')->textInput()?>
+        <?=$form->field($menu,'name')->textInput()?>
+        <?=$form->field($menu,'ename')->textInput()?>
+        <?=$form->field($menu,'menu_pid')->dropDownList($option)?>
+        <?=$form->field($menu,'content')->textInput()?>
+        <?=$form->field($menu,'url')->textInput()?>
+        <?php
+        $platform_adminId = 0;
+        if($menu->admin_id!=0||$menu->admin_id!=null){
+            $platform_adminId=$menu->admin_id;
+            ?>
+            <p>当前目录管理员：<?=UserUtil::getUserNickname($platform_adminId)["nickname"]?></p>
+            <?php
+        }else{
+            ?>
+            <?=$form->field($menu,'admin_id')->textInput(['value'=>UserUtil::UserId()])?>
+            <?php
+        }
+        ?>
+        <?php
+        $platform_state = 0;
+        if($menu->state!=0||$menu->state!=null){
+            $platform_state=$menu->state;
+        }
+        ?>
+        <?=$form->field($menu,'state')->radioList(Yii::$app->params['platform']['state'][1],['value'=>$platform_state])?>
     </div>
     <div class="card-footer">
         <?=Html::submitButton('<i class="fa fa-dot-circle-o"></i> 提 交 ',["class"=>"btn btn-bg btn-primary"])?>

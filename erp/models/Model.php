@@ -4,6 +4,7 @@ namespace app\erp\models;
 
 use app\erp\util\LogUntils;
 use app\erp\util\SysConf;
+use app\erp\util\UserUtil;
 use Yii;
 use yii\helpers\Json;
 
@@ -28,7 +29,7 @@ class Model extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%platform}}';
+        return '{{%model}}';
     }
 
     /**
@@ -53,7 +54,7 @@ class Model extends \yii\db\ActiveRecord
     public function attributeLabels(){
         return [
             'id' => 'ID',
-            'name' => '名称',
+            'name' => '模块名称',
             'ename' => '英文名称',
             'content' => '介绍',
             'admin_id' => '管理员',
@@ -66,6 +67,7 @@ class Model extends \yii\db\ActiveRecord
     }
     public function add($data){
         if($this->load($data)){
+            $this->auth_code = UserUtil::UserId();
             $this->auth_code = SysConf::uuid("auth-");
             $this->key_code= SysConf::uuid("key-");
             $this->create_time=$this->update_time=time();

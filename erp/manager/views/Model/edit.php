@@ -14,16 +14,27 @@ use yii\bootstrap\ActiveForm;
         <script src="/js/pinyin.js"></script>
         <script>
             $(function () {
-                $("#platform-name").blur(function(){
-                    console.log("开始");
-                    $("#platform-ename").val(pinyin.getFullChars($("#platform-name").val()));
+                $("#model-name").blur(function(){
+                    $("#model-ename").val(pinyin.getFullChars($("#model-name").val()));
                 });
             });
         </script>
         <?=$form->field($platform,'name')->textInput()?>
         <?=$form->field($platform,'ename')->textInput()?>
         <?=$form->field($platform,'content')->textInput()?>
-        <?=$form->field($platform,'admin_id')->textInput()?>
+        <?php
+        $platform_adminId = 0;
+        if($platform->admin_id!=0||$platform->admin_id!=null){
+            $platform_adminId=$platform->admin_id;
+            ?>
+            <?=$platform_adminId?>
+            <?php
+        }else{
+            ?>
+            <?=$form->field($platform,'admin_id')->textInput(['value'=>\app\erp\util\UserUtil::UserId()])?>
+            <?php
+        }
+        ?>
         <?php
         $platform_state = 0;
         if($platform->state!=0||$platform->state!=null){
@@ -31,7 +42,6 @@ use yii\bootstrap\ActiveForm;
         }
         ?>
         <?=$form->field($platform,'state')->radioList(Yii::$app->params['platform']['state'][1],['value'=>$platform_state])?>
-    </div>
     <div class="card-footer">
         <?=Html::submitButton('<i class="fa fa-dot-circle-o"></i> 提 交 ',["class"=>"btn btn-bg btn-primary"])?>
         <?=Html::resetButton('<i class="fa fa-ban"></i> 取 消 ',["class"=>"btn btn-bg btn-danger"])?>
