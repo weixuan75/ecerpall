@@ -100,7 +100,7 @@ use yii\helpers\Url;
                             }
                             else
                             {?>
-                                <a class="J_menuItem" href="<?php echo $vo['name']; ?>" >
+                                <a class="J_menuItem" href="<?php echo $vo['url']; ?>" >
                                     <i class="fa fa-home"></i>
                                     <span class="nav-label"><?php echo $vo['name']; ?> </span>
                                 </a>
