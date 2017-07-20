@@ -189,7 +189,7 @@ class Menu extends \yii\db\ActiveRecord
     }
     public static function getMenu($id)
     {
-        $top = self::find()->where("menu_pid=:pid", [":pid"=>$id])->orderby("create_time asc")->asArray()->all();
+        $top = self::find()->where("menu_pid=:pid", [":pid"=>$id])->orderby("sort asc")->orderby("id asc")->asArray()->all();
         foreach($top as $key=>$val){
             $top[$key]['children'] = Menu::getMenu($val['id']);
         }
