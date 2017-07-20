@@ -5,7 +5,7 @@ use yii\helpers\Url;
 <div class="row">
     <div class="col-md-12">
         <div class="card-footer">
-            <a href="<?=Url::to(['/admin/user/add']) ?>" class="btn btn-bg btn-primary"><i class="fa fa-dot-circle-o"></i> 添 加 管 理 员 </a>
+            <a href="<?=Url::to(['user/add']) ?>" class="btn btn-bg btn-primary"><i class="fa fa-dot-circle-o"></i> 添 加 管 理 员 </a>
         </div>
         <div class="card">
             <div class="card-header">
@@ -408,17 +408,6 @@ use yii\helpers\Url;
                     </thead>
                     <tbody>
                     <?php foreach($managers as $manager): ?>
-                        <!-- row -->
-                                <?php
-//                                date('Y-m-d H:i:s', $manager->logintime);
-//                                long2ip($manager->loginip);
-//                                date("Y-m-d H:i:s", $manager->createtime);
-                                ?>
-                                <?php
-                //                if (Yii::$app->session->hasFlash('info')) {
-                //                    echo Yii::$app->session->getFlash('info');
-                //                }
-                                ?>
                     <tr>
                         <td class="text-center">
                             <div class="avatar">
@@ -427,16 +416,13 @@ use yii\helpers\Url;
                             </div>
                         </td>
                         <td class="text-center">
-                            <div><?= $manager->account; ?></div>
-                            <div class="small text-muted">
-                                <span>注册时间</span>| <?=date("Y-m-d H:i:s", $manager->create_time);?>
-                            </div>
+                            <a href="<?= Url::to(['user/show', 'id' => $manager->id]) ?>">
+                                <div><?= $manager->account; ?></div>
+                                <div class="small text-muted">
+                                    <span>注册时间</span>| <?=date("Y-m-d H:i:s", $manager->create_time);?>
+                                </div>
+                            </a>
                         </td>
-                        <?php
-//                        <td class="text-center">
-//                            <img src="/coreui/img/flags/USA.png" alt="USA" style="height:24px;">
-//                        </td>
-                        ?>
                         <td class="text-center">
                             <?=Yii::$app->params['sysadmin']['state'][1][$manager->state];?>
                         </td>
@@ -459,7 +445,7 @@ use yii\helpers\Url;
                             禁用
                             激活
                             <?php if ($manager->id != 1): ?>
-                                <a href="<?php echo yii\helpers\Url::to(['user/del', 'id' => $manager->id]) ?>">删除</a>
+                                <a href="<?php echo Url::to(['user/del', 'id' => $manager->id]) ?>">删除</a>
                             <?php endif; ?>
                             编辑
                         </td>

@@ -92,12 +92,36 @@ class Menu extends \yii\db\ActiveRecord
         return false;
     }
 
+    /**
+     * 编辑
+     * @param $data POST传来的值
+     * @return bool
+     */
+    public function edit($data){
+        if($this->load($data)){
+            if($this->update()&&LogUntils::write(Json::encode($data['Menu']),$this->getPrimaryKey(),"edit")){
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public function getData()
     {
         $cates = self::find()->all();
         $cates = ArrayHelper::toArray($cates);
         return $cates;
     }
+
+    /**
+     * @param $cates
+     * @param int $pid
+     * @return array
+     */
     public function getTree($cates, $pid = 0)
     {
         $tree = [];
@@ -109,6 +133,12 @@ class Menu extends \yii\db\ActiveRecord
         }
         return $tree;
     }
+
+    /**
+     * @param $data
+     * @param string $p
+     * @return array
+     */
     public function setPrefix($data, $p = "|-----")
     {
         $tree = [];
@@ -132,6 +162,9 @@ class Menu extends \yii\db\ActiveRecord
         return $tree;
     }
 
+    /**
+     * @return array
+     */
     public function getOptions()
     {
         $data = $this->getData();
@@ -144,13 +177,15 @@ class Menu extends \yii\db\ActiveRecord
         return $options;
     }
 
+    /**
+     * @return array
+     */
     public function getTreeList()
     {
         $data = $this->getData();
         $tree = $this->getTree($data);
         return $tree = $this->setPrefix($tree);
     }
-
     public static function getMenu($id)
     {
         $top = self::find()->where("menu_pid=:pid", [":pid"=>$id])->orderby("create_time asc")->asArray()->all();

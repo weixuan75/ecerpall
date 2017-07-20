@@ -48,7 +48,7 @@ use yii\bootstrap\ActiveForm;
                                 title="点击刷新"
                                 src="<?=\yii\helpers\Url::to(['/app/captcha'])?>"
                                 align="absbottom"
-                                onclick="this.src='<?=\yii\helpers\Url::to(['/app/captcha'])?>'+Math.random();"
+                                onclick="this.src='<?=\yii\helpers\Url::to(['/app/captcha'])?>&math='+Math.random();"
                         />
                         <div class="row">
                             <div class="col-6">

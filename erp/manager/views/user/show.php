@@ -1,0 +1,15 @@
+<div><b>系统会员ID：</b><p><?=$admin->id?></div>
+<div><b>账号：</b><p><?=$admin->account?></div>
+<div><b>电子邮件：</b><p><?=$admin->email?></div>
+<div><b>电话：</b><p><?=$admin->phone?></div>
+<div><b>状态：</b><p><?=$admin->state?></div>
+<div><b>最近登陆IP地址：</b><p><?=long2ip($admin->login_ip)?></div>
+<div><b>最近登陆时间：</b><p><?=date("Y-m-d H:i:s", $admin->login_time)?></div>
+<div><b>会员组：</b><p><?=$admin->sys_group_id?></div>
+<div><b>创建时间：</b><p><?=date("Y-m-d H:i:s", $admin->create_time)?></div>
+<div><b>修改时间：</b><p><?=date("Y-m-d H:i:s", $admin->update_time)?></div>
+<div><b>昵称：</b><p><?=$admindata->nickname?></div>
+<div><b>生日：</b><p><?=date("Y-m-d H:i:s", $admindata->birthday)?></div>
+<div><b>头像：</b><p><?=$admindata->head_portrait?></div>
+<div><b>家庭住址：</b><p><?=$admindata->adress?></div>
+<div><b>备注：</b><p><?=$admindata->tabbing?></div>

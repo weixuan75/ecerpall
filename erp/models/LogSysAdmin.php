@@ -32,8 +32,8 @@ class LogSysAdmin extends \yii\db\ActiveRecord
     public function rules(){
         return [
             [['admin_id', 'content'], 'required'],
-            [['admin_id', 'model_id', 'state', 'tag', 'time'], 'integer'],
-            [['content'], 'string'],
+            [['admin_id', 'model_id', 'time'], 'integer'],
+            [['content', 'tag'], 'string'],
         ];
     }
 
@@ -47,7 +47,6 @@ class LogSysAdmin extends \yii\db\ActiveRecord
             'admin_id' => '管理员ID',
             'model_id' => '模块ID',
             'content' => '操作内容',
-            'state' => '状态',
             'tag' => '操作标签',
             'time' => '时间',
         ];

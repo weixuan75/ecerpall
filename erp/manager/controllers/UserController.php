@@ -3,6 +3,7 @@
 namespace app\erp\manager\controllers;
 use app\erp\admin\controllers\ConfController;
 use app\erp\admin\models\Sysadmin;
+use app\erp\models\Sysadmindate;
 use yii\data\Pagination;
 use Yii;
 
@@ -25,11 +26,8 @@ class UserController extends ConfController {
     }
     public function actionShow(){
         $id = Yii::$app->request->get("id");
-        $admin = Sysadmin::find()
-            ->with("sysadmindata")
-            ->where("id=:id",[':id'=>$id])
-            ->one();
-        $admindata = $admin->sysadmindata;
+        $admin = Sysadmin::findOne($id);
+        $admindata = Sysadmindate::findOne($id);
         return $this->render(
             "show", [
                 'admin' => $admin,
