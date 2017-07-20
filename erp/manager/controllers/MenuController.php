@@ -15,14 +15,8 @@ class MenuController extends ConfController {
     public $layout="js";
     public function actionIndex(){
         $model = new Menu();
-        var_dump( $model::getMenu(0));
-
-//        $model = Menu::find();
-//        $count = $model->count();
-//        $pageSize = Yii::$app->params['menu']['list'];
-//        $pager = new Pagination(['totalCount' => $count, 'pageSize' => $pageSize]);
-//        $managers = $model->offset($pager->offset)->limit($pager->limit)->all();
-//        return $this->render("index", ['managers' => $managers, 'pager' => $pager]);
+        $managers = $model::getMenu(0);
+        return $this->render("index", ['managers' => $managers]);
     }
     public function actionAdd(){
         $Menu = new Menu();
