@@ -81,17 +81,21 @@ use yii\helpers\Url;
                     </div>
                 </li>
                 <?php
+                    $menu_side_index = 0;
+
                     function toMenu($menu){
+                        global $menu_side_index;
                         foreach($menu as $key=>$vo){
                             if(isset($vo['children']) && count($vo['children']) > 0)
                             {
                                 ?>
-                                <a href="1">
+                                <a href="#">
                                     <span class="nav-label"><?php echo $vo['name']; ?></span>
                                     <span class="fa arrow"></span>
                                 </a>
-                                <ul class="nav nav-second-level">
+                                <ul class="nav nav-second-level-<?php echo $menu_side_index; ?>">
                                 <li><?php
+                                    $menu_side_index ++;
                                     toMenu($vo['children']);
                                     ?>
                                 </li></ul>
