@@ -14,24 +14,23 @@ use yii\bootstrap\ActiveForm;
         <script src="/js/pinyin.js"></script>
         <script>
             $(function () {
-                $("#menu-name").blur(function(){
-                    $("#menu-ename").val(pinyin.getFullChars($("#menu-name").val()));
+                $("#platform-name").blur(function(){
+                    console.log("开始");
+                    $("#platform-ename").val(pinyin.getFullChars($("#platform-name").val()));
                 });
             });
         </script>
-        <?=$form->field($menu,'name')->textInput()?>
-        <?=$form->field($menu,'ename')->textInput()?>
-        <?=$form->field($menu,'menu_pid')->dropDownList($option)?>
-        <?=$form->field($menu,'content')->textInput()?>
-        <?=$form->field($menu,'url')->textInput()?>
-        <?=$form->field($menu,'admin_id')->textInput()?>
+        <?=$form->field($platform,'name')->textInput()?>
+        <?=$form->field($platform,'ename')->textInput()?>
+        <?=$form->field($platform,'content')->textInput()?>
+        <?=$form->field($platform,'admin_id')->textInput()?>
         <?php
-        $menu_state = 0;
-        if($menu->state!=0||$menu->state!=null){
-            $menu_state=$menu->state;
+        $platform_state = 0;
+        if($platform->state!=0||$platform->state!=null){
+            $platform_state=$platform->state;
         }
         ?>
-        <?=$form->field($menu,'state')->radioList(Yii::$app->params['menu']['state'][1],['value'=>$menu_state])?>
+        <?=$form->field($platform,'state')->radioList(Yii::$app->params['platform']['state'][1],['value'=>$platform_state])?>
     </div>
     <div class="card-footer">
         <?=Html::submitButton('<i class="fa fa-dot-circle-o"></i> 提 交 ',["class"=>"btn btn-bg btn-primary"])?>
@@ -40,4 +39,5 @@ use yii\bootstrap\ActiveForm;
     <?php
     ActiveForm::end();
     ?>
+
 </div>

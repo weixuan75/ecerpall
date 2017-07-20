@@ -38,4 +38,20 @@ class PlatformController extends ConfController {
                 'platform'=>$platform
         ]);
     }
+    public function actionEdit(){
+        $id = Yii::$app->request->get('id');
+        $platform = Platform::findOne($id);
+        $post = Yii::$app->request->post();
+        if(Yii::$app->request->isPost){
+            if($platform->add($post)){
+                return $this->redirect(['/manager/platform']);
+            }else{
+                var_dump($platform->errors);
+            }
+        }
+        return $this->render(
+            'edit',[
+            'platform'=>$platform
+        ]);
+    }
 }
