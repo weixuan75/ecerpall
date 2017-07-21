@@ -21,6 +21,7 @@ class MenuController extends ConfController {
     public function actionAdd(){
         $Menu = new Menu();
         $option = $Menu->getOptions();
+        $get = Yii::$app->request->get();
         $post = Yii::$app->request->post();
         if(Yii::$app->request->isPost){
             if($Menu->add($post)){

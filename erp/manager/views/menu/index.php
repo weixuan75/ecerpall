@@ -64,6 +64,7 @@ use app\erp\util\UserUtil;
                                 ?>
                                 <a href="<?=Url::to(['menu/del', 'id' => $manager['id'],'reqURL'=>(Url::to(['/manager/menu']))]) ?>">删除</a>
                                 <a href="<?=Url::to(['menu/edit', 'id' => $manager['id'],'reqURL'=>(Url::to(['/manager/menu'])."#list_".$manager['id'])]) ?>">编辑</a>
+                                <a href="<?=Url::to(['menu/add', 'id' => $manager['id'],'reqURL'=>(Url::to(['/manager/menu'])."#list_".$manager['id'])]) ?>">编辑</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
