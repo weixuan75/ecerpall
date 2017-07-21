@@ -16,7 +16,7 @@ use yii\web\Controller;
 class MenumodelController extends ConfController {
     public $layout="js";
     public function actionIndex(){
-        $model = Platform::find();
+        $model = MenuM::find();
         $count = $model->count();
         $pageSize = Yii::$app->params['menu']['list'];
         $pager = new Pagination(['totalCount' => $count, 'pageSize' => $pageSize]);
@@ -53,5 +53,14 @@ class MenumodelController extends ConfController {
             'edit',[
             'platform'=>$platform
         ]);
+    }
+    public function actionDel(){
+        $id = Yii::$app->request->get('id');
+        $reqURL = (boolean)Yii::$app->request->get('reqURL') ? Yii::$app->request->get('reqURL'): '/manager/menu';
+        $model = Menu::findOne($id);
+        if($model->delete()&&LogUntils::write(Json::encode($model),3,"del")){
+            return $this->redirect($reqURL);
+        }
+        return $this->redirect($reqURL);
     }
 }
