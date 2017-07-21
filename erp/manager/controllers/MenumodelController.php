@@ -18,12 +18,20 @@ use yii\web\Controller;
 class MenumodelController extends ConfController {
     public $layout="js";
     public function actionIndex(){
-        $model = Model::find()->with("modelMenu");
-        $count = $model->count();
-        $pageSize = Yii::$app->params['menu']['list'];
-        $pager = new Pagination(['totalCount' => $count, 'pageSize' => $pageSize]);
-        $models = $model->offset($pager->offset)->limit($pager->limit)->all();
-        return $this->render("index", ['models' => $models, 'pager' => $pager]);
+        $model = Model::find()->with("menu")->all();
+        $arr = [];
+        foreach ($model as $m){
+            $a=$m->toArray();
+            $a["data"] = $m['menu'];
+            $arr[] = $a;
+//            var_dump($m["menu"]);
+//            var_dump($m["menu"]);
+//            foreach ($m["modelMenu"] as $mm){
+//                var_dump(Menu::findOne($mm["menu_id"]));
+//            }
+        }
+        echo Json::encode($arr);
+//        return $this->render("index", ['models' => $model, 'pager' => $pager]);
     }
     public function actionAdd(){
         $platform = new Platform();

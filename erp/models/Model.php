@@ -92,4 +92,10 @@ class Model extends \yii\db\ActiveRecord
         //1对多
         return $this->hasMany(ModelMenu::className(), ['model_id' => 'id']);
     }
+
+    public function getMenu()
+    {
+        return $this->hasMany(Menu::className(), ['id' => 'menu_id'])
+            ->viaTable('ec_model_menu', ['model_id' => 'id']);
+    }
 }
