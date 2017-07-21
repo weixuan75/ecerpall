@@ -87,4 +87,9 @@ class Model extends \yii\db\ActiveRecord
         }
         return false;
     }
+    //模块对应菜单
+    public function getModelMenu(){
+        //1对多
+        return $this->hasMany(ModelMenu::className(), ['model_id' => 'id']);
+    }
 }

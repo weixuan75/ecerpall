@@ -4,6 +4,7 @@ namespace app\erp\manager\controllers;
 use app\erp\admin\controllers\ConfController;
 use app\erp\models\Menu;
 use app\erp\models\Platform;
+use app\erp\models\PlatformMenu;
 use app\erp\util\LogUntils;
 use Yii;
 use yii\data\Pagination;
@@ -16,7 +17,7 @@ use yii\web\Controller;
 class MenuplatformController extends ConfController {
     public $layout="js";
     public function actionIndex(){
-        $model = Platform::find();
+        $model = Platform::find()->with("platformMenu");
         $count = $model->count();
         $pageSize = Yii::$app->params['menu']['list'];
         $pager = new Pagination(['totalCount' => $count, 'pageSize' => $pageSize]);

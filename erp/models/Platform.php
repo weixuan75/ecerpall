@@ -85,4 +85,9 @@ class Platform extends \yii\db\ActiveRecord
         }
         return false;
     }
+    //菜单对应平台
+    public function getPlatformMenu(){
+        //1对多
+        return $this->hasMany(ModelMenu::className(), ['platform_id' => 'id']);
+    }
 }

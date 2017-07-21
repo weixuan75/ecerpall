@@ -3,6 +3,8 @@
 namespace app\erp\manager\controllers;
 use app\erp\admin\controllers\ConfController;
 use app\erp\models\Menu;
+use app\erp\models\Model;
+use app\erp\models\ModelMenu;
 use app\erp\models\Platform;
 use app\erp\util\LogUntils;
 use Yii;
@@ -16,12 +18,12 @@ use yii\web\Controller;
 class MenumodelController extends ConfController {
     public $layout="js";
     public function actionIndex(){
-        $model = MenuM::find();
+        $model = Model::find()->with("modelMenu");
         $count = $model->count();
         $pageSize = Yii::$app->params['menu']['list'];
         $pager = new Pagination(['totalCount' => $count, 'pageSize' => $pageSize]);
-        $platforms = $model->offset($pager->offset)->limit($pager->limit)->all();
-        return $this->render("index", ['platforms' => $platforms, 'pager' => $pager]);
+        $models = $model->offset($pager->offset)->limit($pager->limit)->all();
+        return $this->render("index", ['models' => $models, 'pager' => $pager]);
     }
     public function actionAdd(){
         $platform = new Platform();

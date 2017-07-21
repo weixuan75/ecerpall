@@ -32,7 +32,7 @@ use app\erp\util\UserUtil;
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($managers as $manager): ?>
+                    <?php foreach($models as $manager): ?>
                         <tr id="list_<?=$manager['id']?>">
                             <td><?=$manager['sort']?></td>
                             <td><?=$manager['id']?></td>
