@@ -12,12 +12,12 @@ use yii\helpers\Url;
                 <table class="table table-hover table-outline mb-0 hidden-sm-down">
                     <thead class="thead-default">
                     <tr>
-                        <th class="text-center">ID</th>
-                        <th class="text-center">管理员ID</th>
-                        <th class="text-center">模块ID</th>
-                        <th class="text-center">操作内容</th>
-                        <th class="text-center">操作标签</th>
-                        <th class="text-center">时间</th>
+                        <th>ID</th>
+                        <th>管理员ID</th>
+                        <th>模块ID</th>
+                        <th>操作内容</th>
+                        <th>操作标签</th>
+                        <th>时间</th>
                     </tr>
                     </thead>
                     <tbody>

@@ -71,4 +71,14 @@ class MenuController extends ConfController {
         }
         return $this->redirect($reqURL);
     }
+
+    public function actionDel(){
+        $id = Yii::$app->request->get('id');
+        $reqURL = (boolean)Yii::$app->request->get('reqURL') ? Yii::$app->request->get('reqURL'): '/manager/menu';
+        $model = Menu::findOne($id);
+        if($model->delete()&&LogUntils::write(Json::encode($model),3,"del")){
+            return $this->redirect($reqURL);
+        }
+        return $this->redirect($reqURL);
+    }
 }

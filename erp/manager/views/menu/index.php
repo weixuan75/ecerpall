@@ -52,18 +52,18 @@ use app\erp\util\UserUtil;
                                 <?php
                                 if ((boolean)$manager['state']) {
                                     ?>
-                                    <a href="<?= Url::to(['/manager/menu/state', 'id' => $manager['id'],'state'=>0,'reqURL'=>(Url::to(['/manager/menu'])."#list_".$manager['id'])]) ?>"
+                                    <a href="<?= Url::to(['menu/state', 'id' => $manager['id'],'state'=>0,'reqURL'=>(Url::to(['/manager/menu'])."#list_".$manager['id'])]) ?>"
                                     >禁用</a>
                                     <?php
                                 } else {
                                     ?>
-                                    <a href="<?= Url::to(['/manager/menu/state', 'id' => $manager['id'],'state'=>1,'reqURL'=>(Url::to(['/manager/menu'])."#list_".$manager['id'])]) ?>"
+                                    <a href="<?= Url::to(['menu/state', 'id' => $manager['id'],'state'=>1,'reqURL'=>(Url::to(['/manager/menu'])."#list_".$manager['id'])]) ?>"
                                     >启动</a>
                                     <?php
                                 }
                                 ?>
-                                <a href="<?=Url::to(['user/del', 'id' => $manager['id']]) ?>">删除</a>
-                                <a href="<?=Url::to(['menu/edit', 'id' => $manager['id']]) ?>">编辑</a>
+                                <a href="<?=Url::to(['menu/del', 'id' => $manager['id'],'reqURL'=>(Url::to(['/manager/menu']))]) ?>">删除</a>
+                                <a href="<?=Url::to(['menu/edit', 'id' => $manager['id'],'reqURL'=>(Url::to(['/manager/menu'])."#list_".$manager['id'])]) ?>">编辑</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

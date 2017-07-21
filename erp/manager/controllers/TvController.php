@@ -100,9 +100,8 @@ class TvController extends ConfController {
         return $this->redirect($reqURL);
     }
     public function actionDel(){
-        if(!(boolean)Yii::$app->request->get('id')
-            &&!(Yii::$app->request->get('state')==1||Yii::$app->request->get('state')==0)){
-            return $this->redirect(['/manager/tvlistings']);
+        if(!(boolean)Yii::$app->request->get('id')){
+            return $this->redirect(['/manager/tv']);
         }
         $id = Yii::$app->request->get('id');
         $reqURL = (boolean)Yii::$app->request->get('reqURL') ? Yii::$app->request->get('reqURL'): '/manager/tvlistings';

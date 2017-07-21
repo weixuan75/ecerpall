@@ -3,12 +3,10 @@
 namespace app\erp\manager\controllers;
 use app\erp\admin\controllers\ConfController;
 use app\erp\models\Model;
-use app\erp\models\Platform;
 use app\erp\util\LogUntils;
 use Yii;
 use yii\data\Pagination;
 use yii\helpers\Json;
-use yii\web\Controller;
 
 /**
  * Default controller for the `manager` module
@@ -24,18 +22,18 @@ class ModelController extends ConfController {
         return $this->render("index", ['model' => $models, 'pager' => $pager]);
     }
     public function actionAdd(){
-        $platform = new Model();
+        $model = new Model();
         $post = Yii::$app->request->post();
         if(Yii::$app->request->isPost){
-            if($platform->add($post)){
+            if($model->add($post)){
                 return $this->redirect(['model/index']);
             }else{
-                var_dump($platform->errors);
+                var_dump($model->errors);
             }
         }
         return $this->render(
             'edit',[
-                'platform'=>$platform
+                'model'=>$model
         ]);
     }
     public function actionEdit(){
@@ -65,6 +63,16 @@ class ModelController extends ConfController {
         $model = Model::findOne($id);
         $model->state = $state;
         if($model->update()&&LogUntils::write(Json::encode($model),$model->getPrimaryKey(),"state")){
+            return $this->redirect($reqURL);
+        }
+        return $this->redirect($reqURL);
+    }
+
+    public function actionDel(){
+        $id = Yii::$app->request->get('id');
+        $reqURL = Yii::$app->request->get('reqURL');
+        $model = Model::findOne($id);
+        if($model->delete()&&LogUntils::write(Json::encode($model),2,"del")){
             return $this->redirect($reqURL);
         }
         return $this->redirect($reqURL);

@@ -69,7 +69,7 @@ class Platform extends \yii\db\ActiveRecord
             $this->auth_code = SysConf::uuid("auth-");
             $this->key_code= SysConf::uuid("key-");
             $this->create_time=$this->update_time=time();
-            if($this->save()&&LogUntils::write(Json::encode($data['Platform']),$this->getPrimaryKey(),"add")){
+            if($this->save()&&LogUntils::write(Json::encode($data['Platform']),1,"add")){
                 return true;
             }
             return false;
@@ -78,7 +78,7 @@ class Platform extends \yii\db\ActiveRecord
     }
     public function edit($data){
         if($this->load($data)){
-            if($this->update()&&LogUntils::write(Json::encode($data['Platform']),$this->getPrimaryKey(),"edit")){
+            if($this->update()&&LogUntils::write(Json::encode($data['Platform']),1,"edit")){
                 return true;
             }
             return false;

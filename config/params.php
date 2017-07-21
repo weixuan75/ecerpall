@@ -3,7 +3,7 @@ return [
     'adminEmail' => 'admin@example.com',
 //    系统用户状态
     'sysadmin'=>[
-        'list'=>10,
+        'list'=>20,
         'state'=>[
             ['未激活','激活','禁用','删除'],
             [
@@ -16,7 +16,7 @@ return [
     ],
 //    菜单状态
     'menu'=>[
-        'list'=>10,
+        'list'=>20,
         'state'=>[
             ['禁用','启动'],
             [
@@ -27,7 +27,7 @@ return [
     ],
 //    平台状态
     'platform'=>[
-        'list'=>10,
+        'list'=>20,
         'state'=>[
             ['禁用','启动'],
             [
