@@ -52,8 +52,8 @@ use app\erp\util\UserUtil;
                                     <?php
                                 }
                                 ?>
-                                <a href="<?=Url::to(['model/del', 'id' => $m->id]) ?>">删除</a>
-                                <a href="<?=Url::to(['model/edit', 'id' => $m->id]) ?>">编辑</a>
+                                <a href="<?=Url::to(['model/del', 'id' => $m->id,'state'=>1,'reqURL'=>(Url::to(['model/index']))]) ?>">删除</a>
+                                <a href="<?=Url::to(['model/edit', 'id' => $m->id,'reqURL'=>(Url::to(['model/index'])."#list_".$m->id)]) ?>">编辑</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

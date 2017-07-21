@@ -85,7 +85,7 @@ class Menu extends \yii\db\ActiveRecord
             $this->auth_code = SysConf::uuid("auth-");
             $this->key_code= SysConf::uuid("key-");
             $this->create_time=$this->update_time=time();
-            if($this->save()&&LogUntils::write(Json::encode($data['Menu']),$this->getPrimaryKey(),"add")){
+            if($this->save()&&LogUntils::write(Json::encode($data['Menu']),3,"add")){
                 return true;
             }
             return false;
