@@ -41,6 +41,7 @@ $config = [
             ],
         ],
         'db' => $db,
+        'shopDb' => $db,
         'redis' => $redis,
         'log' => [
             'targets' => [

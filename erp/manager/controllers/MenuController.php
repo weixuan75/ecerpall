@@ -22,6 +22,9 @@ class MenuController extends ConfController {
         $Menu = new Menu();
         $option = $Menu->getOptions();
         $get = Yii::$app->request->get();
+        if(!empty($get['id'])){
+            $Menu->menu_pid = $get['id'];
+        }
         $post = Yii::$app->request->post();
         if(Yii::$app->request->isPost){
             if($Menu->add($post)){
