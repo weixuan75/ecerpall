@@ -3,7 +3,11 @@
 namespace app\erp\manager\controllers;
 
 use app\erp\admin\controllers\UserController;
+use app\erp\models\AuthPeople;
 use app\erp\models\shop\Shop;
+use app\erp\models\shop\ShopAddress;
+use app\erp\models\shop\ShopFinance;
+use app\erp\models\shop\ShopUser;
 use app\erp\util\SysConf;
 use yii\helpers\Json;
 use yii\web\Controller;
@@ -14,7 +18,7 @@ use Yii;
  */
 class ShopController extends Controller
 {
-    public $layout="js";
+    public $layout="form";
 //    public $layout=false;
     public function actionIndex(){
 //        echo SysConf::uuid20("s");
@@ -30,6 +34,10 @@ class ShopController extends Controller
     }
     public function actionAdd(){
         $Shop = new Shop();
+        $finaance = new ShopFinance();
+        $address = new ShopAddress();
+        $user = new ShopUser();
+        $AuthPeople = new AuthPeople();
         $post = Yii::$app->request->post();
         if(Yii::$app->request->isPost){
             if($Shop->add($post)){
@@ -40,7 +48,12 @@ class ShopController extends Controller
         }
         return $this->render(
             'edit',[
-            'model'=>$Shop
+            'model'=>$Shop,
+            "finance"=>$finaance,
+            "address"=>$address,
+            "authPeople"=>$AuthPeople,
+            "user"=>$user
+
         ]);
     }
     public function actionEdit(){

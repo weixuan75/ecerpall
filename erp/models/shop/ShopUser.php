@@ -8,7 +8,8 @@ use Yii;
  * This is the model class for table "{{%shop_user}}".
  *
  * @property integer $id
- * @property integer $shop_num
+ * @property integer $shop_id
+ * @property string $shop_num
  * @property string $access
  * @property string $phone
  * @property string $password
@@ -32,11 +33,11 @@ class ShopUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['shop_id', 'phone'], 'integer'],
             [['shop_num', 'access', 'phone', 'password', 'email', 'dbname', 'auth_code'], 'required'],
-            [['shop_num', 'phone'], 'integer'],
+            [['shop_num', 'dbname'], 'string', 'max' => 20],
             [['access', 'password'], 'string', 'max' => 255],
             [['email'], 'string', 'max' => 50],
-            [['dbname'], 'string', 'max' => 20],
             [['auth_code'], 'string', 'max' => 40],
         ];
     }
@@ -48,6 +49,7 @@ class ShopUser extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'shop_id' => 'Shop ID',
             'shop_num' => '店铺',
             'access' => '账号',
             'phone' => '手机号',

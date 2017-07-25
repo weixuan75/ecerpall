@@ -2,9 +2,8 @@
 
 namespace app\erp\models\shop;
 
+use app\erp\models\AuthPeople;
 use app\erp\util\LogUntils;
-use app\erp\util\SysConf;
-use app\erp\util\UserUtil;
 use Yii;
 use yii\helpers\Json;
 
@@ -22,6 +21,7 @@ use yii\helpers\Json;
  * @property integer $master_id
  * @property string $service_user
  * @property string $service_user2
+ * @property string $phone
  */
 class Shop extends \yii\db\ActiveRecord
 {
@@ -42,7 +42,7 @@ class Shop extends \yii\db\ActiveRecord
             [['shop_num', 'name', 'compact_code', 'master_id', 'service_user', 'service_user2'], 'required'],
             [['start_time', 'end_time', 'master_id'], 'integer'],
             [['shop_num', 'service_user', 'service_user2'], 'string', 'max' => 20],
-            [['name', 'img', 'imgs', 'compact_code'], 'string', 'max' => 255],
+            [['name', 'img', 'imgs', 'compact_code', 'phone'], 'string', 'max' => 255],
         ];
     }
 
@@ -63,6 +63,7 @@ class Shop extends \yii\db\ActiveRecord
             'master_id' => '负责人ID',
             'service_user' => '客服专员',
             'service_user2' => '招商经理',
+            'phone' => '联系电话',
         ];
     }
 
@@ -83,5 +84,17 @@ class Shop extends \yii\db\ActiveRecord
             return false;
         }
         return false;
+    }
+    public function getShopFinance(){
+        return $this->hasOne(ShopFinance::className(),["id","shop_id"]);
+    }
+    public function getShopAddress(){
+        return $this->hasOne(ShopAddress::className(),["id","shop_id"]);
+    }
+    public function getShopUser(){
+        return $this->hasOne(ShopUser::className(),["id","shop_id"]);
+    }
+    public function getAuthPeople(){
+        return $this->hasOne(AuthPeople::className(),["master_id","id"]);
     }
 }

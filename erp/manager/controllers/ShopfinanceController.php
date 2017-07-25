@@ -32,6 +32,7 @@ class ShopfinanceController extends Controller
     }
     public function actionAdd(){
         $Shop = new Shop();
+        $shopfinance = new ShopFinance();
         $post = Yii::$app->request->post();
         if(Yii::$app->request->isPost){
             if($Shop->add($post)){
@@ -42,7 +43,8 @@ class ShopfinanceController extends Controller
         }
         return $this->render(
             'edit',[
-            'model'=>$Shop
+            'model'=>$Shop,
+            'finance'=>$shopfinance
         ]);
     }
     public function actionEdit(){

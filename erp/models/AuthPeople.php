@@ -15,6 +15,9 @@ use Yii;
  * @property string $idnumber
  * @property string $adress
  * @property string $createtime
+ * @property string $img1
+ * @property string $img2
+ * @property string $img3
  */
 class AuthPeople extends \yii\db\ActiveRecord
 {
@@ -38,7 +41,7 @@ class AuthPeople extends \yii\db\ActiveRecord
             [['gender'], 'string', 'max' => 4],
             [['nation'], 'string', 'max' => 10],
             [['idnumber'], 'string', 'max' => 30],
-            [['adress'], 'string', 'max' => 255],
+            [['adress', 'img1', 'img2', 'img3'], 'string', 'max' => 255],
             [['idnumber'], 'unique'],
         ];
     }
@@ -57,6 +60,9 @@ class AuthPeople extends \yii\db\ActiveRecord
             'idnumber' => '身份证号',
             'adress' => '身份证地址',
             'createtime' => '创建时间',
+            'img1' => '身份证正面',
+            'img2' => '身份证反面',
+            'img3' => '手持身份证',
         ];
     }
 }
