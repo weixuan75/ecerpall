@@ -10,6 +10,7 @@ use Yii;
  * Default controller for the `admin` module
  */
 class ConfController extends Controller{
+    public $platformId;
     public function init(){
         $session = Yii::$app->session;
         $redis = Yii::$app->redis;

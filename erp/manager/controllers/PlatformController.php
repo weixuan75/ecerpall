@@ -54,4 +54,28 @@ class PlatformController extends ConfController {
             'platform'=>$platform
         ]);
     }
+    public function actionState(){
+        if(!(boolean)Yii::$app->request->get('id')
+            &&!(Yii::$app->request->get('state')==1||Yii::$app->request->get('state')==0)){
+            return $this->redirect(['/manager/platform']);
+        }
+        $id = Yii::$app->request->get('id');
+        $state = Yii::$app->request->get('state');
+        $reqURL = (boolean)Yii::$app->request->get('reqURL') ? Yii::$app->request->get('reqURL'): '/manager/platform';
+        $model = Platform::findOne($id);
+        $model->state = $state;
+        if($model->update()&&LogUntils::write(Json::encode($model),1,"state")){
+            return $this->redirect($reqURL);
+        }
+        return $this->redirect($reqURL);
+    }
+    public function actionDel(){
+        $id = Yii::$app->request->get('id');
+        $reqURL = Yii::$app->request->get('reqURL');
+        $model = Platform::findOne($id);
+        if($model->delete()&&LogUntils::write(Json::encode($model),1,"del")){
+            return $this->redirect($reqURL);
+        }
+        return $this->redirect($reqURL);
+    }
 }
