@@ -2,7 +2,9 @@
 
 namespace app\erp\models\shop;
 
+use app\erp\util\LogUntils;
 use Yii;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "{{%shop_finance}}".
@@ -49,5 +51,24 @@ class ShopFinance extends \yii\db\ActiveRecord
             'back_acc' => '银行账号',
             'time' => '时间',
         ];
+    }
+
+    public function add($data){
+        if($this->load($data)){
+            if($this->save()&&LogUntils::write(Json::encode($data['ShopFinance']),26,"add")){
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+    public function edit($data){
+        if($this->load($data)){
+            if($this->update()&&LogUntils::write(Json::encode($data['ShopFinance']),26,"edit")){
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 }

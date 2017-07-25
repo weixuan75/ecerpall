@@ -2,7 +2,11 @@
 
 namespace app\erp\models\shop;
 
+use app\erp\util\LogUntils;
+use app\erp\util\SysConf;
+use app\erp\util\UserUtil;
 use Yii;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "{{%shop}}".
@@ -60,5 +64,24 @@ class Shop extends \yii\db\ActiveRecord
             'service_user' => '客服专员',
             'service_user2' => '招商经理',
         ];
+    }
+
+    public function add($data){
+        if($this->load($data)){
+            if($this->save()&&LogUntils::write(Json::encode($data['Shop']),26,"add")){
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+    public function edit($data){
+        if($this->load($data)){
+            if($this->update()&&LogUntils::write(Json::encode($data['Shop']),26,"edit")){
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 }

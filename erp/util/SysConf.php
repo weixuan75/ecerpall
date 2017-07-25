@@ -21,4 +21,15 @@ class SysConf
         $uuid .= substr($chars,20,12);
         return $prefix . $uuid;
     }
+    /**
+     * 唯一ID值
+     * @param string $prefix
+     * @return string
+     */
+    public static function uuid20($prefix = ''){
+        $chars = md5(uniqid(mt_rand(), true));
+        $uuid  = time();
+        $uuid  .= substr($chars,0,4);
+        return $prefix . $uuid;
+    }
 }
