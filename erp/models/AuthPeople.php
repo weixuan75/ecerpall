@@ -2,7 +2,9 @@
 
 namespace app\erp\models;
 
+use app\erp\util\LogUntils;
 use Yii;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "{{%auth_people}}".
@@ -64,5 +66,24 @@ class AuthPeople extends \yii\db\ActiveRecord
             'img2' => '身份证反面',
             'img3' => '手持身份证',
         ];
+    }
+
+    public function add($data){
+        if($this->load($data)){
+            if($this->save()&&LogUntils::write(Json::encode($data['Shop']),26,"add")){
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+    public function edit($data){
+        if($this->load($data)){
+            if($this->update()&&LogUntils::write(Json::encode($data['Shop']),26,"edit")){
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 }

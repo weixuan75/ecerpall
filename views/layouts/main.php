@@ -121,7 +121,7 @@ use yii\helpers\Url;
                             <a class="J_menuItem" href="/hplus1/index_v4.html">主页示例四</a>
                         </li>
                         <li>
-                            <a href="index_v5.html" target="_blank">主页示例五</a>
+                            <a href="index_v5.html">主页示例五</a>
                         </li>
                     </ul>
 
@@ -285,13 +285,13 @@ use yii\helpers\Url;
                         <li>
                             <a href="#">登录注册相关 <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-                                <li><a href="login.html" target="_blank">登录页面</a>
+                                <li><a href="login.html">登录页面</a>
                                 </li>
-                                <li><a href="login_v2.html" target="_blank">登录页面v2</a>
+                                <li><a href="login_v2.html">登录页面v2</a>
                                 </li>
-                                <li><a href="register.html" target="_blank">注册页面</a>
+                                <li><a href="register.html">注册页面</a>
                                 </li>
-                                <li><a href="lockscreen.html" target="_blank">登录超时</a>
+                                <li><a href="lockscreen.html">登录超时</a>
                                 </li>
                             </ul>
                         </li>
@@ -548,7 +548,7 @@ use yii\helpers\Url;
             <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="/hplus1/index_v2.html" frameborder="0" data-id="index_v2.html" seamless></iframe>
         </div>
         <div class="footer">
-            <div class="pull-right">&copy; 2014-2015 <a href="http://www.zi-han.net/" target="_blank">zihan's blog</a>
+            <div class="pull-right">&copy; 2014-2015 <a href="http://www.zi-han.net/">zihan's blog</a>
             </div>
         </div>
     </div>

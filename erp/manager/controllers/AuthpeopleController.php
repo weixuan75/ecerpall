@@ -11,7 +11,7 @@ use yii\helpers\Json;
 /**
  * Default controller for the `manager` module
  */
-class MenuController extends ConfController {
+class AuthpeopleController extends ConfController {
     public $layout="form";
     public function actionIndex(){
         $model = new Menu();

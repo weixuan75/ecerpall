@@ -34,13 +34,13 @@ class ShopController extends Controller
     }
     public function actionAdd(){
         $Shop = new Shop();
-        $finaance = new ShopFinance();
+        $finance = new ShopFinance();
         $address = new ShopAddress();
         $user = new ShopUser();
-        $AuthPeople = new AuthPeople();
+        $authPeople = new AuthPeople();
         $post = Yii::$app->request->post();
         if(Yii::$app->request->isPost){
-            if($Shop->add($post)){
+            if($Shop->add($post)&&$finance->add($post)&&$address->add($post)&&$address->add($post)&&$authPeople->add($post)){
                 return $this->redirect(['/manager/shop']);
             }else{
                 var_dump($Shop->errors);
@@ -49,9 +49,9 @@ class ShopController extends Controller
         return $this->render(
             'edit',[
             'model'=>$Shop,
-            "finance"=>$finaance,
+            "finance"=>$finance,
             "address"=>$address,
-            "authPeople"=>$AuthPeople,
+            "authPeople"=>$authPeople,
             "user"=>$user
 
         ]);
