@@ -12,46 +12,17 @@ use app\erp\util\UserUtil;
                 <?php
                 $form = ActiveForm::begin();
                 ?>
-                <div class="card-block">
-                    <script src="/js/pinyin.js"></script>
-                    <script>
-                        $(function () {
-                            $("#menu-name").blur(function(){
-                                $("#menu-ename").val(pinyin.getFullChars($("#menu-name").val()));
-                            });
-                        });
-                    </script>
-                    <?=$form->field($menu,'sort')->textInput()?>
-                    <?=$form->field($menu,'name')->textInput()?>
-                    <?=$form->field($menu,'ename')->textInput()?>
-                    <?=$form->field($menu,'menu_pid')->dropDownList($option)?>
-                    <?=$form->field($menu,'content')->textInput()?>
-                    <?=$form->field($menu,'url')->textInput()?>
-                    <?php
-                    $platform_adminId = 0;
-                    if($menu->admin_id!=0||$menu->admin_id!=null){
-                        $platform_adminId=$menu->admin_id;
-                        ?>
-                        <p>当前目录管理员：<?=UserUtil::getUserNickname($platform_adminId)["nickname"]?></p>
-                        <?php
-                    }else{
-                        ?>
-                        <?=$form->field($menu,'admin_id')->textInput(['value'=>UserUtil::UserId()])?>
-                        <?php
-                    }
-                    ?>
-                    <?php
-                    $platform_state = 0;
-                    if($menu->state!=0||$menu->state!=null){
-                        $platform_state=$menu->state;
-                    }
-                    ?>
-                    <?=$form->field($menu,'state')->radioList(Yii::$app->params['platform']['state'][1],['value'=>$platform_state])?>
-                </div>
-                <div class="card-footer">
+                    <?=$form->field($model,'name')->textInput()?>
+                    <?=$form->field($model,'birthday')->textInput()?>
+                    <?=$form->field($model,'gender')->radioList(['<i></i>男', '<i></i>女'], ['class' => 'radio i-checks']);?>
+                    <?=$form->field($model,'nation')->textInput()?>
+                    <?=$form->field($model,'idnumber')->textInput()?>
+                    <?=$form->field($model,'adress')->textInput()?>
+                    <?=$form->field($model,'img1')->textInput()?>
+                    <?=$form->field($model,'img2')->textInput()?>
+                    <?=$form->field($model,'img3')->textInput()?>
                     <?=Html::submitButton(' 提 交 ',["class"=>"btn btn-bg btn-primary"])?>
                     <?=Html::resetButton(' 取 消 ',["class"=>"btn btn-bg btn-danger"])?>
-                </div>
                 <?php
                 ActiveForm::end();
                 ?>

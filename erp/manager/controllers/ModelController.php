@@ -12,7 +12,7 @@ use yii\helpers\Json;
  * Default controller for the `manager` module
  */
 class ModelController extends ConfController {
-    public $layout="js";
+    public $layout="form";
     public function actionIndex(){
         $model = Model::find();
         $count = $model->count();

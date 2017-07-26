@@ -9,6 +9,7 @@ use app\erp\models\shop\ShopAddress;
 use app\erp\models\shop\ShopFinance;
 use app\erp\models\shop\ShopUser;
 use app\erp\util\SysConf;
+use yii\data\Pagination;
 use yii\helpers\Json;
 use yii\web\Controller;
 use Yii;
@@ -21,16 +22,12 @@ class ShopController extends Controller
     public $layout="form";
 //    public $layout=false;
     public function actionIndex(){
-//        echo SysConf::uuid20("s");
-//        $model = Shop::find()->all();
-//        $arr = [];
-//        foreach ($model as $m){
-//            $a=$m->toArray();
-//            $a["data"] = $m['menu'];
-//            $arr[] = $a;
-//        }
-//        echo Json::encode($arr);
-//        return $this->render("index", ['models' => $model, 'pager' => $pager]);
+        $model = Shop::find();
+        $count = $model->count();
+        $pageSize = Yii::$app->params['menu']['list'];
+        $pager = new Pagination(['totalCount' => $count, 'pageSize' => $pageSize]);
+        $models = $model->offset($pager->offset)->limit($pager->limit)->all();
+        return $this->render("index", ['models' => $models, 'pager' => $pager]);
     }
     public function actionAdd(){
         $Shop = new Shop();

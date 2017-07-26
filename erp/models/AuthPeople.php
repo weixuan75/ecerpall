@@ -70,7 +70,8 @@ class AuthPeople extends \yii\db\ActiveRecord
 
     public function add($data){
         if($this->load($data)){
-            if($this->save()&&LogUntils::write(Json::encode($data['Shop']),26,"add")){
+            $this->createtime = time();
+            if($this->save()&&LogUntils::write(Json::encode($data['AuthPeople']),27,"add")){
                 return true;
             }
             return false;
@@ -79,7 +80,7 @@ class AuthPeople extends \yii\db\ActiveRecord
     }
     public function edit($data){
         if($this->load($data)){
-            if($this->update()&&LogUntils::write(Json::encode($data['Shop']),26,"edit")){
+            if($this->update()&&LogUntils::write(Json::encode($data['AuthPeople']),27,"edit")){
                 return true;
             }
             return false;

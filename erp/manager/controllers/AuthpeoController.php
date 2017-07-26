@@ -2,6 +2,7 @@
 
 namespace app\erp\manager\controllers;
 use app\erp\admin\controllers\ConfController;
+use app\erp\models\AuthPeople;
 use app\erp\models\Menu;
 use app\erp\util\LogUntils;
 use Yii;
@@ -14,30 +15,37 @@ use yii\helpers\Json;
 class AuthpeoController extends ConfController {
     public $layout="form";
     public function actionIndex(){
-        $model = new Menu();
-        $managers = $model->getTreeList();
-        return $this->render("index", ['managers' => $managers]);
+        $hostURL = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        $reqURL = Yii::$app->request->get('reqURL');
+        $params = Yii::$app->params['tvlistings'];
+        $model = AuthPeople::find();
+        $count = $model->count();
+        $pageSize = $params['list'];
+        $pager = new Pagination(['totalCount' => $count, 'pageSize' => $pageSize]);
+        $models = $model->offset($pager->offset)->limit($pager->limit)->all();
+        return $this->render(
+            "index", [
+            'models' => $models,
+            'pager' => $pager,
+            'params' => $params,
+            'hostURL' => $hostURL,
+            'reqURL' => $reqURL,
+        ]);
     }
     public function actionAdd(){
-        $Menu = new Menu();
-        $option = $Menu->getOptions();
-        $get = Yii::$app->request->get();
-        if(!empty($get['id'])){
-            $Menu->menu_pid = $get['id'];
-        }
+        $model = new AuthPeople();
         $post = Yii::$app->request->post();
         if(Yii::$app->request->isPost){
-            if($Menu->add($post)){
+            if($model->add($post)){
                 return $this->redirect(['/manager/menu']);
             }else{
-                var_dump($Menu->errors);
+                var_dump($model->errors);
             }
 //            return LogUntils::write(Json::encode($post['Menu']),$Menu->getPrimaryKey(),"add");
         }
         return $this->render(
             'edit',[
-            'menu'=>$Menu,
-            'option'=>$option
+            'model'=>$model
         ]);
     }
     public function actionEdit(){

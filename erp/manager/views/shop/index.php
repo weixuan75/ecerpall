@@ -2,58 +2,43 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\erp\util\UserUtil;
-?>
-<div class="row">
-    <div class="col-md-12">
-        <div class="card-footer">
-            <a href="<?=Url::to(['model/add']) ?>" class="btn btn-bg btn-primary"><i class="fa fa-dot-circle-o"></i> 添 加 </a>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                列表
+?><div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title"><h5>列表</h5> <a href="<?=Url::to(['shop/add']) ?>" class="btn btn-bg btn-primary"> 添 加 </a>
             </div>
-            <div class="card-block">
+            <div class="ibox-content">
                 <table class="table table-hover table-outline mb-0 hidden-sm-down">
                     <thead class="thead-default">
                     <tr>
-                        <th>ID</th>
+                        <th>店铺编号</th>
                         <th>名称</th>
-                        <th>英文名称</th>
-                        <th>介绍</th>
-                        <th>管理员</th>
-                        <th>状态</th>
-                        <th>时间</th>
+                        <th>门头</th>
+                        <th>信息</th>
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($model as $m): ?>
-                        <tr id="list_<?=$m->id?>">
-                            <td><?=$m->id?></td>
+                    <?php foreach($models as $m): ?>
+                        <tr>
+                            <td><?=$m->shop_num?></td>
                             <td><?=$m->name?></td>
-                            <td><?=$m->ename?></td>
-                            <td><?=$m->content?></td>
-                            <td><?=UserUtil::getUserNickname($m->admin_id)["nickname"]?></td>
-                            <td class="text-center"><?=Yii::$app->params['menu']['state'][1][$m->state]?></td>
+                            <td><?=$m->img?><br>
+                                店内：
+                                <?=$m->imgs?></td>
                             <td>
-                                <?=date("Y-m-d H:i:s", $m->create_time)?>
+                                <span class="label <?php if(!empty($m->start_time)&&!empty($m->end_time)){echo "label-primary";} ?> ">有效期:<?=$m->start_time?>~<?=$m->end_time?></span>
+                                <span class="label <?php if(!empty($m->compact_code)){echo "label-primary";} ?> ">签署的合同编号：<?=$m->compact_code?></span>
+                                <span class="label <?php if(!empty($m->master_id)){echo "label-primary";} ?> ">负责人ID：<?=$m->master_id?></span>
+                                <span class="label <?php if(!empty($m->master_id)){echo "label-primary";} ?> ">个人认证：<?=$m->master_id?></span>
+                                <span class="label <?php if(!empty($m->phone)){echo "label-primary";} ?> ">联系电话：<?=$m->phone?></span>
+                                <span class="label <?php if(!empty($m->phone)){echo "label-primary";} ?> ">地理位置：<?=$m->phone?></span>
+                                <span class="label <?php if(!empty($m->phone)){echo "label-primary";} ?> ">财务：<?=$m->phone?></span>
+                                <span class="label <?php if(!empty($m->phone)){echo "label-primary";} ?> ">账户：<?=$m->phone?></span>
+                                <span class="label <?php if(!empty($m->service_user)){echo "label-primary";} ?> ">客服专员：<?=$m->service_user?></span>
+                                <span class="label <?php if(!empty($m->service_user2)){echo "label-primary";} ?> ">招商经理：<?=$m->service_user2?></span>
                             </td>
                             <td>
-                                <?php
-                                if ((boolean)$m->state) {
-                                    ?>
-                                    <a href="<?= Url::to(['model/state', 'id' => $m->id,'state'=>0,'reqURL'=>(Url::to(['model/index'])."#list_".$m->id)]) ?>"
-                                    >禁用</a>
-                                    <?php
-                                } else {
-                                    ?>
-                                    <a href="<?= Url::to(['model/state', 'id' => $m->id,'state'=>1,'reqURL'=>(Url::to(['model/index'])."#list_".$m->id)]) ?>"
-                                    >启动</a>
-                                    <?php
-                                }
-                                ?>
-                                <a href="<?=Url::to(['model/del', 'id' => $m->id,'state'=>1,'reqURL'=>(Url::to(['model/index']))]) ?>">删除</a>
-                                <a href="<?=Url::to(['model/edit', 'id' => $m->id,'reqURL'=>(Url::to(['model/index'])."#list_".$m->id)]) ?>">编辑</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
