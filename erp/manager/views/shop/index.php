@@ -39,6 +39,17 @@ use app\erp\util\UserUtil;
                                 <span class="label <?php if(!empty($m->service_user2)){echo "label-primary";} ?> ">招商经理：<?=$m->service_user2?></span>
                             </td>
                             <td>
+                                <a href="#">查看店铺信息</a>
+                                <a href="#">继续完善信息</a>
+                                <a href="#">修改客服专员</a>
+                                <a href="#">修改招商经理</a>
+                                <a href="#">查看仓库</a>
+                                <a href="#">查看进货单</a>
+                                <a href="#">查看销货订单</a>
+                                <a href="#">查看财务报表</a>
+                                <a href="#">续期</a>
+                                <a href="#">禁用</a>
+                                <a href="#">启动</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
