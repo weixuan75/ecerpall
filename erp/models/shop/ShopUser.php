@@ -2,9 +2,7 @@
 
 namespace app\erp\models\shop;
 
-use app\erp\util\LogUntils;
 use Yii;
-use yii\helpers\Json;
 
 /**
  * This is the model class for table "{{%shop_user}}".
@@ -12,12 +10,18 @@ use yii\helpers\Json;
  * @property integer $id
  * @property integer $shop_id
  * @property string $shop_num
- * @property string $access
+ * @property string $account
  * @property string $phone
  * @property string $password
  * @property string $email
  * @property string $dbname
+ * @property string $key_code
  * @property string $auth_code
+ * @property integer $state
+ * @property string $login_ip
+ * @property string $login_time
+ * @property string $credate_time
+ * @property string $update_time
  */
 class ShopUser extends \yii\db\ActiveRecord
 {
@@ -35,12 +39,12 @@ class ShopUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shop_id', 'phone'], 'integer'],
-            [['shop_num', 'access', 'phone', 'password', 'email', 'dbname', 'auth_code'], 'required'],
-            [['shop_num', 'dbname'], 'string', 'max' => 20],
-            [['access', 'password'], 'string', 'max' => 255],
-            [['email'], 'string', 'max' => 50],
-            [['auth_code'], 'string', 'max' => 40],
+            [['shop_id', 'shop_num', 'account', 'phone', 'password', 'email', 'dbname', 'key_code', 'auth_code'], 'required'],
+            [['shop_id', 'phone', 'state', 'login_time', 'credate_time', 'update_time'], 'integer'],
+            [['shop_num', 'dbname', 'login_ip'], 'string', 'max' => 20],
+            [['account', 'password'], 'string', 'max' => 255],
+            [['email', 'key_code', 'auth_code'], 'string', 'max' => 50],
+            [['shop_id', 'shop_num', 'account', 'phone', 'email', 'dbname', 'key_code', 'auth_code'], 'unique', 'targetAttribute' => ['shop_id', 'shop_num', 'account', 'phone', 'email', 'dbname', 'key_code', 'auth_code'], 'message' => 'The combination of Shop ID, 店铺, 账号, 手机号, 电子邮箱, 数据库名称, 授权码 and 授权码 has already been taken.'],
         ];
     }
 
@@ -53,31 +57,18 @@ class ShopUser extends \yii\db\ActiveRecord
             'id' => 'ID',
             'shop_id' => 'Shop ID',
             'shop_num' => '店铺',
-            'access' => '账号',
+            'account' => '账号',
             'phone' => '手机号',
             'password' => '密码',
             'email' => '电子邮箱',
             'dbname' => '数据库名称',
+            'key_code' => '授权码',
             'auth_code' => '授权码',
+            'state' => '状态',
+            'login_ip' => '登陆IP',
+            'login_time' => '登陆时间',
+            'credate_time' => '时间',
+            'update_time' => '修改时间',
         ];
-    }
-
-    public function add($data){
-        if($this->load($data)){
-            if($this->save()&&LogUntils::write(Json::encode($data['Shop']),26,"add")){
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
-    public function edit($data){
-        if($this->load($data)){
-            if($this->update()&&LogUntils::write(Json::encode($data['Shop']),26,"edit")){
-                return true;
-            }
-            return false;
-        }
-        return false;
     }
 }

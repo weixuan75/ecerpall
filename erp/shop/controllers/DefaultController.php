@@ -2,12 +2,10 @@
 
 namespace app\erp\shop\controllers;
 
-use yii\web\Controller;
-
 /**
  * Default controller for the `Index` module
  */
-class DefaultController extends Controller
+class DefaultController extends ConfController
 {
     public $layout = false;
     /**

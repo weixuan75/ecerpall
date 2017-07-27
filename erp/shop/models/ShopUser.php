@@ -1,89 +1,82 @@
 <?php
 
-namespace app\erp\admin\models;
+namespace app\erp\shop\models;
 
-use app\erp\models\Sysadmindate;
+use app\erp\util\LogUntils;
 use app\erp\util\SysConf;
 use Yii;
-use yii\db\ActiveRecord;
 use yii\helpers\Json;
 
 /**
- * This is the model class for table "{{%sys_admin}}".
+ * This is the model class for table "{{%shop_user}}".
  *
- * @property string $id
+ * @property integer $id
+ * @property integer $shop_id
+ * @property string $shop_num
  * @property string $account
- * @property string $email
  * @property string $phone
  * @property string $password
- * @property integer $state
+ * @property string $email
+ * @property string $dbname
+ * @property string $key_code
  * @property string $auth_code
+ * @property integer $state
  * @property string $login_ip
  * @property string $login_time
- * @property integer $sys_group_id
- * @property string $create_time
+ * @property string $credate_time
  * @property string $update_time
  */
-class Sysadmin extends ActiveRecord{
-
-    public $repass;
+class ShopUser extends \yii\db\ActiveRecord
+{
     //验证码
     public $captcha;
-
-    public static function tableName(){
-        return '{{%sys_admin}}';
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return '{{%shop_user}}';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
-            [['state', 'login_time', 'sys_group_id', 'create_time', 'update_time','phone'], 'integer'],
-            [['account'], 'string', 'max' => 50],
-            [['email'], 'string', 'max' => 100],
-            [['phone'], 'string', 'max' => 11],
-            [['phone'], 'string', 'min' => 11],
-            [['password', 'auth_code'], 'string', 'max' => 250],
-            [['login_ip'], 'string', 'max' => 40],
-
+            [['shop_id','shop_num', 'account', 'phone', 'password', 'email', 'dbname',], 'required','message' => '不能为空','on' => 'add'],
             [['password'], 'validateActivate', 'on' => 'login'],
             [['password'], 'validateBan', 'on' => 'login'],
             [['password'], 'validateDel', 'on' => 'login'],
-
-            [['password'], 'validatePass', 'on' => ['login', 'changeemail']],
-            [['password'], 'required','message' => '密码不能为空', 'on' => ['login','', 'changeemail']],
-            [['captcha'], 'validateCaptcha', 'on' => ['login', 'changeemail']],
-            [['captcha'], 'required','message' => '验证码不能为空', 'on' => ['login','', 'changeemail']],
+            [['password'], 'validatePass', 'on' => 'login'],
+            [['captcha'], 'validateCaptcha', 'on' => 'login'],
+            [['captcha'], 'required','message' => '验证码不能为空', 'on' => 'login'],
+            [['password'], 'required','message' => '密码不能为空','on' => 'login'],
             [['account'], 'required','message' => '账号不能为空','on' => ['login','add']],
-            [['password'], 'required','message' => '密码不能为空','on' => ['login','add']],
-            [['email'], 'required','message' => '邮箱不能为空','on' => 'add'],
-            [['email'], 'email','message' => '邮箱格式错误','on' => 'add'],
-            [['phone'], 'required','message' => '手机号不能为空','on' => 'add'],
-            [['auth_code'],'required','message' => '授权码不能为空','on' => 'add'],
-
-            [['repass'], 'required', 'message' => '确认密码不能为空', 'on' => ['changepass', 'add']],
-            [['repass'], 'compare', 'compareAttribute' => 'password', 'message' => '两次密码输入不一致', 'on' => ['changepass', 'add']],
-            [['account'], 'unique','message' => '账号已注册','on' => 'add'],
-            [['email'], 'unique','message' => '邮箱已注册','on' => 'add'],
-            [['phone'], 'unique','message' => '电话已注册','on' => 'add'],
-            [['auth_code'],'unique','message' => '授权码已注册','on' => 'add'],
+            [['shop_id', 'shop_num', 'account', 'phone', 'email', 'dbname', 'key_code', 'auth_code'], 'unique', 'targetAttribute' => ['shop_id', 'shop_num', 'account', 'phone', 'email', 'dbname', 'key_code', 'auth_code'], 'message' => 'The combination of Shop ID, 店铺, 账号, 手机号, 电子邮箱, 数据库名称, 授权码 and 授权码 has already been taken.'],
         ];
     }
+
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
-            'id' => '系统会员ID',
+            'id' => 'ID',
+            'shop_id' => 'Shop ID',
+            'shop_num' => '店铺',
             'account' => '账号',
-            'email' => '电子邮件',
-            'phone' => '电话',
+            'phone' => '手机号',
             'password' => '密码',
-            'repass' => '确认密码',
+            'email' => '电子邮箱',
+            'dbname' => '数据库名称',
+            'key_code' => '授权码',
+            'auth_code' => '授权码',
             'state' => '状态',
-            'auth_code' => '认证码',
-            'login_ip' => '登陆IP地址',
+            'login_ip' => '登陆IP',
             'login_time' => '登陆时间',
-            'sys_group_id' => '会员组',
-            'captcha' => '验证码',
-            'create_time' => '创建时间',
+            'credate_time' => '时间',
             'update_time' => '修改时间',
         ];
     }
@@ -122,9 +115,9 @@ class Sysadmin extends ActiveRecord{
             $data = self::find()
                 ->select(['state'])
                 ->where(
-                'account = :user and password = :pass',
-                [":user" => $this->account, ":pass" => md5($this->password)]
-            )->one();
+                    'account = :user and password = :pass',
+                    [":user" => $this->account, ":pass" => md5($this->password)]
+                )->one();
             if ($data['state']==0) {
                 $this->addError("password", "账户未激活，请联系管理员");
             }
@@ -138,9 +131,9 @@ class Sysadmin extends ActiveRecord{
             $data = self::find()
                 ->select(['state'])
                 ->where(
-                'account = :user and password = :pass',
-                [":user" => $this->account, ":pass" => md5($this->password)]
-            )->one();
+                    'account = :user and password = :pass',
+                    [":user" => $this->account, ":pass" => md5($this->password)]
+                )->one();
             if ($data['state']==2) {
                 $this->addError("password", "账户被禁用，请联系管理员");
             }
@@ -154,9 +147,9 @@ class Sysadmin extends ActiveRecord{
             $data = self::find()
                 ->select(['state'])
                 ->where(
-                'account = :user and password = :pass',
-                [":user" => $this->account, ":pass" => md5($this->password)]
-            )->one();
+                    'account = :user and password = :pass',
+                    [":user" => $this->account, ":pass" => md5($this->password)]
+                )->one();
             if ($data['state']==3) {
                 $this->addError("password", "账户已删除，请联系管理员");
             }
@@ -185,7 +178,6 @@ class Sysadmin extends ActiveRecord{
                     'update_time',
                 ])
                 ->where('account=:account',[':account'=>$this->account])
-//                ->where(['account'=>$this->account])
                 ->one()
                 ->toArray();
             $userdate = Sysadmindate::find()
@@ -206,22 +198,26 @@ class Sysadmin extends ActiveRecord{
     }
     public function add($data){
         $this->scenario="add";
-        $conf = new SysConf();
-        $uuid = $conf->uuid();
-        $this->auth_code=$uuid;
-        $time =time();
-        $this->create_time=$time;
-        $this->update_time=$time;
         if ($this->load($data) && $this->validate()) {
+            $this->auth_code = SysConf::uuid("shopUserAuth-");
+            $this->key_code = SysConf::uuid("shopUserKey-");
+            $this->credate_time = $this->update_time = time();
             $this->password=md5($this->password);
-            if($this->save(false)){
+            if($this->save(false)&&LogUntils::write(Json::encode($data['ShopUser']),26,"add")){
                 return true;
             }
             return false;
         }
         return false;
     }
-    public function getSysadmindata(){
-        return $this->hasOne(Sysadmindate::className(), ['sys_admin_id' => 'id']);
+    public function edit($data){
+        if($this->load($data)){
+            $this->update_time = time();
+            if($this->update()&&LogUntils::write(Json::encode($data['ShopUser']),26,"edit")){
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 }
