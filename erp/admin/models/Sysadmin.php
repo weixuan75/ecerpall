@@ -27,6 +27,7 @@ use yii\helpers\Json;
 class Sysadmin extends ActiveRecord{
 
     public $repass;
+    //验证码
     public $captcha;
 
     public static function tableName(){
@@ -53,6 +54,7 @@ class Sysadmin extends ActiveRecord{
             [['captcha'], 'validateCaptcha', 'on' => ['login', 'changeemail']],
             [['captcha'], 'required','message' => '验证码不能为空', 'on' => ['login','', 'changeemail']],
             [['account'], 'required','message' => '账号不能为空','on' => ['login','add']],
+            [['password'], 'required','message' => '密码不能为空','on' => ['login','add']],
             [['email'], 'required','message' => '邮箱不能为空','on' => 'add'],
             [['email'], 'email','message' => '邮箱格式错误','on' => 'add'],
             [['phone'], 'required','message' => '手机号不能为空','on' => 'add'],
@@ -196,6 +198,8 @@ class Sysadmin extends ActiveRecord{
                 'data'=>$userdate
             ];
             $redis->set($user['auth_code'],Json::encode($session["userData"]));
+            //删除验证码的数据
+            $session->remove("captchaCode");
             return true;
         }
         return false;

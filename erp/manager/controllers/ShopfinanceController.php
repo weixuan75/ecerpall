@@ -7,6 +7,7 @@ use app\erp\models\shop\Shop;
 use app\erp\models\shop\ShopFinance;
 use app\erp\util\LogUntils;
 use app\erp\util\SysConf;
+use yii\data\Pagination;
 use yii\helpers\Json;
 use yii\web\Controller;
 use Yii;
@@ -19,31 +20,27 @@ class ShopfinanceController extends Controller
     public $layout="js";
 //    public $layout=false;
     public function actionIndex(){
-//        echo SysConf::uuid20("s");
-//        $model = Shop::find()->all();
-//        $arr = [];
-//        foreach ($model as $m){
-//            $a=$m->toArray();
-//            $a["data"] = $m['menu'];
-//            $arr[] = $a;
-//        }
-//        echo Json::encode($arr);
-//        return $this->render("index", ['models' => $model, 'pager' => $pager]);
+        $model = ShopFinance::find();
+        $count = $model->count();
+        $pageSize = Yii::$app->params['menu']['list'];
+        $pager = new Pagination(['totalCount' => $count, 'pageSize' => $pageSize]);
+        $models = $model->offset($pager->offset)->limit($pager->limit)->all();
+        return $this->render("index", ['models' => $models, 'pager' => $pager]);
     }
     public function actionAdd(){
         $Shop = new Shop();
         $shopfinance = new ShopFinance();
         $post = Yii::$app->request->post();
         if(Yii::$app->request->isPost){
-            if($Shop->add($post)){
-                return $this->redirect(['/manager/shop']);
+            if($shopfinance->add($post)){
+                return $this->redirect(['/manager/shopfinance']);
             }else{
                 var_dump($Shop->errors);
             }
         }
         return $this->render(
             'edit',[
-            'model'=>$Shop,
+            "shoplist"=>$Shop->getData(),
             'finance'=>$shopfinance
         ]);
     }

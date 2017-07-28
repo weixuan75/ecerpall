@@ -2,16 +2,16 @@
 
 namespace app\erp\index\controllers;
 
-use app\erp\admin\controllers\ConfController;
+use yii\web\Controller;
 
 /**
  * Default controller for the `index` module
  */
-class DefaultController extends ConfController
+class DefaultController extends Controller
 {
     public function actionIndex()
     {
-        //var_dump($this->param);
+        $this->layout = false;
         return $this->render('index');
     }
 }

@@ -2,21 +2,16 @@
 
 namespace app\erp\manager\controllers;
 
-use app\erp\admin\controllers\UserController;
-use yii\web\Controller;
+use app\erp\admin\controllers\ConfController;
 
 /**
  * Default controller for the `manager` module
  */
-class DefaultController extends Controller
+class DefaultController extends ConfController
 {
-    /**
-     * Renders the index view for the module
-     * @return string
-     */
     public function actionIndex()
     {
-        $this->layout = false;
+        $this->layout = "main";
         return $this->render("index");
     }
 }

@@ -5,15 +5,20 @@ use app\erp\util\UserUtil;
 ?>
 <div class="row">
     <div class="col-md-12">
-        <div class="card-footer">
-            <a href="<?=Url::to(['model/add']) ?>" class="btn btn-bg btn-primary"><i class="fa fa-dot-circle-o"></i> 添 加 </a>
-        </div>
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                列表
+                <h5>列表</h5>
+
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="btn btn-primary dim" type="button" href="<?=Url::to(['model/add']) ?>"><i class="fa fa-check"> 添 加 </i>
+                    </a>
+                </div>
             </div>
-            <div class="ibox-tools">
-                <table class="table table-hover table-outline mb-0 hidden-sm-down">
+            <div class="ibox-content">
+                <table class="table table-hover">
                     <thead class="thead-default">
                     <tr>
                         <th>ID</th>

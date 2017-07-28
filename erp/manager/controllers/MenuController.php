@@ -12,7 +12,7 @@ use yii\helpers\Json;
  * Default controller for the `manager` module
  */
 class MenuController extends ConfController {
-    public $layout="js";
+    public $layout="form";
     public function actionIndex(){
         $model = new Menu();
         $managers = $model->getTreeList();

@@ -55,6 +55,7 @@ class ShopFinance extends \yii\db\ActiveRecord
 
     public function add($data){
         if($this->load($data)){
+            $this->time = time();
             if($this->save()&&LogUntils::write(Json::encode($data['ShopFinance']),26,"add")){
                 return true;
             }

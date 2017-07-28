@@ -2,12 +2,10 @@
 
 namespace app\erp\shop\controllers;
 
-use yii\web\Controller;
-
 /**
  * Default controller for the `Index` module
  */
-class DefaultController extends Controller
+class DefaultController extends ShopUser
 {
     public $layout = false;
     /**
@@ -16,6 +14,7 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = "main";
         return $this->render('index');
     }
 }

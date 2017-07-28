@@ -9,6 +9,7 @@ use app\erp\models\shop\ShopAddress;
 use app\erp\models\shop\ShopFinance;
 use app\erp\models\shop\ShopUser;
 use app\erp\util\SysConf;
+use yii\data\Pagination;
 use yii\helpers\Json;
 use yii\web\Controller;
 use Yii;
@@ -21,26 +22,22 @@ class ShopController extends Controller
     public $layout="form";
 //    public $layout=false;
     public function actionIndex(){
-//        echo SysConf::uuid20("s");
-//        $model = Shop::find()->all();
-//        $arr = [];
-//        foreach ($model as $m){
-//            $a=$m->toArray();
-//            $a["data"] = $m['menu'];
-//            $arr[] = $a;
-//        }
-//        echo Json::encode($arr);
-//        return $this->render("index", ['models' => $model, 'pager' => $pager]);
+        $model = Shop::find();
+        $count = $model->count();
+        $pageSize = Yii::$app->params['menu']['list'];
+        $pager = new Pagination(['totalCount' => $count, 'pageSize' => $pageSize]);
+        $models = $model->offset($pager->offset)->limit($pager->limit)->all();
+        return $this->render("index", ['models' => $models, 'pager' => $pager]);
     }
     public function actionAdd(){
         $Shop = new Shop();
-        $finaance = new ShopFinance();
+        $finance = new ShopFinance();
         $address = new ShopAddress();
         $user = new ShopUser();
-        $AuthPeople = new AuthPeople();
+        $authPeople = new AuthPeople();
         $post = Yii::$app->request->post();
         if(Yii::$app->request->isPost){
-            if($Shop->add($post)){
+            if($Shop->add($post)&&$finance->add($post)&&$address->add($post)&&$address->add($post)&&$authPeople->add($post)){
                 return $this->redirect(['/manager/shop']);
             }else{
                 var_dump($Shop->errors);
@@ -49,9 +46,9 @@ class ShopController extends Controller
         return $this->render(
             'edit',[
             'model'=>$Shop,
-            "finance"=>$finaance,
+            "finance"=>$finance,
             "address"=>$address,
-            "authPeople"=>$AuthPeople,
+            "authPeople"=>$authPeople,
             "user"=>$user
 
         ]);
