@@ -2,7 +2,10 @@
 
 namespace app\erp\models;
 
+use app\erp\util\LogUntils;
+use app\erp\util\SysConf;
 use Yii;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "{{%purchase}}".
@@ -16,7 +19,7 @@ use Yii;
  * @property string $price
  * @property string $data
  * @property integer $num
- * @property string $updata_time
+ * @property string $update_time
  * @property string $create_time
  */
 class Purchase extends \yii\db\ActiveRecord
@@ -35,7 +38,7 @@ class Purchase extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type', 'supplier_id', 'user_id', 'state', 'num', 'updata_time', 'create_time'], 'integer'],
+            [['type', 'supplier_id', 'user_id', 'state', 'num', 'update_time', 'create_time'], 'integer'],
             [['user_id'], 'required'],
             [['price'], 'number'],
             [['code', 'data'], 'string', 'max' => 255],
@@ -57,17 +60,15 @@ class Purchase extends \yii\db\ActiveRecord
             'price' => '采购清单的价格',
             'data' => '采购内容',
             'num' => '采购总数量',
-            'updata_time' => '修改时间',
+            'update_time' => '修改时间',
             'create_time' => '创建时间',
         ];
     }
 
     public function add($data){
         if($this->load($data)){
-            $this->auth_code = SysConf::uuid("auth-");
-            $this->key_code= SysConf::uuid("key-");
             $this->create_time=$this->update_time=time();
-            if($this->save()&&LogUntils::write(Json::encode($data['Platform']),1,"add")){
+            if($this->save()&&LogUntils::write(Json::encode($data['Purchase']),24,"add")){
                 return true;
             }
             return false;
@@ -76,7 +77,7 @@ class Purchase extends \yii\db\ActiveRecord
     }
     public function edit($data){
         if($this->load($data)){
-            if($this->update()&&LogUntils::write(Json::encode($data['Platform']),1,"edit")){
+            if($this->update()&&LogUntils::write(Json::encode($data['Purchase']),24,"edit")){
                 return true;
             }
             return false;
