@@ -14,7 +14,10 @@ use Yii;
  * @property integer $user_id
  * @property integer $state
  * @property string $price
- * @property string $uptime
+ * @property string $data
+ * @property integer $num
+ * @property string $updata_time
+ * @property string $create_time
  */
 class Purchase extends \yii\db\ActiveRecord
 {
@@ -32,10 +35,10 @@ class Purchase extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type', 'supplier_id', 'user_id', 'state', 'uptime'], 'integer'],
+            [['type', 'supplier_id', 'user_id', 'state', 'num', 'updata_time', 'create_time'], 'integer'],
             [['user_id'], 'required'],
             [['price'], 'number'],
-            [['code'], 'string', 'max' => 255],
+            [['code', 'data'], 'string', 'max' => 255],
         ];
     }
 
@@ -52,7 +55,32 @@ class Purchase extends \yii\db\ActiveRecord
             'user_id' => '采购单操作员',
             'state' => '状态',
             'price' => '采购清单的价格',
-            'uptime' => '时间',
+            'data' => '采购内容',
+            'num' => '采购总数量',
+            'updata_time' => '修改时间',
+            'create_time' => '创建时间',
         ];
+    }
+
+    public function add($data){
+        if($this->load($data)){
+            $this->auth_code = SysConf::uuid("auth-");
+            $this->key_code= SysConf::uuid("key-");
+            $this->create_time=$this->update_time=time();
+            if($this->save()&&LogUntils::write(Json::encode($data['Platform']),1,"add")){
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+    public function edit($data){
+        if($this->load($data)){
+            if($this->update()&&LogUntils::write(Json::encode($data['Platform']),1,"edit")){
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 }
