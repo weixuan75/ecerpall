@@ -14,6 +14,7 @@ class DefaultController extends ShopUser
      */
     public function actionIndex()
     {
+        $this->layout = "main";
         return $this->render('index');
     }
 }
