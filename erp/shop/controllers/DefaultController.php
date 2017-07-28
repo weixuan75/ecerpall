@@ -5,7 +5,7 @@ namespace app\erp\shop\controllers;
 /**
  * Default controller for the `Index` module
  */
-class DefaultController extends ConfController
+class DefaultController extends ShopUser
 {
     public $layout = false;
     /**

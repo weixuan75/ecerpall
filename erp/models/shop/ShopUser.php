@@ -9,7 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property integer $shop_id
- * @property string $shop_num
+ * @property integer $role_id
  * @property string $account
  * @property string $phone
  * @property string $password
@@ -39,12 +39,17 @@ class ShopUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shop_id', 'shop_num', 'account', 'phone', 'password', 'email', 'dbname', 'key_code', 'auth_code'], 'required'],
-            [['shop_id', 'phone', 'state', 'login_time', 'credate_time', 'update_time'], 'integer'],
-            [['shop_num', 'dbname', 'login_ip'], 'string', 'max' => 20],
-            [['account', 'password'], 'string', 'max' => 255],
-            [['email', 'key_code', 'auth_code'], 'string', 'max' => 50],
-            [['shop_id', 'shop_num', 'account', 'phone', 'email', 'dbname', 'key_code', 'auth_code'], 'unique', 'targetAttribute' => ['shop_id', 'shop_num', 'account', 'phone', 'email', 'dbname', 'key_code', 'auth_code'], 'message' => 'The combination of Shop ID, 店铺, 账号, 手机号, 电子邮箱, 数据库名称, 授权码 and 授权码 has already been taken.'],
+            [['shop_id', 'role_id', 'account', 'phone', 'password', 'email', 'dbname', 'key_code', 'auth_code'], 'required'],
+            [['shop_id', 'role_id', 'phone', 'state', 'login_time', 'credate_time', 'update_time'], 'integer'],
+            [['account', 'password', 'email', 'key_code', 'auth_code'], 'string', 'max' => 50],
+            [['dbname', 'login_ip'], 'string', 'max' => 20],
+            [['shop_id'], 'unique'],
+            [['account'], 'unique'],
+            [['phone'], 'unique'],
+            [['email'], 'unique'],
+            [['dbname'], 'unique'],
+            [['auth_code'], 'unique'],
+            [['key_code'], 'unique'],
         ];
     }
 
@@ -56,7 +61,7 @@ class ShopUser extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'shop_id' => 'Shop ID',
-            'shop_num' => '店铺',
+            'role_id' => '角色ID',
             'account' => '账号',
             'phone' => '手机号',
             'password' => '密码',

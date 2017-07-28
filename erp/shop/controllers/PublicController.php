@@ -2,9 +2,7 @@
 
 namespace app\erp\shop\controllers;
 
-use app\erp\admin\models\Sysadmin;
 use app\erp\shop\models\ShopUser;
-use yii\helpers\Json;
 use yii\web\Controller;
 use Yii;
 
@@ -25,14 +23,14 @@ class PublicController extends Controller{
         $this->layout = false;
         $session = Yii::$app->session;
         $redis = Yii::$app->redis;
-        if((boolean)$redis->get($session['userData']['user']['auth_code'])){
-            return $this->redirect(['shop/default']);
+        if((boolean)$redis->get($session['ShopUserData']['user']['key_code'])){
+            return $this->redirect(['/shop/default']);
         };
         $admin = new ShopUser();
         $post = Yii::$app->request->post();
         if(Yii::$app->request->isPost){
             if ($admin->login($post)){
-                return $this->redirect(['shop/default']);
+                return $this->redirect(['/shop/default']);
             }
         }
         return $this->render(
@@ -42,7 +40,7 @@ class PublicController extends Controller{
     public function actionLogout(){
         $session = Yii::$app->session;
         $redis = Yii::$app->redis;
-        $redis->del($session['userData']['user']['auth_code']);
+        $redis->del($session['ShopUserData']['user']['auth_code']);
         $session->removeAll();
         return $this->redirect(['login']);
     }

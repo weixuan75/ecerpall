@@ -8,13 +8,8 @@ use Yii;
  * This is the model class for table "{{%shop_user_role}}".
  *
  * @property integer $id
- * @property integer $shop_id
- * @property string $access
- * @property string $phone
- * @property string $password
- * @property string $email
- * @property string $dbname
- * @property string $auth_code
+ * @property string $name
+ * @property string $time
  */
 class ShopUserRole extends \yii\db\ActiveRecord
 {
@@ -32,12 +27,9 @@ class ShopUserRole extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shop_id', 'access', 'phone', 'password', 'email', 'dbname', 'auth_code'], 'required'],
-            [['shop_id', 'phone'], 'integer'],
-            [['access', 'password'], 'string', 'max' => 255],
-            [['email'], 'string', 'max' => 50],
-            [['dbname'], 'string', 'max' => 20],
-            [['auth_code'], 'string', 'max' => 40],
+            [['name', 'time'], 'required'],
+            [['time'], 'integer'],
+            [['name'], 'string', 'max' => 255],
         ];
     }
 
@@ -48,13 +40,8 @@ class ShopUserRole extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'shop_id' => '店铺',
-            'access' => '账号',
-            'phone' => '手机号',
-            'password' => '密码',
-            'email' => '电子邮箱',
-            'dbname' => '数据库名称',
-            'auth_code' => '授权码',
+            'name' => '角色名称',
+            'time' => '授权码',
         ];
     }
 }

@@ -2,13 +2,8 @@
 
 namespace app\erp\manager\controllers;
 
-use app\erp\admin\controllers\UserController;
-use app\erp\models\AuthPeople;
 use app\erp\models\shop\Shop;
-use app\erp\models\shop\ShopAddress;
-use app\erp\models\shop\ShopFinance;
 use app\erp\shop\models\ShopUser;
-use app\erp\util\SysConf;
 use yii\data\Pagination;
 use yii\helpers\Json;
 use yii\web\Controller;
@@ -32,18 +27,19 @@ class ShopuserController extends Controller
 
     public function actionAdd(){
         $user = new ShopUser();
+        $shop = new Shop();
         $post = Yii::$app->request->post();
         if(Yii::$app->request->isPost){
             if($user->add($post)){
-                return $this->redirect(['Shopuser/index']);
+                return $this->redirect(['shopuser/index']);
             }else{
                 var_dump($user->errors);
             }
         }
         return $this->render(
             'edit',[
-            "user"=>$user
-
+            "user"=>$user,
+            "shoplist"=>$shop->getData(),
         ]);
     }
     public function actionEdit(){

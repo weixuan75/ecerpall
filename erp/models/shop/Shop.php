@@ -2,9 +2,9 @@
 
 namespace app\erp\models\shop;
 
-use app\erp\models\AuthPeople;
 use app\erp\util\LogUntils;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 
 /**
@@ -43,6 +43,8 @@ class Shop extends \yii\db\ActiveRecord
             [['start_time', 'end_time', 'master_id'], 'integer'],
             [['shop_num', 'service_user', 'service_user2'], 'string', 'max' => 20],
             [['name', 'img', 'imgs', 'compact_code', 'phone'], 'string', 'max' => 255],
+            [['shop_num'], 'unique'],
+            [['phone'], 'unique'],
         ];
     }
 
@@ -66,35 +68,44 @@ class Shop extends \yii\db\ActiveRecord
             'phone' => '联系电话',
         ];
     }
+    public function getData()
+    {
+        $cates = self::find()->all();
+        $arr = null;
+        foreach ($cates as $c){
+            $arr[$c['id']] = $c['name'];
+        }
+        return $arr;
+    }
 
     public function add($data){
-        if($this->load($data)){
-            if($this->save()&&LogUntils::write(Json::encode($data['Shop']),26,"add")){
-                return true;
+            if($this->load($data)){
+                    if($this->save()&&LogUntils::write(Json::encode($data['Shop']),26,"add")){
+                            return true;
             }
             return false;
         }
         return false;
     }
     public function edit($data){
-        if($this->load($data)){
-            if($this->update()&&LogUntils::write(Json::encode($data['Shop']),26,"edit")){
-                return true;
+            if($this->load($data)){
+                    if($this->update()&&LogUntils::write(Json::encode($data['Shop']),26,"edit")){
+                            return true;
             }
             return false;
         }
         return false;
     }
     public function getShopFinance(){
-        return $this->hasOne(ShopFinance::className(),["id","shop_id"]);
+            return $this->hasOne(ShopFinance::className(),["id","shop_id"]);
     }
     public function getShopAddress(){
-        return $this->hasOne(ShopAddress::className(),["id","shop_id"]);
+            return $this->hasOne(ShopAddress::className(),["id","shop_id"]);
     }
     public function getShopUser(){
-        return $this->hasOne(ShopUser::className(),["id","shop_id"]);
+            return $this->hasOne(ShopUser::className(),["id","shop_id"]);
     }
     public function getAuthPeople(){
-        return $this->hasOne(AuthPeople::className(),["master_id","id"]);
+            return $this->hasOne(AuthPeople::className(),["master_id","id"]);
     }
 }

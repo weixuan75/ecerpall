@@ -2,6 +2,7 @@
 
 namespace app\erp\shop\models;
 
+use app\erp\models\shop\Shop;
 use app\erp\util\LogUntils;
 use app\erp\util\SysConf;
 use Yii;
@@ -44,7 +45,7 @@ class ShopUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shop_id','shop_num', 'account', 'phone', 'password', 'email', 'dbname',], 'required','message' => '不能为空','on' => 'add'],
+            [['shop_id', 'role_id','phone', 'password', 'email', 'dbname'], 'required','message' => '不能为空','on' => 'add'],
             [['password'], 'validateActivate', 'on' => 'login'],
             [['password'], 'validateBan', 'on' => 'login'],
             [['password'], 'validateDel', 'on' => 'login'],
@@ -53,7 +54,17 @@ class ShopUser extends \yii\db\ActiveRecord
             [['captcha'], 'required','message' => '验证码不能为空', 'on' => 'login'],
             [['password'], 'required','message' => '密码不能为空','on' => 'login'],
             [['account'], 'required','message' => '账号不能为空','on' => ['login','add']],
-            [['shop_id', 'shop_num', 'account', 'phone', 'email', 'dbname', 'key_code', 'auth_code'], 'unique', 'targetAttribute' => ['shop_id', 'shop_num', 'account', 'phone', 'email', 'dbname', 'key_code', 'auth_code'], 'message' => 'The combination of Shop ID, 店铺, 账号, 手机号, 电子邮箱, 数据库名称, 授权码 and 授权码 has already been taken.'],
+            [['shop_id'], 'unique','message' => '已存在，不能重复','on' => 'add'],
+
+            [['shop_id', 'role_id', 'phone', 'state', 'login_time', 'credate_time', 'update_time'], 'integer'],
+            [['account', 'password', 'email', 'key_code', 'auth_code'], 'string', 'max' => 50,'on' => 'add'],
+            [['dbname', 'login_ip'], 'string', 'max' => 20,'on' => 'add'],
+            [['account'], 'unique','message' => '已存在，不能重复','on' => 'add'],
+            [['phone'], 'unique','message' => '已存在，不能重复','on' => 'add'],
+            [['email'], 'unique','message' => '已存在，不能重复','on' => 'add'],
+            [['dbname'], 'unique','message' => '已存在，不能重复','on' => 'add'],
+            [['auth_code'], 'unique','message' => '已存在，不能重复','on' => 'add'],
+            [['key_code'], 'unique','message' => '已存在，不能重复','on' => 'add'],
         ];
     }
 
@@ -65,7 +76,7 @@ class ShopUser extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'shop_id' => 'Shop ID',
-            'shop_num' => '店铺',
+            'role_id' => '角色ID',
             'account' => '账号',
             'phone' => '手机号',
             'password' => '密码',
@@ -118,7 +129,7 @@ class ShopUser extends \yii\db\ActiveRecord
                     'account = :user and password = :pass',
                     [":user" => $this->account, ":pass" => md5($this->password)]
                 )->one();
-            if ($data['state']==0) {
+            if ($data['state']==1) {
                 $this->addError("password", "账户未激活，请联系管理员");
             }
         }
@@ -165,31 +176,35 @@ class ShopUser extends \yii\db\ActiveRecord
 
             $user = self::find()
                 ->select([
-                    'id',
+                    'shop_id',
+                    'role_id',
                     'account',
-                    'email',
                     'phone',
-                    'state',
+                    'password',
+                    'email',
+                    'dbname',
+                    'key_code',
                     'auth_code',
+                    'state',
                     'login_ip',
                     'login_time',
-                    'sys_group_id',
-                    'create_time',
+                    'credate_time',
                     'update_time',
                 ])
                 ->where('account=:account',[':account'=>$this->account])
                 ->one()
                 ->toArray();
-            $userdate = Sysadmindate::find()
-                ->where("sys_admin_id=:id",[':id'=>$user['id']])
+
+            $shop = Shop::find()
+                ->where("id=:id",[':id'=>$user['shop_id']])
                 ->one()->toArray();
             $redis = Yii::$app->redis;
             $session = Yii::$app->session;
-            $session["userData"] = [
+            $session["ShopUserData"] = [
                 'user'=>$user,
-                'data'=>$userdate
+                'shop'=>$shop
             ];
-            $redis->set($user['auth_code'],Json::encode($session["userData"]));
+            $redis->set($user['key_code'],Json::encode($session["ShopUserData"]));
             //删除验证码的数据
             $session->remove("captchaCode");
             return true;
@@ -198,12 +213,12 @@ class ShopUser extends \yii\db\ActiveRecord
     }
     public function add($data){
         $this->scenario="add";
+        $this->auth_code = SysConf::uuid("shopUserAuth-");
+        $this->key_code = SysConf::uuid("shopUserKey-");
+        $this->credate_time = $this->update_time = time();
+        $this->password=md5($this->password);
         if ($this->load($data) && $this->validate()) {
-            $this->auth_code = SysConf::uuid("shopUserAuth-");
-            $this->key_code = SysConf::uuid("shopUserKey-");
-            $this->credate_time = $this->update_time = time();
-            $this->password=md5($this->password);
-            if($this->save(false)&&LogUntils::write(Json::encode($data['ShopUser']),26,"add")){
+            if($this->save()&&LogUntils::write(Json::encode($data['ShopUser']),26,"add")){
                 return true;
             }
             return false;
