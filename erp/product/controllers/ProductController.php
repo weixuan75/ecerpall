@@ -39,13 +39,24 @@ class ProductController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new models();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        $list = Product::find()->asArray()->all();
+        foreach($list as $key=>$val)
+        {
+            $list[$key]['product_color'] = models\ProductColor::find()->where("product_id=:id", [":id" => $val['id']])->asArray()->all();
+            foreach($list[$key]['product_color'] as $key2=>$val2)
+            {
+                $list[$key]['product_color'][$key2]['product_size'] = models\ProductSize::find()
+                    ->where("product_id=:pid and color_id=:cid", [':pid'=>$val['id'], ':cid'=>$val2['id']])
+                    ->asArray()->all();
+            }
+        }
+        return $this->render("index", ['product_list'=>$list]);
+//        $searchModel = new models();
+//        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+//        return $this->render('index', [
+//            'searchModel' => $searchModel,
+//            'dataProvider' => $dataProvider,
+//        ]);
     }
 
     /**
@@ -64,7 +75,6 @@ class ProductController extends Controller
         $image = unserialize(Yii::$app->session['files_images']);
      //   echo count($image)."<br />";
     //    echo count($table_color_size)."<br />";
-
         if(count($image) != count($table_color_size))
         {
             FileController::clear();                    //清除上传的图片缓存和图片文件
@@ -164,7 +174,6 @@ class ProductController extends Controller
             ]);
         }
     }
-
     /**
      * Updates an existing Product model.
      * If update is successful, the browser will be redirected to the 'view' page.
