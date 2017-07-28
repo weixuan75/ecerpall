@@ -87,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
             success: function (data) {
                 console.log(data);
                 var d = JSON.parse(data);
-                layer.msg(d.msg, {icon:1, time:1500, shade:0.1});
+                layer.msg(d.msg+" product id:"+d.id, {icon:1, time:1500, shade:0.1});
             }
         });
     }

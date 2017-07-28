@@ -37,6 +37,9 @@ class Product extends \yii\db\ActiveRecord
             //echo $key."=>".$val."<br />";
         }
     }
+    public function insert_table_color(){
+
+    }
     /**
      * @inheritdoc
      */

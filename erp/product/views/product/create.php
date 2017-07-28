@@ -2,6 +2,8 @@
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -21,6 +23,7 @@ use yii\helpers\Url;
 <body class="gray-bg">
 
 <div class="wrapper wrapper-content  animated fadeInRight">
+
     <div class="ibox-content">
         <form class="form-horizontal m-t" id="product_form" name="product_form" method="post" onsubmit="return check_form()" action="/index.php?r=product/product/create">
             <div class="form-group">
@@ -89,7 +92,7 @@ use yii\helpers\Url;
                 <label class="col-sm-3 control-label">请选择尺寸：</label>
                 <div class="col-sm-8" id="fcheckbox_size">
                     <table class="table table-striped" id="table_color_size">
-                        <tbody><td></td><td>颜色</td><td>尺码</td><td>目前库存</td></tbody>
+                        <tbody><td></td><td>颜色</td><td>尺码</td><td>目前库存</td><td>图片</td><td>操作</td></tbody>
                     </table>
                 </div>
                 <div class="col-sm-12">
@@ -134,7 +137,7 @@ use yii\helpers\Url;
             </div>
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-3">
-                    <input class="btn btn-primary" type="submit" onclick="" value="添加产品"></input>
+                    <input class="btn btn-primary" type="button" onclick="start_upload_file()" value="添加产品"></input>
                 </div>
             </div>
         </form>
@@ -158,6 +161,10 @@ use yii\helpers\Url;
     $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
 </script>
 <script>
+
+
+</script>
+<script>
     function check_form(){
         var form_data = $("#product_form").serializeJSON();
         console.log(form_data);
@@ -179,7 +186,6 @@ use yii\helpers\Url;
 <script>
     var table_color_size = [];              //在js中保存这个表格
     $(document).ready(function(){
-
         //示范一个公告层
 //        layer.open({
 //            type: 1
@@ -254,9 +260,27 @@ use yii\helpers\Url;
 //                $("#table_color_size tr:eq("+i+")").find("td:eq(1)").val("fadsf");
 //            }
 //        });
-
        // $("#fcheckbox_size").append("<div class=\"checkbox i-checks\"><label class=\"\"> <div class=\"icheckbox_square-green checked\" style=\"position: relative;\"> <input type=\"checkbox\" value=\""+size_val+"\" name=\"product_size[]\" onclick=\"checkboxOnClick(this)\" style=\"position: absolute; opacity: 0;\" checked><ins class=\"iCheck-helper\" style=\"position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;\"></ins> </div> <i></i> "+size_val+"</label> </div>");
-
+    }
+    function delete_color(obj){
+        var delete_i = -1;
+        $("#table_color_size tr").find("a").each(function(i){
+            if(this == obj)
+            {
+                delete_i = i;
+            }
+        });
+        $("#table_color_size tr:eq("+(delete_i+1)+")").remove();
+        $("[name='product_color[]'").each(function(i) {
+            if(i == delete_i)
+                $(this).parent().parent().parent().remove();
+        });
+        for(var i = delete_i; i < table_color_size.length - 1; i ++)
+        {
+            table_color_size[i] = table_color_size[i+1];
+        }
+        table_color_size.pop();
+        console.log(table_color_size);
     }
     function add_color(){
         var color_val = $("#new_color").val();
@@ -282,8 +306,12 @@ use yii\helpers\Url;
         //var check_str = "<div class=\"checkbox i-checks\"><label><input type=\"checkbox\" value=\"fasdf\" name=\"product_color\" onclick=\"checkbox_change_state(this)\" checked><i></i></label></div>";
         //往表格中插入一行
         var size = $("#table_color_size tr").size();
-        $("<tr><td>"+"</td><td>"+color_val+"</td><td></td><td>0</td></tr>").insertAfter($("#table_color_size tr:eq("+(size-1)+")"));
+        $("<tr><td>"+"</td><td>"+color_val+"</td><td></td><td>0</td><td></td>"+
+            "<td><input type='file' id='product_imgs' class='product_imgs'></td>" +
+            "<td><a href='javascript:void(0)' class='btn btn-primary' onclick='delete_color(this)'>删除</a></td>"+
+            "</tr>").insertAfter($("#table_color_size tr:eq("+(size-1)+")"));
         $("#table_color_size tr:eq("+(size)+")").find("td:eq(0)").html(check_str);
+
         table_color_size.push({color_val:color_val, size_val:[], count:0});
     }
     function checkboxOnClick(obj){
@@ -298,22 +326,64 @@ use yii\helpers\Url;
                     //移除表格
                     $("#table_color_size").find("tr:eq("+(i+1)+")").remove();
                     //删除数据
-                    table_color_size[i] = table_color_size[table_color_size.length - 1];
+                    for(var ii = i; ii < table_color_size.length - 1; ii ++)
+                    {
+                        table_color_size[ii] = table_color_size[ii+1];
+                    }
                     table_color_size.pop();
+//                    console.log(table_color_size);
                 }
             });
             $(obj).parent().parent().parent().remove();
         }
     }
+
     function checkbox_change_state(obj){
         $(obj).attr("checked", !$(obj).attr("checked"));
+    }
+</script>
+
+
+<script>
+    var file_upload_index = 0;
+    function start_upload_file(){
+        file_upload_index = 0;
+        upload_file();
+    }
+    function upload_file(){
+        //文件上传完毕，退出上传
+        if(file_upload_index >= $(".product_imgs").length)
+        {
+
+            submit_form();          //文件全部上传完毕，开始提交表单
+            return ;
+        }
+        var fd = new FormData();
+        fd.append("upload", 1);
+        //添加产品
+        fd.append("upfile", $(".product_imgs").get(file_upload_index).files[0]);
+        fd.append("_csrf", "<?= Yii::$app->request->csrfToken ?>");
+        $.ajax({
+            url:'/index.php?r=product/file/upload',
+            type:'POST',
+            entype:'multipart/form-data',
+            processData:false,
+            contentType:false,
+            data:fd,
+            success:function(d){
+                console.log("msg"+d);
+                file_upload_index ++;
+                upload_file();
+            }
+        });
     }
 </script>
 <script>
     function submit_form(){
         var form_data = $("#product_form").serializeJSON();
         form_data._csrf = "<?= Yii::$app->request->csrfToken ?>";
-        console.log(form_data);
+        form_data.color_size = table_color_size;
+        console.log(form_data.color_size);
         $.ajax({
             type: "post",
             url: "index.php?r=product/product/create",
@@ -324,22 +394,19 @@ use yii\helpers\Url;
             success: function (data) {
                 var d = JSON.parse(data);
                 layer.msg(d.msg, {icon:1, time:1500, shade:0.1});
-                //var s = data;
-                //layer.msg(s.msg, {icon: 1, time: 1500, shade: 0.1});
-//                    if (s.code == 1) {
-//                        if (s.return_chart && s.return_chart == 1) {
-//                            setTimeout(function () {
-//                                window.location.href = "/admin/agent/mysaleslist_cs?shop_id=" + s.shop_id;
-//                            }, 1000);
-//                        }
-//                        else {
-//                            setTimeout(function () {
-//                                window.location.href="/admin/agent/mysaleslist_cs?shop_id="+s.shop_id;
-//                                window.location.href = "/admin/agent/myshoplist_cs?agent_id="+s.agent_id;
-//                            }, 1000);
-//                        }
-//                    }
-
+                //表单提价完毕，清理session缓冲
+                return;
+                $.ajax({
+                   url:'/index.php?r=product/file/clearcache',
+                    type:'POST',
+                    data:{
+                    "_csrf":"<?= Yii::$app->request->csrfToken ?>",
+                        "ccc":"sss"
+                    },
+                    success:function(d){
+                        console.log(d);
+                    }
+                });
             }
         });
     }

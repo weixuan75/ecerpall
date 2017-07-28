@@ -94,8 +94,6 @@ $this->params['breadcrumbs'][] = $this->title;
             }
         });
     }
-
-
 </script>
 </body>
 </html>
