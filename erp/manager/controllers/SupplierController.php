@@ -10,15 +10,15 @@ namespace app\erp\manager\controllers;
 
 
 use app\erp\admin\controllers\ConfController;
-use app\erp\models\Purchase;
+use app\erp\models\Supplier;
 use app\erp\util\SysConf;
 use Yii;
 use yii\data\Pagination;
 
-class PurchaseController extends ConfController{
+class SupplierController extends ConfController{
     public $layout="form";
     public function actionIndex(){
-        $model = Purchase::find();
+        $model = Supplier::find();
         $count = $model->count();
         $pageSize = Yii::$app->params['menu']['list'];
         $pager = new Pagination(['totalCount' => $count, 'pageSize' => $pageSize]);
@@ -26,8 +26,7 @@ class PurchaseController extends ConfController{
         return $this->render("index", ['models' => $models, 'pager' => $pager]);
     }
     public function actionAdd(){
-        $model = new Purchase();
-        $model->code= SysConf::uuid4("CG-");
+        $model = new Supplier();
         $post = Yii::$app->request->post();
         if(Yii::$app->request->isPost){
             if($model->add($post)){
