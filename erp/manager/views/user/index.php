@@ -14,8 +14,7 @@ use yii\helpers\Url;
                 <table class="table table-hover table-outline mb-0 hidden-sm-down">
                     <thead class="thead-default">
                     <tr>
-                        <th class="text-center"><i class="icon-people"></i>
-                        </th>
+                        <th class="text-center"><i class="icon-people"></i></th>
                         <th class="text-center">用户</th>
                         <th class="text-center">状态</th>
                         <th class="text-center">电话</th>
