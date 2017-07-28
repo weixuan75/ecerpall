@@ -13,23 +13,43 @@ use yii\bootstrap\ActiveForm;
         console.log(keynum+':'+keychar);
     }
 </script>
-<input type="text" onkeydown="return noNumbers(event)" />
+<input type="hidden" onkeydown="return noNumbers(event)" />
 <div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
                 <i class="icon-film"></i><?=$tvs->name ?>
             </div>
-            <div class="card-block">
+            <div class="ibox-content forum-container">
                 <div class="row">
-                    <div class="col-md-4">
-                        ID：<?=$tvs->id ?>
-                        <br>名称：<?=$tvs->name ?>
-                        <br>状态：<?=$tvs->state ?>
-                        <br>介绍：<?=$tvs->content ?>
-                        <br>操作员：<?=\app\erp\models\Sysadmindate::findOne($tvs->user_id)['nickname']?>
-                        <br>创建时间：<?=date("Y\年m\月d\日 H:i:s", $tvs->create_time)?>
-                        <br>修改时间：<?=date("Y\年m\月d\日 H:i:s", $tvs->update_time)?>
+                    <div class="forum-item">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="forum-icon">
+                                    <i class="fa fa-bolt"></i>
+                                </div>
+                                <a href="forum_post.html" class="forum-item-title">
+                                    ID：<?=$tvs->id ?>
+                                    <br>名称：<?=$tvs->name ?></a>
+                                <div class="forum-sub-title">
+                                    <br>状态：<?=$tvs->state ?>
+                                    <br>介绍：<?=$tvs->content ?>
+                                    <br>操作员：<?=\app\erp\models\Sysadmindate::findOne($tvs->user_id)['nickname']?>
+                                    <br>创建时间：<?=date("Y\年m\月d\日 H:i:s", $tvs->create_time)?>
+                                    <br>修改时间：<?=date("Y\年m\月d\日 H:i:s", $tvs->update_time)?></div>
+                            </div>
+
+                            <div class="col-sm-3 forum-info">
+                                <input class="btn btn-bg btn-primary" type="button" onclick="javascript:location.reload();" value="刷新当前页面">
+                                <a href="<?=Url::to(
+                                    ['tv/edit',
+                                        'id'=>$tvs->id,
+                                        "reqURL"=>
+                                            $reqURL3 = ((boolean)$reqURL ? $reqURL : Url::to(['index']))
+                                    ]); ?>" class="btn btn-bg btn-primary"> 编 辑 电 视 </a>
+                                <a href="<?=Url::to(['/manager/tv']) ?>" class="btn btn-bg btn-danger"> 返 回 列 表 </a>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-8">
                         <table class="table table-hover table-outline">
@@ -67,31 +87,27 @@ use yii\bootstrap\ActiveForm;
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
-                <a href="<?=Url::to(
-                    ['tv/edit',
-                        'id'=>$tvs->id,
-                        "reqURL"=>
-                            $reqURL3 = ((boolean)$reqURL ? $reqURL : Url::to(['/manager/tvlistings']))
-                    ]); ?>" class="btn btn-bg btn-primary"> 编 辑 电 视 </a>
-                <a href="<?=Url::to(['/manager/tv']) ?>" class="btn btn-bg btn-danger"> 返 回 列 表 </a>
-            </div>
         </div>
     </div>
-    <!--/.col-->
-    <div class="col-md-8">
-        <table class="table table-hover table-outline">
-            <thead class="thead-default">
-            <tr>
-                <th width="20%">ID</th>
-                <th width="20%">时间</th>
-                <th>节目</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody id="htl">
-            </tbody>
-        </table>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <table class="table table-hover table-outline">
+                        <thead class="thead-default">
+                        <tr>
+                            <th width="20%">ID</th>
+                            <th width="20%">时间</th>
+                            <th>节目</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="htl">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script>

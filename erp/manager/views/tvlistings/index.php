@@ -6,15 +6,14 @@ if (Yii::$app->session->hasFlash('info')) {
 }
 ?>
 <div class="row">
-    <div class="col-md-12">
-        <div class="card-footer">
-            <a href="<?=Url::to(['tvlistings/add','reqURL'=>Url::to(['/manager/tvlistings'])]) ?>" class="btn btn-bg btn-primary"><i class="fa fa-dot-circle-o"></i> 添 加 节 目 </a>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                节目列表
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h3>列表</h3>
+                <button class="btn btn-bg btn-success" type="button" onclick="javascript:location.reload();" title="刷新当前页面"><i class="fa fa-refresh"></i></button>
+                <a href="<?=Url::to(['add']) ?>" class="btn btn-bg btn-primary"> 添 加 </a>
             </div>
-            <div class="card-block">
+            <div class="ibox-content">
                 <table class="table table-hover table-outline mb-0 hidden-sm-down">
                     <thead class="thead-default">
                     <tr>
@@ -44,12 +43,12 @@ if (Yii::$app->session->hasFlash('info')) {
                                 if ((boolean)$manager->state) {
                                     ?>
                                     <a href="<?= Url::to(['/manager/tvlistings/tvstate', 'id' => $manager->id,'state'=>0,'reqURL'=>(Url::to(['/manager/tvlistings'])."#list_".$manager->id)]) ?>"
-                                       >禁用</a>
+                                    >禁用</a>
                                     <?php
                                 } else {
                                     ?>
                                     <a href="<?= Url::to(['/manager/tvlistings/tvstate', 'id' => $manager->id,'state'=>1,'reqURL'=>(Url::to(['/manager/tvlistings'])."#list_".$manager->id)]) ?>"
-                                       >启动</a>
+                                    >启动</a>
                                     <?php
                                 }
                                 ?>
@@ -69,31 +68,31 @@ if (Yii::$app->session->hasFlash('info')) {
                     ]); ?>
                 </div>
                 <?php
-//
-//                echo "获取域名或主机地址"."<br>";
-//                echo $_SERVER['HTTP_HOST']."<br>"; #localhost
-//
-//                echo "获取网页地址"."<br>";
-//                echo $_SERVER['PHP_SELF']."<br>"; #/blog/testurl.php
-//
-//                echo "获取网址参数"."<br>";
-//                echo $_SERVER["QUERY_STRING"]."<br>"; #id=5
-//
-//                echo "获取用户代理"."<br>";
-//                echo $_SERVER['HTTP_REFERER']."<br>";
-//
-//                echo "获取完整的url"."<br>";
-//                echo 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']."<br>";
-//                echo 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING']."<br>";
-//                #http://localhost/blog/testurl.php?id=5
-//
-//                echo "包含端口号的完整url"."<br>";
-//                echo 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"]."<br>";
-//                #http://localhost:80/blog/testurl.php?id=5
-//
-//                echo "只取路径"."<br>";
-//                $url='http://'.$_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"]."<br>";
-//                echo dirname($url);
+                //
+                //                echo "获取域名或主机地址"."<br>";
+                //                echo $_SERVER['HTTP_HOST']."<br>"; #localhost
+                //
+                //                echo "获取网页地址"."<br>";
+                //                echo $_SERVER['PHP_SELF']."<br>"; #/blog/testurl.php
+                //
+                //                echo "获取网址参数"."<br>";
+                //                echo $_SERVER["QUERY_STRING"]."<br>"; #id=5
+                //
+                //                echo "获取用户代理"."<br>";
+                //                echo $_SERVER['HTTP_REFERER']."<br>";
+                //
+                //                echo "获取完整的url"."<br>";
+                //                echo 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']."<br>";
+                //                echo 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING']."<br>";
+                //                #http://localhost/blog/testurl.php?id=5
+                //
+                //                echo "包含端口号的完整url"."<br>";
+                //                echo 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"]."<br>";
+                //                #http://localhost:80/blog/testurl.php?id=5
+                //
+                //                echo "只取路径"."<br>";
+                //                $url='http://'.$_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"]."<br>";
+                //                echo dirname($url);
                 ?>
             </div>
         </div>

@@ -3,18 +3,16 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use app\erp\util\UserUtil;
 ?>
+
 <div class="row">
-    <?php
-    ?>
-    <div class="col-md-12">
-        <div class="card-footer">
-            <a href="<?=Url::to(['menu/add']) ?>" class="btn btn-bg btn-primary"><i class="fa fa-dot-circle-o"></i> 添 加 菜 单 </a>
-        </div>
+    <div class="col-sm-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                列表
+                <h3>列表</h3>
+                <button class="btn btn-bg btn-success" type="button" onclick="javascript:location.reload();" title="刷新当前页面"><i class="fa fa-refresh"></i></button>
+                <a href="<?=Url::to(['add']) ?>" class="btn btn-bg btn-primary"> 添 加 </a>
             </div>
-            <div class="ibox-tools">
+            <div class="ibox-content">
                 <table class="table table-hover table-outline mb-0 hidden-sm-down">
                     <thead class="thead-default">
                     <tr>

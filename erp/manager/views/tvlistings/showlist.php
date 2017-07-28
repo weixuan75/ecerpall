@@ -5,12 +5,12 @@ use yii\bootstrap\ActiveForm;
 ?>
 
 <div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
                 <i class="icon-film"></i><?=$tvs->name ?>
             </div>
-            <div class="card-block">
+            <div class="ibox-content">
                 <div class="row">
                     <div class="col-md-4">
                         ID：<?=$tvs->id ?>
@@ -51,57 +51,56 @@ use yii\bootstrap\ActiveForm;
                                 </div>
                             </div>
                             <div class="tab-pane" id="profile2" role="tabpanel" aria-expanded="false">
-                                            <div class="form-group field-tvlistings-name required">
-                                                <label class="control-label" for="mp4-sort">排序</label>
-                                                <input type="text" id="mp4-sort" value="0">
-                                                <br>
-                                                <label class="control-label" for="mp4-name">名称</label>
-                                                <input type="text" id="mp4-name" >
-                                                <br>
-                                                <label class="control-label" for="mp4-path">路径</label>
-                                                <input id="mp4-path" type="text"/>
-                                                <br>
-                                                <label class="control-label" for="mp4-pay_time">播放时间</label>
-                                                <input type="text" id="mp4-pay_time" value="">（秒）
-                                                <br>
-                                                <label class="control-label" for="mp4-type">类型</label>
-                                                <select class="form-control" id="mp4-type">
-                                                    <option value="image/jpeg"> image/jpeg </option>
-                                                    <option value="mp4"> mp4 </option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group field-tvlistings-name required">
-                                                <label class="control-label" for="mp4-content">介绍</label>
-                                                <input id="mp4-content" value="<?=$tvs->name ?>">
-                                            </div>
-                                    <div class="card-footer">
-                                        <input type="submit" value=" 保 存 " class="btn btn-bg btn-primary" onclick='TvlistingsDataAdd2()'>
-                                        <script>
-                                            function TvlistingsDataAdd2() {
-                                                var mp4_sort = $("#mp4-sort").val();
-                                                var mp4_name = $("#mp4-name").val();
-                                                var mp4_path = $("#mp4-path").val();
-                                                var mp4_type = $("#mp4-type").val();
-                                                var mp4_pay_time = $("#mp4-pay_time").val();
-                                                var mp4_content = $("#mp4-content").html();
-                                                TvlistingsDataAddmp4(
-                                                    mp4_sort,
-                                                    mp4_name,
-                                                    mp4_path,
-                                                    mp4_type,
-                                                    mp4_pay_time,
-                                                    1,
-                                                    mp4_content
-                                                );
-                                                console.log(mp4_sort);
-                                                console.log(mp4_name);
-                                                console.log(mp4_path);
-                                                console.log(mp4_type);
-                                                console.log(mp4_pay_time);
-                                                console.log(mp4_content);
-                                            }
-                                        </script>
-                                    </div>
+                                <div class="form-group field-tvlistings-name required">
+                                    <label class="control-label" for="mp4-sort">排序</label>
+                                    <input type="text" id="mp4-sort" value="0">
+                                    <br>
+                                    <label class="control-label" for="mp4-name">名称</label>
+                                    <input type="text" id="mp4-name" >
+                                    <br>
+                                    <label class="control-label" for="mp4-path">路径</label>
+                                    <input id="mp4-path" type="text"/>
+                                    <br>
+                                    <label class="control-label" for="mp4-pay_time">播放时间</label>
+                                    <input type="text" id="mp4-pay_time" value="">（秒）
+                                    <br>
+                                    <label class="control-label" for="mp4-type">类型</label>
+                                    <select class="form-control" id="mp4-type">
+                                        <option value="image/jpeg"> image/jpeg </option>
+                                        <option value="mp4"> mp4 </option>
+                                    </select>
+                                </div>
+                                <div class="form-group field-tvlistings-name required">
+                                    <label class="control-label" for="mp4-content">介绍</label>
+                                    <input id="mp4-content" value="<?=$tvs->name ?>">
+                                </div>
+                                <div class="card-footer">
+                                    <input type="submit" value=" 保 存 " class="btn btn-bg btn-primary" onclick='TvlistingsDataAdd2()'>
+                                    <script>
+                                        function TvlistingsDataAdd2() {
+                                            var mp4_sort = $("#mp4-sort").val();
+                                            var mp4_name = $("#mp4-name").val();
+                                            var mp4_path = $("#mp4-path").val();
+                                            var mp4_type = $("#mp4-type").val();
+                                            var mp4_pay_time = $("#mp4-pay_time").val();
+                                            var mp4_content = $("#mp4-content").html();
+                                            TvlistingsDataAddmp4(
+                                                mp4_sort,
+                                                mp4_name,
+                                                mp4_path,
+                                                mp4_type,
+                                                mp4_pay_time,
+                                                1,
+                                                mp4_content
+                                            );
+                                            console.log(mp4_sort);
+                                            console.log(mp4_name);
+                                            console.log(mp4_path);
+                                            console.log(mp4_type);
+                                            console.log(mp4_pay_time);
+                                            console.log(mp4_content);
+                                        }
+                                    </script>
                                 </div>
                             </div>
                         </div>
@@ -164,14 +163,14 @@ use yii\bootstrap\ActiveForm;
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-footer">
                 <a href="<?=Url::to(
-                    ['tvlistings/edit',
+                    ['edit',
                         'id'=>$tvs->id,
                         "reqURL"=>
-                            $reqURL = ((boolean)$reqURL ? $reqURL : Url::to(['/manager/tvlistings']))]); ?>" class="btn btn-bg btn-primary"> 编 辑 节 目 </a>
-                <a href="<?=$reqURL = (boolean)$reqURL ? $reqURL : Url::to(['/manager/tvlistings']) ?>" class="btn btn-bg btn-danger"> 返 回 列 表 </a>
+                            $reqURL = ((boolean)$reqURL ? $reqURL : Url::to(['index']))]); ?>" class="btn btn-bg btn-primary"> 编 辑 </a>
+                <a href="<?=$reqURL = (boolean)$reqURL ? $reqURL : Url::to(['index']) ?>" class="btn btn-bg btn-danger"> 返 回 列 表 </a>
+                <input class="btn btn-bg btn-primary" type="button" onclick="javascript:location.reload();" value="刷新当前页面">
+
             </div>
         </div>
     </div>
@@ -180,29 +179,30 @@ use yii\bootstrap\ActiveForm;
 
 <div class="row">
     <div class="col-sm-12">
-        <div class="card">
-            <table class="table table-hover table-outline mb-0 hidden-sm-down">
-                <thead class="thead-default">
-                <tr>
-                    <th class="text-center">排序</th>
-                    <th class="text-center">名称</th>
-                    <th class="text-center">路径</th>
-                    <th class="text-center">状态</th>
-                    <th class="text-center">类型</th>
-                    <th class="text-center">播放时间</th>
-                    <th class="text-center">介绍</th>
-                    <th class="text-center">操作员</th>
-                    <th class="text-center">创建时间</th>
-                    <th class="text-center">操作</th>
-                </tr>
-                </thead>
-                <tbody id="showlist">
-                </tbody>
-            </table>
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <table class="table table-hover table-outline mb-0 hidden-sm-down">
+                    <thead class="thead-default">
+                    <tr>
+                        <th class="text-center">排序</th>
+                        <th class="text-center">名称</th>
+                        <th class="text-center">路径</th>
+                        <th class="text-center">状态</th>
+                        <th class="text-center">类型</th>
+                        <th class="text-center">播放时间</th>
+                        <th class="text-center">介绍</th>
+                        <th class="text-center">操作员</th>
+                        <th class="text-center">创建时间</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="showlist">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
-<!--/.col-->
+    <!--/.col-->
 </div>
 <style>
     .btn {margin: 3px;}

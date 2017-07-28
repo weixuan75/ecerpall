@@ -4,13 +4,14 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 ?>
 
+
 <div class="row">
     <div class="col-sm-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h3>编辑</h3>
-                <input class="btn btn-bg btn-primary" type="button" onclick="javascript:location.reload();" value="刷新当前页面">
-                <a href="<?=Url::to(['index']) ?>" class="btn btn-bg btn-primary"> 返 回 列 表 </a>
+                <button class="btn btn-bg btn-success" type="button" onclick="javascript:location.reload();" title="刷新当前页面"><i class="fa fa-refresh"></i></button>
+                <a href="<?=\yii\helpers\Url::to(['index']) ?>" class="btn btn-bg btn-primary"> 返 回 列 表 </a>
             </div>
             <div class="ibox-content">
                 <?php
@@ -38,7 +39,8 @@ use yii\helpers\Url;
                     </div>
                     <?php
                     ActiveForm::end();
-                    ?></div>
+                    ?>
+                </div>
             </div>
         </div>
     </div>

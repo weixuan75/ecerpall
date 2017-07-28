@@ -92,6 +92,10 @@ $config = [
         'admin' => [
             'class' => 'app\erp\admin\Index',
         ],
+//        产品控制
+        'product' => [
+            'class' => 'app\erp\product\Index',
+        ],
     ],
 ];
 

@@ -37,5 +37,4 @@ class SupplierController extends ConfController{
         }
         return $this->render("edit", ['model' => $model]);
     }
-
 }

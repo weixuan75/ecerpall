@@ -7,7 +7,11 @@ use app\erp\util\UserUtil;
 <div class="row">
     <div class="col-sm-12">
         <div class="ibox float-e-margins">
-            <div class="ibox-title"><h5>添加</h5></div>
+            <div class="ibox-title">
+                <h3>编辑</h3>
+                <button class="btn btn-bg btn-success" type="button" onclick="javascript:location.reload();" title="刷新当前页面"><i class="fa fa-refresh"></i></button>
+                <a href="<?=\yii\helpers\Url::to(['index']) ?>" class="btn btn-bg btn-primary"> 返 回 列 表 </a>
+            </div>
             <div class="ibox-content">
                 <?php
                 $form = ActiveForm::begin();

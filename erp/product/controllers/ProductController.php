@@ -20,7 +20,7 @@ class ProductController extends Controller
     /**
      * @inheritdoc
      */
-    public $layout = false;
+    public $layout = "form";
     public function behaviors()
     {
         return [

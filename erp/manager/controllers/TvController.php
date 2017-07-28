@@ -11,7 +11,7 @@ use yii\data\Pagination;
  * Default controller for the `manager` module
  */
 class TvController extends ConfController {
-    public $layout = false;
+    public $layout = "form";
     public function actionIndex(){
         $hostURL = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
         $reqURL = Yii::$app->request->get('reqURL');

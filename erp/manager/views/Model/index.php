@@ -3,19 +3,14 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use app\erp\util\UserUtil;
 ?>
+
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>列表</h5>
-
-                <div class="ibox-tools">
-                    <a class="collapse-link">
-                        <i class="fa fa-chevron-up"></i>
-                    </a>
-                    <a class="btn btn-primary dim" type="button" href="<?=Url::to(['model/add']) ?>"><i class="fa fa-check"> 添 加 </i>
-                    </a>
-                </div>
+                <h3>列表</h3>
+                <button class="btn btn-bg btn-success" type="button" onclick="javascript:location.reload();" title="刷新当前页面"><i class="fa fa-refresh"></i></button>
+                <a href="<?=Url::to(['add']) ?>" class="btn btn-bg btn-primary"> 添 加 </a>
             </div>
             <div class="ibox-content">
                 <table class="table table-hover">

@@ -15,6 +15,7 @@ use yii\helpers\Json;
  * Default controller for the `manager` module
  */
 class TvlistingsController extends ConfController {
+    public $layout = "form";
     public function actionIndex(){
         $hostURL = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
         $reqURL = Yii::$app->request->get('reqURL');

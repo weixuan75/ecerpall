@@ -4,11 +4,12 @@ use yii\helpers\Url;
 use app\erp\util\UserUtil;
 ?>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h3>列表</h3>
-                <a href="<?=Url::to(['shopfinance/add']) ?>" class="btn btn-bg btn-primary"> 添 加 </a>
+                <button class="btn btn-bg btn-success" type="button" onclick="javascript:location.reload();" title="刷新当前页面"><i class="fa fa-refresh"></i></button>
+                <a href="<?=Url::to(['add']) ?>" class="btn btn-bg btn-primary"> 添 加 </a>
             </div>
             <div class="ibox-content">
                 <table class="table table-hover table-outline mb-0 hidden-sm-down">

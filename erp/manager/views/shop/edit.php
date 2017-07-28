@@ -9,8 +9,8 @@ use yii\helpers\Url;
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h3>实体店铺账户开通</h3>
-                <input class="btn btn-bg btn-primary" type="button" onclick="javascript:location.reload();" value="刷新当前页面">
-                <a href="<?=Url::to(['shop/index']) ?>" class="btn btn-bg btn-primary"> 返 回 列 表 </a>
+                <button class="btn btn-bg btn-success" type="button" onclick="javascript:location.reload();" title="刷新当前页面"><i class="fa fa-refresh"></i></button>
+                <a href="<?=Url::to(['index']) ?>" class="btn btn-bg btn-primary"> 返 回 列 表 </a>
             </div>
             <div class="ibox-content">
                 <h2>

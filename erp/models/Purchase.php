@@ -39,7 +39,7 @@ class Purchase extends \yii\db\ActiveRecord
     {
         return [
             [['type', 'supplier_id', 'user_id', 'state', 'num', 'update_time', 'create_time'], 'integer'],
-            [['user_id'], 'required'],
+            [['user_id','type'], 'required'],
             [['price'], 'number'],
             [['code', 'data'], 'string', 'max' => 255],
         ];
