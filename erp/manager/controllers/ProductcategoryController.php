@@ -10,11 +10,24 @@ class ProductcategoryController extends ConfController {
     public $layout="form";
     public function actionIndex(){
         $model = ProductCategory::find();
+        $model2 = new ProductCategory;
+        $post = Yii::$app->request->post();
+        if(Yii::$app->request->isPost){
+            if($model2->add($post)){
+                if(!empty($get["reqURL"])){
+                    return $this->redirect($get["reqURL"]);
+                }else{
+                    return $this->redirect(['index']);
+                }
+            }else{
+                var_dump($model2->errors);
+            }
+        }
         $count = $model->count();
         $pageSize = Yii::$app->params['menu']['list'];
         $pager = new Pagination(['totalCount' => $count, 'pageSize' => $pageSize]);
         $models = $model->offset($pager->offset)->limit($pager->limit)->all();
-        return $this->render("index", ['models' => $models, 'pager' => $pager]);
+        return $this->render("index", ['models' => $models,'model' => $model2, 'pager' => $pager]);
     }
 
     public function actionAdd(){

@@ -31,9 +31,9 @@ class ProductCategory extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'create_time', 'update_time'], 'required'],
+            [['create_time', 'update_time'], 'integer'],
             [['name'], 'string', 'max' => 64],
-            [['create_time', 'update_time'], 'string', 'max' => 32],
-            [['name'], 'unique'],
+            [['name'], 'unique',"message"=>"已经存在"],
         ];
     }
 
@@ -44,7 +44,7 @@ class ProductCategory extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => '产品类型名',
+            'name' => '产品分类名称',
             'create_time' => '类型被创建的时间',
             'update_time' => '类型被修改的时间',
         ];
@@ -53,7 +53,7 @@ class ProductCategory extends \yii\db\ActiveRecord
     public function add($data){
         if($this->load($data)){
             $this->create_time = $this->update_time = time();
-            if($this->save()&&LogUntils::write(Json::encode($data['ProductBrand']),28,"add")){
+            if($this->save()&&LogUntils::write(Json::encode($data['ProductCategory']),28,"add")){
                 return true;
             }
             return false;
@@ -63,7 +63,7 @@ class ProductCategory extends \yii\db\ActiveRecord
     public function edit($data){
         if($this->load($data)){
             $this->update_time = time();
-            if($this->update()&&LogUntils::write(Json::encode($data['ProductBrand']),28,"edit")){
+            if($this->update()&&LogUntils::write(Json::encode($data['ProductCategory']),28,"edit")){
                 return true;
             }
             return false;
@@ -71,3 +71,4 @@ class ProductCategory extends \yii\db\ActiveRecord
         return false;
     }
 }
+
