@@ -3,6 +3,7 @@
 namespace app\erp\models\product;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%product_material}}".
@@ -29,8 +30,8 @@ class ProductMaterial extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['pid', 'name'], 'required'],
-            [['pid', 'create_time', 'update_time'], 'integer'],
+            [['name'], 'required'],
+            [['create_time', 'update_time'], 'integer'],
             [['name'], 'string', 'max' => 64],
         ];
     }
@@ -42,10 +43,18 @@ class ProductMaterial extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'pid' => '父级材料',
             'name' => '名字',
             'create_time' => '创建时间',
             'update_time' => '修改时间',
         ];
+    }
+    public function getData(){
+        $cates = self::find()->all();
+        $cates = ArrayHelper::toArray($cates);
+        $arr=[];
+        foreach ($cates as $cate) {
+            $arr[$cate['id']] = $cate['name'];
+        }
+        return $arr;
     }
 }

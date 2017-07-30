@@ -12,19 +12,21 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
 
-    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/hplus1/js/jquery.min.js"></script>
     <link href="/hplus1/css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="/hplus1/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
     <link href="/hplus1/css/plugins/iCheck/custom.css" rel="stylesheet">
     <link href="/hplus1/css/plugins/steps/jquery.steps.css" rel="stylesheet">
     <link href="/hplus1/css/animate.min.css" rel="stylesheet">
     <link href="/hplus1/css/style.min.css?v=4.0.0" rel="stylesheet">
+    <script src="/layui/layui.js"></script>
+    <link href="/layui/css/layui.css" rel="stylesheet">
 
 </head>
 
 <body class="gray-bg">
 <div class="wrapper wrapper-content animated fadeInRight"><?= $content ?></div>
-<script src="/hplus1/js/bootstrap.min.js?v=3.3.5"></script>
+<script src="/hplus1/js/bootstrap.min.js"></script>
 <script src="/hplus1/js/content.min.js?v=1.0.0"></script>
 <script src="/hplus1/js/plugins/staps/jquery.steps.min.js"></script>
 <script src="/hplus1/js/plugins/validate/jquery.validate.min.js"></script>

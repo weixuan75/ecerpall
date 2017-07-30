@@ -4,6 +4,7 @@ namespace app\erp\models\product;
 
 use app\erp\util\LogUntils;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 
 /**
@@ -50,6 +51,15 @@ class ProductCategory extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getData(){
+        $cates = self::find()->all();
+        $cates = ArrayHelper::toArray($cates);
+        $arr=[];
+        foreach ($cates as $cate) {
+            $arr[$cate['id']] = $cate['name'];
+        }
+        return $arr;
+    }
     public function add($data){
         if($this->load($data)){
             $this->create_time = $this->update_time = time();

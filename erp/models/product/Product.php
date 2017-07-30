@@ -21,6 +21,7 @@ use yii\helpers\Json;
  * @property integer $tag
  * @property integer $category_id
  * @property string $create_time
+ * @property string $update_time
  *
  * @property ProductColor[] $productColors
  * @property ProductSize[] $productSizes
@@ -41,12 +42,11 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['sn', 'name', 'user_id', 'brand_id', 'create_time'], 'required'],
+            [['sn', 'name', 'user_id', 'brand_id'], 'required'],
             [['price'], 'number'],
-            [['user_id', 'brand_id', 'tag', 'category_id', 'create_time'], 'integer'],
-            [['sn'], 'string', 'max' => 12],
-            [['name', 'material'], 'string', 'max' => 255],
-            [['image'], 'string', 'max' => 64],
+            [['user_id', 'brand_id', 'tag', 'category_id', 'create_time', 'update_time'], 'integer'],
+            [['sn'], 'string', 'max' => 20],
+            [['name', 'material','image'], 'string', 'max' => 255],
             [['sn'], 'unique'],
         ];
     }
@@ -61,18 +61,20 @@ class Product extends \yii\db\ActiveRecord
             'sn' => '产品的一个唯一的号码',
             'name' => '产品的名称(是可以重复的)',
             'image' => '产品的图片路径',
-            'material' => '原料',
+            'material' => '材质',
             'price' => '产品的价格，当产品不存在规格的时候，价格直接就是产品的价格',
             'user_id' => '操作人员ID',
             'brand_id' => '产品的品牌的id',
             'tag' => '标签',
             'category_id' => '产品分类',
             'create_time' => '创建的时间',
+            'update_time' => '创建的时间',
         ];
     }
 
     public function add($data){
         if($this->load($data)){
+            $this->create_time = $this->update_time = time();
             $this->user_id = UserUtil::UserId();
             if($this->save()&&LogUntils::write(Json::encode($data['Product']),28,"add")){
                 return true;
@@ -83,6 +85,7 @@ class Product extends \yii\db\ActiveRecord
     }
     public function edit($data){
         if($this->load($data)){
+            $this->update_time = time();
             if($this->update()&&LogUntils::write(Json::encode($data['Product']),28,"edit")){
                 return true;
             }

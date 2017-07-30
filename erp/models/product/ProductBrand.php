@@ -4,6 +4,7 @@ namespace app\erp\models\product;
 
 use app\erp\util\LogUntils;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 
 /**
@@ -48,6 +49,16 @@ class ProductBrand extends \yii\db\ActiveRecord
             'create_time' => '创建时间',
             'update_time' => '修改时间',
         ];
+    }
+
+    public function getData(){
+        $cates = self::find()->all();
+        $cates = ArrayHelper::toArray($cates);
+        $arr=[];
+        foreach ($cates as $cate) {
+            $arr[$cate['name']] = $cate['name'];
+        }
+        return $arr;
     }
 
     public function add($data){

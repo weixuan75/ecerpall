@@ -4,12 +4,16 @@ use app\erp\admin\controllers\ConfController;
 use app\erp\models\product\Product;
 use app\erp\models\product\ProductBrand;
 use app\erp\models\product\ProductCategory;
+use app\erp\models\product\ProductColor;
 use app\erp\models\product\ProductMaterial;
+use app\erp\models\product\ProductPrice;
+use app\erp\models\product\ProductRelation;
+use app\erp\models\product\ProductSize;
 use app\erp\util\SysConf;
 use Yii;
 use yii\data\Pagination;
 
-class ProductController extends ConfController {
+class ProductrelationController extends ConfController {
     public $layout="form";
     public function actionIndex(){
         $model = Product::find();
@@ -20,29 +24,33 @@ class ProductController extends ConfController {
         return $this->render("index", ['models' => $models, 'pager' => $pager]);
     }
     public function actionAdd(){
-        $model = new Product();
-        $model->sn = SysConf::uuid4("pro-");
-        $productMater = new ProductMaterial();
-        $mater = $productMater->getData();
-        $ProductBrand = new ProductBrand();
-        $brand = $ProductBrand->getData();
-        $ProductCategory = new ProductCategory();
-        $Category = $ProductCategory->getData();
-        $post = Yii::$app->request->post();
-        if(Yii::$app->request->isPost){
-            if($model->add($post)){
-                return $this->redirect(['productrelation/add',"id"=>$model->getPrimaryKey()]);
-            }else{
-                var_dump($model->errors);
-            }
-        }
+        $proid = Yii::$app->request->get('id');
+        $model = new ProductRelation();
+        $color = new ProductColor();
+        $size = new ProductSize();
+        $price = new ProductPrice();
+        echo $proid;
+//        $model = Product::findOne($proid);
+//        $productMater = new ProductMaterial();
+//        $mater = $productMater->getData();
+//        $ProductBrand = new ProductBrand();
+//        $brand = $ProductBrand->getData();
+//        $ProductCategory = new ProductCategory();
+//        $Category = $ProductCategory->getData();
+//        $post = Yii::$app->request->post();
+//        if(Yii::$app->request->isPost){
+//            if($model->add($post)){
+//                if(!empty($get["reqURL"])){
+//                    return $this->redirect($get["reqURL"]);
+//                }else{
+//                    return $this->redirect(['index']);
+//                }
+//            }else{
+//                var_dump($model->errors);
+//            }
+//        }
         return $this->render(
-            'edit',[
-            'model'=>$model,
-            'mater'=>$mater,
-            'brand'=>$brand,
-            'category'=>$Category,
-        ]);
+            'edit');
     }
     public function actionEdit(){
         $get = Yii::$app->request->get();

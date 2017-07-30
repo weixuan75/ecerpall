@@ -11,7 +11,8 @@
     <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
     <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
 
-    <link rel="shortcut icon" href="favicon.ico"> <link href="/hplus1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/hplus1/js/jquery.min.js"></script>
+    <link href="/hplus1/css/bootstrap.min.css" rel="stylesheet">
     <link href="/hplus1/css/font-awesome.min.css" rel="stylesheet">
     <link href="/hplus1/css/plugins/iCheck/custom.css" rel="stylesheet">
     <link href="/hplus1/css/animate.min.css" rel="stylesheet">
@@ -22,7 +23,6 @@
 
 <body class="gray-bg">
 <div class="wrapper wrapper-content animated fadeInRight"><?= $content ?></div>
-<script src="/hplus1/js/jquery.min.js"></script>
 <script src="/hplus1/js/bootstrap.min.js"></script>
 <script src="/hplus1/js/content.min.js"></script>
 <script src="/hplus1/js/plugins/iCheck/icheck.min.js"></script>
