@@ -12,6 +12,7 @@ use app\erp\models\product\ProductSize;
 use app\erp\util\SysConf;
 use Yii;
 use yii\data\Pagination;
+use yii\helpers\Json;
 
 class ProductrelationController extends ConfController {
     public $layout="form";
@@ -25,54 +26,55 @@ class ProductrelationController extends ConfController {
     }
     public function actionAdd(){
         $proid = Yii::$app->request->get('id');
-        $model = new ProductRelation();
-        $color = new ProductColor();
-        $size = new ProductSize();
-        $price = new ProductPrice();
-        echo $proid;
-//        $model = Product::findOne($proid);
-//        $productMater = new ProductMaterial();
-//        $mater = $productMater->getData();
-//        $ProductBrand = new ProductBrand();
-//        $brand = $ProductBrand->getData();
-//        $ProductCategory = new ProductCategory();
-//        $Category = $ProductCategory->getData();
-//        $post = Yii::$app->request->post();
-//        if(Yii::$app->request->isPost){
-//            if($model->add($post)){
-//                if(!empty($get["reqURL"])){
-//                    return $this->redirect($get["reqURL"]);
-//                }else{
-//                    return $this->redirect(['index']);
-//                }
-//            }else{
-//                var_dump($model->errors);
-//            }
-//        }
+
+        $post = Yii::$app->request->post();
+
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            if (Yii::$app->request->isPost) {
+                $model = new ProductRelation();
+                $color = new ProductColor();
+                foreach ($post["ProductColor"] as $Color){
+                    $color->name =  $Color["name"];
+                    $color->name =  $Color["name"];
+                }
+                $size = new ProductSize();
+
+                $price = new ProductPrice();
+
+                return var_dump($post["ProductColor"]);
+
+            }
+            $transaction->commit();
+        }catch(\Exception $e) {
+            $transaction->rollback();
+            return $this->redirect(['add',"id"=>$proid]);
+        }
+
         return $this->render(
-            'edit');
+            'edit',[
+                "product_id"=>$proid,
+        ]);
     }
     public function actionEdit(){
         $get = Yii::$app->request->get();
         $id = $get['id'];
-        $Menu = Menu::findOne($id);
-        $option = $Menu->getOptions();
+        $model = ProductRelation::findOne($id);
         $post = Yii::$app->request->post();
         if(Yii::$app->request->isPost){
-            if($Menu->edit($post)){
+            if($model->edit($post)){
                 if(!empty($get["reqURL"])){
                     return $this->redirect($get["reqURL"]);
                 }else{
                     return $this->redirect(['index']);
                 }
             }else{
-                var_dump($Menu->errors);
+                var_dump($model->errors);
             }
         }
         return $this->render(
             'edit',[
-            'menu'=>$Menu,
-            'option'=>$option
+            'model'=>$model,
         ]);
     }
     public function actionState(){

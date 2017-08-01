@@ -31,7 +31,7 @@ use app\erp\util\UserUtil;
                     </thead>
                     <tbody>
                     <?php foreach($models as $m): ?>
-                        <tr>
+                        <tr id="list_<?=$m->id?>">
                             <td><?=$m->sn?></td>
                             <td><?=$m->name?></td>
                             <td><?=$m->image?></td>
@@ -41,19 +41,14 @@ use app\erp\util\UserUtil;
                             <td><?=$m->brand_id?></td>
                             <td><?=$m->tag?></td>
                             <td><?=$m->category_id?></td>
-                            <td><?=$m->create_time?></td>
+                            <td><?=date("m-d H:i:s",$m->create_time)?></td>
                             <td>
-                                <a href="#">查看店铺信息</a>
-                                <a href="#">继续完善信息</a>
-                                <a href="#">修改客服专员</a>
-                                <a href="#">修改招商经理</a>
-                                <a href="#">查看仓库</a>
-                                <a href="#">查看进货单</a>
-                                <a href="#">查看销货订单</a>
-                                <a href="#">查看财务报表</a>
-                                <a href="#">续期</a>
-                                <a href="#">禁用</a>
-                                <a href="#">启动</a>
+                                <a href="<?=Url::to(['show','id'=>$m->id,'reqURL'=>(Url::to(['edit'])."#list_".$m->id)]) ?>">查看详情页</a>
+                                <a href="<?=Url::to(['/manager/productrelation/edit','id'=>$m->id,'reqURL'=>(Url::to(['edit'])."#list_".$m->id)]) ?>">修改参数</a>
+                                <a href="<?=Url::to(['edit','id'=>$m->id,'reqURL'=>(Url::to(['edit'])."#list_".$m->id)]) ?>">修改基本信息</a>
+                                <a href="#">上架</a>
+                                <a href="#">下架</a>
+                                <a href="<?=Url::to(['del', 'id' => $m->id,'reqURL'=>(Url::to(['tv、index'])."#list_".$m->id)]) ?>">删除</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

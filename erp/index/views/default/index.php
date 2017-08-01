@@ -24,8 +24,8 @@
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
 <div class="row wrapper wrapper-content animated flip">
     <div class="middle-box text-center animated flip">
-            <a href="http://a.com/index.php?r=manager" class="btn btn-lg btn-primary m-t">系统管理后台</a>
-            <a href="http://a.com/index.php?r=shop" class="btn btn-lg btn-primary m-t">店铺管理后台</a>
+            <a href="<?=\yii\helpers\Url::to(['/manager'])?>" class="btn btn-lg btn-primary m-t">系统管理后台</a>
+            <a href="<?=\yii\helpers\Url::to(['/shop'])?>" class="btn btn-lg btn-primary m-t">店铺管理后台</a>
     </div>
 </div>
 </body>

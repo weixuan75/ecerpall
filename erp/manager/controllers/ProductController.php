@@ -5,9 +5,11 @@ use app\erp\models\product\Product;
 use app\erp\models\product\ProductBrand;
 use app\erp\models\product\ProductCategory;
 use app\erp\models\product\ProductMaterial;
+use app\erp\util\LogUntils;
 use app\erp\util\SysConf;
 use Yii;
 use yii\data\Pagination;
+use yii\helpers\Json;
 
 class ProductController extends ConfController {
     public $layout="form";
@@ -47,24 +49,68 @@ class ProductController extends ConfController {
     public function actionEdit(){
         $get = Yii::$app->request->get();
         $id = $get['id'];
-        $Menu = Menu::findOne($id);
-        $option = $Menu->getOptions();
+        $model = Product::findOne($id);
+
+
+        $productMater = new ProductMaterial();
+        $mater = $productMater->getData();
+        $ProductBrand = new ProductBrand();
+        $brand = $ProductBrand->getData();
+        $ProductCategory = new ProductCategory();
+        $Category = $ProductCategory->getData();
+
+//        $option = $model->getOptions();
         $post = Yii::$app->request->post();
         if(Yii::$app->request->isPost){
-            if($Menu->edit($post)){
+            if($model->edit($post)){
                 if(!empty($get["reqURL"])){
                     return $this->redirect($get["reqURL"]);
                 }else{
                     return $this->redirect(['index']);
                 }
             }else{
-                var_dump($Menu->errors);
+                var_dump($model->errors);
             }
         }
         return $this->render(
             'edit',[
-            'menu'=>$Menu,
-            'option'=>$option
+            'model'=>$model,
+            'mater'=>$mater,
+            'brand'=>$brand,
+            'category'=>$Category,
+        ]);
+    }
+    public function actionShow(){
+        $get = Yii::$app->request->get();
+        $id = $get['id'];
+        $model = Product::findOne($id);
+
+        $productMater = new ProductMaterial();
+        $mater = $productMater->getData();
+        $ProductBrand = new ProductBrand();
+        $brand = $ProductBrand->getData();
+        $ProductCategory = new ProductCategory();
+        $Category = $ProductCategory->getData();
+
+//        $option = $model->getOptions();
+        $post = Yii::$app->request->post();
+        if(Yii::$app->request->isPost){
+            if($model->edit($post)){
+                if(!empty($get["reqURL"])){
+                    return $this->redirect($get["reqURL"]);
+                }else{
+                    return $this->redirect(['index']);
+                }
+            }else{
+                var_dump($model->errors);
+            }
+        }
+        return $this->render(
+            'edit',[
+            'model'=>$model,
+            'mater'=>$mater,
+            'brand'=>$brand,
+            'category'=>$Category,
         ]);
     }
     public function actionState(){
@@ -85,8 +131,8 @@ class ProductController extends ConfController {
     public function actionDel(){
         $id = Yii::$app->request->get('id');
         $reqURL = (boolean)Yii::$app->request->get('reqURL') ? Yii::$app->request->get('reqURL'): '/manager/menu';
-        $model = Menu::findOne($id);
-        if($model->delete()&&LogUntils::write(Json::encode($model),3,"del")){
+        $model = Product::findOne($id);
+        if($model->delete()&&LogUntils::write(Json::encode($model),28,"del")){
             return $this->redirect($reqURL);
         }
         return $this->redirect($reqURL);

@@ -31,7 +31,7 @@ class PublicController extends Controller{
         $post = Yii::$app->request->post();
         if(Yii::$app->request->isPost){
             if ($admin->login($post)){
-                return $this->redirect(['/index']);
+                return $this->redirect(['/manager']);
             }
 //            var_dump($post);
         }

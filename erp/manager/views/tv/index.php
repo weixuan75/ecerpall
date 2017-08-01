@@ -52,8 +52,8 @@ if (Yii::$app->session->hasFlash('info')) {
                                     <?php
                                 }
                                 ?>
-                                <a href="<?=Url::to(['tv/del', 'id' => $manager->id,'reqURL'=>(Url::to(['/manager/tv'])."#tvData_".$manager->id)]) ?>">删除</a>
-                                <a href="<?=Url::to(['/manager/tv/edit','id'=>$manager->id,'reqURL'=>(Url::to(['/manager/tv/edit'])."#tvData_".$manager->id)]) ?>">编辑</a>
+                                <a href="<?=Url::to(['del', 'id' => $manager->id,'reqURL'=>(Url::to(['tv、index'])."#list_".$manager->id)]) ?>">删除</a>
+                                <a href="<?=Url::to(['edit','id'=>$manager->id,'reqURL'=>(Url::to(['edit'])."#list_".$manager->id)]) ?>">编辑</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

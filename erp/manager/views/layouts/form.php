@@ -20,7 +20,6 @@
     <link href="/hplus1/css/animate.min.css" rel="stylesheet">
     <link href="/hplus1/css/style.min.css?v=4.0.0" rel="stylesheet">
     <script src="/layui/layui.js"></script>
-    <link href="/layui/css/layui.css" rel="stylesheet">
 
 </head>
 

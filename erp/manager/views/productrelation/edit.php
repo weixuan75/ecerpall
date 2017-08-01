@@ -3,6 +3,8 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 ?>
+
+
 <div class="row">
     <div class="col-sm-12">
         <div class="ibox float-e-margins">
@@ -13,6 +15,13 @@ use yii\helpers\Url;
             </div>
             <div class="ibox-content">
                 <div class="row">
+                    <?php
+                    $form = ActiveForm::begin([
+                        'options' => [
+                            'class' => 'form-horizontal',
+                        ]
+                    ]);
+                    ?>
                     <div class="col-sm-6">
                         <div class="form-horizontal" >
                             <div class="form-group">
@@ -90,12 +99,10 @@ use yii\helpers\Url;
 
                                 <script>
                                     $(function(){
-                                        colorTableTem();
+                                        tableTem(ValProColor,ValProSize);
                                         temp(ValProColor,"#pro_color",proColorTemp);
                                         temp(ValProSize,"#pro_size",proSizeTemp);
                                     });
-                                    /*var ValProColor = [];
-                                    var ValProSize = [];*/
                                     var ValProColor = ["红色", "白色", "黑色"];
                                     var ValProSize = ["m", "l", "xl", "xxl", "3xl"];
                                     //获取颜色容器
@@ -103,36 +110,55 @@ use yii\helpers\Url;
                                     //获取尺寸容器
                                     var proSize = $("#pro_size");
                                     //颜色模板
-                                    function proColorTemp(value){
-                                        var html = '<div class="col-sm-12"><div class="form-group">'+
-                                            '    <label class="col-sm-6">'+
-                                            '        <input id="pro_color_val" class="form-control" type="text" value="'+value+'">'+
-                                            '        <input id="pro_color_img" class="form-control" type="hidden" value="/hplus1/img/p1.jpg">'+
-                                            '    </label>'+
-                                            '    <div class=" col-sm-3">'+
-                                            '        <div class=" col-sm-6">'+
-                                            '            <a target="_blank" href="">'+
-                                            '                <img alt="image" class="feed-photo" src="/hplus1/img/p1.jpg" style="max-height: 50px;max-width: 50px">'+
-                                            '            </a>'+
+                                    function proColorTemp(value,id){
+                                        var html = '<div class="col-sm-12">'+
+                                            '    <div class="form-group">'+
+                                            '        <label class="col-sm-6">'+
+                                            '            <span class="form-control">'+value+'</span>'+
+                                            '            <input id="pro_color_val" name="ProductColor['+id+'][\'name\']" class="form-control" type="hidden" value="'+value+'">'+
+                                            '            <input id="pro_color_img_'+id+'" name="ProductColor['+id+'][\'imgSrc\']"  class="form-control" type="hidden" value="/hplus1/img/p1.jpg">'+
+                                            '        </label>'+
+                                            '        <div class=" col-sm-3">'+
+                                            '            <div class=" col-sm-6">'+
+                                            '                <a target="_blank" href="">'+
+                                            '                    <div class="imagelistFile text-center row col-xs-12" id="imagelistFile_'+id+'">'+
+                                            '                        <img alt="image" class="feed-photo" src="/hplus1/img/p1.jpg" style="max-height: 50px;max-width: 50px">'+
+                                            '                    </div>'+
+                                            '                </a>'+
+                                            '            </div>'+
+                                            '            <div class="col-sm-6">'+
+                                            '                <div class="btn btn-primary btn-xs" style="color: #fff;text-align: center;cursor: pointer;">'+
+                                            '                    <span>上传图片</span>'+
+                                            '                    <form id="myupload_'+id+'" action="<?= Url::to(["/app/attachment/up"])?>" method="get" enctype="multipart/form-data">'+
+                                            '                       <div id="fileuploada_'+id+'">'+
+                                            '                            <input'+
+                                            '                                style="position: absolute;top: 0;left: 0;margin: 0;border: solid transparent;opacity: 0;filter: alpha(opacity = 0);cursor: pointer;"'+
+                                            '                                id="fileupload"'+
+                                            '                                class="btn btn-primary btn-xs"'+
+                                            '                                onchange="proFileUpdate(this,'+id+')"'+
+                                            '                                type="file"'+
+                                            '                                name="UploadForm">'+
+                                            '                       </div>'+
+                                            '                    </form>'+
+                                            '                </div>'+
+                                            '            </div>'+
                                             '        </div>'+
-                                            '        <div class=" col-sm-6">'+
-                                            '            <a href="#" class="btn btn-primary btn-xs">选择图片</a>'+
+                                            '        <div class=" col-sm-3">'+
+                                            '            <button type="button" onclick="proDel(this,ValProColor,\'ValProColor\')" class="btn btn-xs btn-danger">删除</button>'+
                                             '        </div>'+
                                             '    </div>'+
-                                            '    <div class=" col-sm-3">'+
-                                            '        <button type="button" onclick="proColorDel(this)" class="btn btn-xs btn-danger">删除</button>'+
-                                            '    </div>'+
-                                            '</div>'+
-                                            '<div class="hr-line-dashed"></div></div>';
+                                            '    <div class="hr-line-dashed"></div>'+
+                                            '</div>';
                                         return html;
                                     }
                                     //尺寸模板
                                     function proSizeTemp(value){
                                         var html = '<div class="form-group col-sm-3">'+
                                             '    <div class="input-group">'+
-                                            '        <input id="pro_size_val" type="text" class="form-control" value="'+value+'">'+
+                                            '        <span type="text" class="form-control">'+value+'</span>'+
+                                            '        <input id="pro_size_val" type="hidden" class="form-control" value="'+value+'">'+
                                             '        <span class="input-group-btn">'+
-                                            '            <button type="button" onclick="proSizeDel(this)" class="btn btn-danger" style="margin:0"><i class="fa fa-close"></i></button>'+
+                                            '            <button type="button" onclick="proDel(this,ValProSize,\'ValProSize\')" class="btn btn-danger" style="margin:0"><i class="fa fa-close"></i></button>'+
                                             '        </span>'+
                                             '    </div>'+
                                             '</div>';
@@ -141,15 +167,11 @@ use yii\helpers\Url;
                                     //颜色添加
                                     function proColorAdd(obj){
                                         var input = obj.parentNode.parentNode.getElementsByTagName("input")[0];
-                                        var v = $(input).val();
-                                        if(!v ==""){
-                                            ValProColor.push(v);
-                                            colorTableTem();
-                                            var html='';
-                                            for(var i=0;i<ValProColor.length;i++) {
-                                                html+=proColorTemp(ValProColor[i]);
-                                            }
-                                            proColor.html(html);
+                                        if(valTrue($(input).val())){
+                                            ValProColor.push($(input).val());
+                                            tableTem(ValProColor,ValProSize);
+                                            temp(ValProColor,"#pro_color",proColorTemp);
+                                            return ValProColor;
                                         }else{
                                             layui.use('layer', function(){
                                                 var layer = layui.layer;
@@ -162,37 +184,39 @@ use yii\helpers\Url;
                                     function temp(arr,dom,fun){
                                         var html='';
                                         for(var i=0;i<arr.length;i++) {
-                                            html+=fun(arr[i]);
+                                            html+=fun(arr[i],i);
                                         }
                                         $(dom).html(html);
                                     }
-                                    //颜色删除
-                                    function proColorDel(obj){
+                                    //删除
+                                    function proDel(obj,ValArr,ValName){
+//                                        console.log("------------------------------------------------------");
                                         var html = obj.parentNode.parentNode.parentNode;
-                                        console.log(ValProColor);
+//                                        console.log("proDel："+ValArr);
                                         var v = html.getElementsByTagName("input")[0];
                                         var varr = [$(v).val()];
-                                        ValProColor = arrReat(varr,ValProColor);
-                                        colorTableTem();
-                                        console.log(varr);
-                                        console.log(ValProColor);
+                                        ValArr = arrReat(varr,ValArr);
+//                                        console.log(varr);
+//                                        console.log("proDel-2："+ValArr);
                                         html.parentNode.removeChild(html);
+                                        var val = ValName;
+//                                        console.log("proDel-val："+val);
+                                        if(val=="ValProColor"){
+                                            tableTem(ValArr,ValProSize);
+                                            return ValProColor = ValArr;
+                                        }else{
+                                            tableTem(ValProColor,ValArr);
+                                            return ValProSize = ValArr;
+                                        }
                                     }
                                     //尺寸添加
                                     function proSizeAdd(obj){
                                         var input = obj.parentNode.parentNode.getElementsByTagName("input")[0];
-                                        var v = $.trim($(input).val());
-                                        if(!v == "" || !v == undefined || !v == null){
-                                            ValProSize.push(v);
-                                            var html='';
-                                            for(var i=0;i<ValProSize.length;i++) {
-                                                html+=proSizeTemp(ValProSize[i]);
-                                            }
-                                            colorTableTem();
-                                            /*console.log("添加成功");
-                                            console.log(ValProSize);
-                                            console.log(ValProSize.length);*/
-                                            proSize.html(html);
+                                        if(valTrue($(input).val())){
+                                            ValProSize.push($(input).val());
+                                            tableTem(ValProColor,ValProSize);
+                                            temp(ValProSize,"#pro_size",proSizeTemp);
+                                            return ValProSize;
                                         }else{
                                             layui.use('layer', function(){
                                                 var layer = layui.layer;
@@ -200,18 +224,6 @@ use yii\helpers\Url;
                                                 layer.alert("请输入内容");
                                             });
                                         }
-                                    }
-                                    //尺寸删除
-                                    function proSizeDel(obj){
-                                        var html = obj.parentNode.parentNode.parentNode;
-                                        console.log(ValProSize);
-                                        var v = html.getElementsByTagName("input")[0];
-                                        var varr = [$(v).val()];
-                                        ValProSize = arrReat(varr,ValProSize);
-                                        colorTableTem();
-                                        console.log(varr);
-                                        console.log(ValProSize);
-                                        html.parentNode.removeChild(html);
                                     }
                                     /**
                                      * 删除重复的数组
@@ -234,143 +246,73 @@ use yii\helpers\Url;
                                         }
                                         return temparray;
                                     }
-
+                                    //产品ID
+//                                    var product_id = "";
                                     /**
                                      * 颜色模板
                                      */
-                                    function colorTableTem(){
-                                        console.log("开始");
-                                        console.log(ValProColor);
+                                    function tableTem(ColorArr,SizeArr){
+//                                        console.log("tableTem-ValProColor："+ColorArr);
+//                                        console.log("tableTem-SizeArr："+SizeArr);
                                         var html = '';
-                                        for(var i=0;i<ValProColor.length;i++){
-                                            console.log(ValProColor[i]);
-                                            html +=colorTableTr(ValProColor[i],ValProSize);
+                                        for(var i=0;i<ColorArr.length;i++){
+//                                            console.log(ColorArr[i]);
+                                            html +=colorTableTr(ColorArr[i],SizeArr,i);
                                         }
                                         $("#pro_table_tbody").html(html);
                                     }
-                                    function colorTableTr(color,size){
+                                    function colorTableTr(color,SizeArr,colorId){
                                         var htmlVal = '';
-                                        if(size == "" || size == undefined || size == null){
-                                            size = ["均码"];
+                                        if(SizeArr == "" || SizeArr == undefined || SizeArr == null){
+                                            SizeArr = ["均码"];
                                         }
-                                        console.log(htmlVal);
-                                        for(var i=0; i<size.length;i++){
+//                                        console.log(htmlVal);
+                                        for(var i=0; i<SizeArr.length;i++){
                                             if(i==0){
-                                                htmlVal+='<tr>'+
-                                                    '    <td class="text-center" rowspan="'+size.length+'">'+color+'</td>'+
-                                                    '    <td class="text-center">'+size[i]+'</td>'+
-                                                    '    <td class="text-center"><input type="text" class="form-control" id="pro_price"></td>'+
-                                                    '    <td class="text-center"><input type="text" class="form-control" id="pro_stock"></td>'+
-                                                    '    <td class="text-center"><input type="text" class="form-control" id="pro_barcode"></td>'+
+                                                htmlVal+='<tr color="'+i+'">'+
+                                                    '    <td class="text-center" rowspan="'+SizeArr.length+'">' +
+                                                    color+'</td>'+
+                                                    '    <td class="text-center">'+SizeArr[i]+'</td>'+
+                                                    '    <input type="hidden" name="ProductRelation['+colorId+']['+i+'][\'color\']" value="'+color+'">' +
+                                                    '    <input type="hidden" name="ProductRelation['+colorId+']['+i+'][\'size\']" value="'+SizeArr[i]+'">' +
+                                                    '    <td class="text-center"><input name="ProductRelation['+colorId+']['+i+'][\'price\']" type="text" class="form-control text-center" id="pro_price"></td>'+
+                                                    '    <td class="text-center"><input name="ProductRelation['+colorId+']['+i+'][\'stock\']" type="text" class="form-control text-center" id="pro_stock"></td>'+
+                                                    '    <td class="text-center"><input name="ProductRelation['+colorId+']['+i+'][\'barcode\']" type="text" class="form-control text-center" id="pro_barcode"></td>'+
                                                     '</tr>';
                                             }else{
                                                 htmlVal+='<tr>'+
-                                                    '    <td class="text-center">'+size[i]+'</td>'+
-                                                    '    <td class="text-center"><input type="text" class="form-control" id="pro_price"></td>'+
-                                                    '    <td class="text-center"><input type="text" class="form-control" id="pro_stock"></td>'+
-                                                    '    <td class="text-center"><input type="text" class="form-control" id="pro_barcode"></td>'+
+                                                    '    <td class="text-center">'+SizeArr[i]+'</td>'+
+                                                    '    <input type="hidden" name="ProductRelation['+colorId+']['+i+'][\'color\']" value="'+color+'">' +
+                                                    '    <input type="hidden" name="ProductRelation['+colorId+']['+i+'][\'size\']" value="'+SizeArr[i]+'">' +
+                                                    '    <td class="text-center"><input name="ProductRelation['+colorId+']['+i+'][\'price\']" type="text" class="form-control text-center" id="pro_price"></td>'+
+                                                    '    <td class="text-center"><input name="ProductRelation['+colorId+']['+i+'][\'stock\']" type="text" class="form-control text-center" id="pro_stock"></td>'+
+                                                    '    <td class="text-center"><input name="ProductRelation['+colorId+']['+i+'][\'barcode\']" type="text" class="form-control text-center" id="pro_barcode"></td>'+
                                                     '</tr>';
                                             }
                                         }
-                                        console.log("colorTableTr:"+htmlVal);
-//                                        proTableTbody.append(htmlVal);
+//                                        console.log("colorTableTr:"+htmlVal);
                                         return htmlVal;
+                                    }
+                                    //判断Input中是否有值
+                                    function valTrue(val){
+                                        var v = $.trim(val);
+                                        if(!v == "" || !v == undefined || !v == null){
+                                            return true;
+                                        }else{
+                                            return false;
+                                        }
                                     }
                                 </script>
                             </div>
                             <div class="hr-line-dashed"></div>
-                            <button type="submit" class="btn btn-bg btn-primary"> 下一步 </button>
-                            <a href="/index.php?r=manager%2Fproduct%2Findex" class="btn btn-bg btn-danger"> 取 消 </a>
                         </div>
-<!--                        <div class="col-sm-6 tab-pane active" id="home2" role="tabpanel" aria-expanded="true">-->
-<!--                            <script src="/js/jquery.form.js"></script>-->
-<!--                            <div class="row col-xs-12">-->
-<!--                                <div id="main"  class="row col-xs-12">-->
-<!--                                    <div class="demo">-->
-<!--                                        <div class="btn2" style="background: #09c">-->
-<!--                                            <span>上传图片</span>-->
-<!--                                            <div id="fileuploada">-->
-<!--                                                <input type="hidden" name="_csrf" value="b-w4umezsXfbBiOXDK5mVX65o0hs5nUbhic3HvpNhnZrewve9L5Y1tbwftjEv4TKKy6nj7koqSKQINyNdz0Orw==">-->
-<!--                                                <input id="fileupload" type="file" name="UploadForm">-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div id="filesStr"></div>-->
-<!--                                        <div id="showimg"></div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="imagelistFile text-center row col-xs-12" id="imagelistFile">-->
-<!--                                    <img src='' height="400" width="400"/>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-                        <style>
-                            .btn {margin: 3px;}
-                            .imagelistAll>ul {list-style: none}
-                            .imagelistAll>ul>li {list-style: none;	float: left}
-                            .imagelistFile>img,.imagelistAll>ul>li>img{margin:5px;padding:5px;	border: 1px solid #9d9d9d}
-                            .imagelistFile *,imagelistAll *{float: left}
-                            .imagelistAll>ul>li>.shouImg{border: 5px solid #419641;}
-                            .demo {width: 620px;margin: 30px auto;}
-                            .demo p {line-height: 32px;}
-                            .btn2 {position: relative;overflow: hidden;margin: auto;display: inline-block;*display: inline;padding: 20px;font-size: 20px;line-height: 68px;*line-height: 60px;color: #fff;text-align: center;vertical-align: middle;cursor: pointer;border: 1px solid #cccccc;border-color: #e6e6e6 #e6e6e6 #bfbfbf;border-bottom-color: #b3b3b3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;}
-                            .btn2 input ,.ImageOne{width: 100%;padding: 30px;line-height: 68px;position: absolute;top: 0;left: 0;margin: 0;border: solid transparent;opacity: 0;filter: alpha(opacity = 0);cursor: pointer;}
-                        </style>
-                        <script>
-                            $(function () {
-                                $("#addTVD").hide();
-                                var bar = $('.bar');
-                                var percent = $('.percent');
-                                var showimg = $('#showimg');
-                                var progress = $(".progress");
-                                var files = $("#files");
-                                var btn = $(".btn span");
-                                var urlPOST = "/index.php?r=app%2Fattachment%2Fup";
-                                $("#fileuploada").wrap(
-                                    "<form id=\"myupload\" " +
-                                    "action=\"" + urlPOST +
-                                    "\" method='post' enctype='multipart/form-data'></form>"
-                                );
-                                $("#fileupload").change(function() {
-                                    $("#myupload").ajaxSubmit({
-                                        dataType: 'json',
-                                        beforeSend: function() {
-                                            showimg.empty();
-                                            progress.show();
-                                            var percentVal = "0%";
-                                            bar.width(percentVal);
-                                            percent.html(percentVal);
-                                            btn.html("上传中...");
-                                        },
-                                        uploadProgress: function(event, position, total, percentComplete) {
-                                            var percentVal = percentComplete + '%';
-                                            bar.width(percentVal);
-                                            percent.html(percentVal);
-                                        },
-                                        success: function(data) {
-                                            var img = data.data.url;
-                                            var name = data.data.name;
-                                            var type = data.data.type;
-                                            var ext = data.data.ext;
-                                            $("#product-image").val(img);
-                                            $("#imagelistFile").html("<img src='"+$("#product-image").val()+"'style='max-height: 400px;max-width: 400px;'/>");
-                                        },
-                                        error:function(xhr){
-                                            btn.html("重新添加");
-                                            bar.width('0');
-                                            files.html(xhr.responseText);
-                                        }
-                                    });
-                                });
-                            });
-                        </script>
                     </div>
-
                     <div class="col-sm-6" id="table_pro">
                         <table class="table">
                             <thead>
                             <tr>
                                 <th>价格</th>
-                                <th><input type="text" class="form-control" id="pro_price"></th>
+                                <th><input type="text" value="" class="form-control" id="pro_price"></th>
                                 <th>库存</th>
                                 <th><input type="text" class="form-control" id="pro_stock"></th>
                                 <th>条码</th>
@@ -384,12 +326,24 @@ use yii\helpers\Url;
                                 var pro_price = obj.parentNode.parentNode.getElementsByTagName("input")[0];
                                 var pro_stock = obj.parentNode.parentNode.getElementsByTagName("input")[1];
                                 var pro_barcode = obj.parentNode.parentNode.getElementsByTagName("input")[2];
-                                $("#pro_table_tbody #pro_price").val($(pro_price).val());
-                                $("#pro_table_tbody #pro_stock").val($(pro_stock).val());
-                                $("#pro_table_tbody #pro_barcode").val($(pro_barcode).val());
+                                if(valTrue($(pro_price).val())||valTrue($(pro_stock).val())||valTrue($(pro_barcode).val())){
+                                    $("#pro_table_tbody #pro_price").val($(pro_price).val());
+                                    $("#pro_table_tbody #pro_stock").val($(pro_stock).val());
+                                    $("#pro_table_tbody #pro_barcode").val($(pro_barcode).val());
+                                }else{
+                                    layui.use('layer', function(){
+                                        var layer = layui.layer;
+                                        //在这里面输入任何合法的js语句
+                                        layer.alert("请输入内容");
+                                    });
+                                }
                             }
                         </script>
                         <table class="table table-bordered col-sm-12">
+                            <style>
+                                .table>tbody>tr>td {padding:0;}
+                                .table>tbody>tr>td>.form-control {border-color:#fff;}
+                            </style>
                             <thead>
                             <tr>
                                 <td width="20%" class="text-center">颜色</td>
@@ -403,8 +357,56 @@ use yii\helpers\Url;
                             </tbody>
                         </table>
                     </div>
+                    <div class="col-sm-12">
+                        <?=Html::submitButton(' 确 定 ',["class"=>"btn btn-bg btn-primary"])?>
+                        <a href="<?=Url::to(["/manager/product/index"])?>" class="btn btn-bg btn-danger"> 返回产品列表 </a>
+                    </div>
+                    <?php
+                    ActiveForm::end();
+                    ?>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+<script src="/js/jquery.form.js"></script>
+<script>
+    $(function () {
+    });
+    function proFileUpdate(obj,id) {
+        var input1 = "#pro_color_img_"+id;
+        var ajaxId = '#myupload_'+id;
+        var imagelistFile = '#imagelistFile_'+id;
+        console.log(input1);
+        $(ajaxId).ajaxSubmit({
+            dataType: 'json',
+            data:{
+                "_csrf":"<?= Yii::$app->request->csrfToken ?>",
+            },
+            beforeSend: function() {
+//                showimg.empty();
+//                progress.show();
+//                var percentVal = "0%";
+//                bar.width(percentVal);
+//                percent.html(percentVal);
+//                btn.html("上传中...");
+            },
+            uploadProgress: function(event, position, total, percentComplete) {
+//                var percentVal = percentComplete + '%';
+//                percent.html(percentVal);
+            },
+            success: function(data) {
+                if(!data.data ==""){
+                    var img = data.data.url;
+                    $(input1).val(img);
+                    console.log($(input1).val());
+                    $(imagelistFile).html("<img src='"+$(input1).val()+"' style=\"max-height: 50px;max-width: 50px\"/>");
+                }
+            },
+            error:function(xhr){
+            }
+        });
+    }
+</script>
