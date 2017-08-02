@@ -44,7 +44,7 @@ class Product extends \yii\db\ActiveRecord
         return [
             [['sn', 'name', 'user_id', 'brand_id'], 'required'],
             [['price'], 'number'],
-            [['user_id', 'brand_id', 'tag', 'category_id', 'create_time', 'update_time'], 'integer'],
+            [['user_id','tag', 'category_id', 'create_time', 'update_time'], 'integer'],
             [['sn'], 'string', 'max' => 20],
             [['name', 'material','image'], 'string', 'max' => 255],
             [['sn'], 'unique'],
@@ -97,7 +97,7 @@ class Product extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProductColors()
+    public function getProductColor()
     {
         return $this->hasMany(ProductColor::className(), ['product_id' => 'id']);
     }
@@ -105,9 +105,13 @@ class Product extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProductSizes()
+    public function getProductSize()
     {
         return $this->hasMany(ProductSize::className(), ['product_id' => 'id']);
+    }
+    public function getWarehouseProductStock()
+    {
+        return $this->hasMany(WarehouseProductStock::className(), ['product_id' => 'id']);
     }
 
 

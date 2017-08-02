@@ -18,10 +18,12 @@ use yii\helpers\Url;
                     <?php
                     $form = ActiveForm::begin([
                         'options' => [
-                            'class' => 'form-horizontal',
-                        ]
+                            'class' => 'form-horizontal'
+                        ],
+                        'action'=>Url::to(["addok"]),
                     ]);
                     ?>
+                    <input type="hidden" name="product_id" value="<?=$product_id?>">
                     <div class="col-sm-6">
                         <div class="form-horizontal" >
                             <div class="form-group">
@@ -115,8 +117,8 @@ use yii\helpers\Url;
                                             '    <div class="form-group">'+
                                             '        <label class="col-sm-6">'+
                                             '            <span class="form-control">'+value+'</span>'+
-                                            '            <input id="pro_color_val" name="ProductColor['+id+'][\'name\']" class="form-control" type="hidden" value="'+value+'">'+
-                                            '            <input id="pro_color_img_'+id+'" name="ProductColor['+id+'][\'imgSrc\']"  class="form-control" type="hidden" value="/hplus1/img/p1.jpg">'+
+                                            '            <input id="pro_color_val" name="ProductColor['+id+'][name]" class="form-control" type="hidden" value="'+value+'">'+
+                                            '            <input id="pro_color_img_'+id+'" name="ProductColor['+id+'][imgSrc]"  class="form-control" type="hidden" value="/hplus1/img/p1.jpg">'+
                                             '        </label>'+
                                             '        <div class=" col-sm-3">'+
                                             '            <div class=" col-sm-6">'+
@@ -128,18 +130,7 @@ use yii\helpers\Url;
                                             '            </div>'+
                                             '            <div class="col-sm-6">'+
                                             '                <div class="btn btn-primary btn-xs" style="color: #fff;text-align: center;cursor: pointer;">'+
-                                            '                    <span>上传图片</span>'+
-                                            '                    <form id="myupload_'+id+'" action="<?= Url::to(["/app/attachment/up"])?>" method="get" enctype="multipart/form-data">'+
-                                            '                       <div id="fileuploada_'+id+'">'+
-                                            '                            <input'+
-                                            '                                style="position: absolute;top: 0;left: 0;margin: 0;border: solid transparent;opacity: 0;filter: alpha(opacity = 0);cursor: pointer;"'+
-                                            '                                id="fileupload"'+
-                                            '                                class="btn btn-primary btn-xs"'+
-                                            '                                onchange="proFileUpdate(this,'+id+')"'+
-                                            '                                type="file"'+
-                                            '                                name="UploadForm">'+
-                                            '                       </div>'+
-                                            '                    </form>'+
+                                            '                    <span onclick="upForm('+id+')">上传图片</span>'+
                                             '                </div>'+
                                             '            </div>'+
                                             '        </div>'+
@@ -273,20 +264,20 @@ use yii\helpers\Url;
                                                     '    <td class="text-center" rowspan="'+SizeArr.length+'">' +
                                                     color+'</td>'+
                                                     '    <td class="text-center">'+SizeArr[i]+'</td>'+
-                                                    '    <input type="hidden" name="ProductRelation['+colorId+']['+i+'][\'color\']" value="'+color+'">' +
-                                                    '    <input type="hidden" name="ProductRelation['+colorId+']['+i+'][\'size\']" value="'+SizeArr[i]+'">' +
-                                                    '    <td class="text-center"><input name="ProductRelation['+colorId+']['+i+'][\'price\']" type="text" class="form-control text-center" id="pro_price"></td>'+
-                                                    '    <td class="text-center"><input name="ProductRelation['+colorId+']['+i+'][\'stock\']" type="text" class="form-control text-center" id="pro_stock"></td>'+
-                                                    '    <td class="text-center"><input name="ProductRelation['+colorId+']['+i+'][\'barcode\']" type="text" class="form-control text-center" id="pro_barcode"></td>'+
+                                                    '    <input type="hidden" name="ProductRelation['+colorId+']['+i+'][color]" value="'+color+'">' +
+                                                    '    <input type="hidden" name="ProductRelation['+colorId+']['+i+'][size]" value="'+SizeArr[i]+'">' +
+                                                    '    <td class="text-center"><input name="ProductRelation['+colorId+']['+i+'][price]" type="text" class="form-control text-center" id="pro_price"></td>'+
+                                                    '    <td class="text-center"><input name="ProductRelation['+colorId+']['+i+'][stock]" type="text" class="form-control text-center" id="pro_stock"></td>'+
+                                                    '    <td class="text-center"><input name="ProductRelation['+colorId+']['+i+'][barcode]" type="text" class="form-control text-center" id="pro_barcode"></td>'+
                                                     '</tr>';
                                             }else{
                                                 htmlVal+='<tr>'+
                                                     '    <td class="text-center">'+SizeArr[i]+'</td>'+
-                                                    '    <input type="hidden" name="ProductRelation['+colorId+']['+i+'][\'color\']" value="'+color+'">' +
-                                                    '    <input type="hidden" name="ProductRelation['+colorId+']['+i+'][\'size\']" value="'+SizeArr[i]+'">' +
-                                                    '    <td class="text-center"><input name="ProductRelation['+colorId+']['+i+'][\'price\']" type="text" class="form-control text-center" id="pro_price"></td>'+
-                                                    '    <td class="text-center"><input name="ProductRelation['+colorId+']['+i+'][\'stock\']" type="text" class="form-control text-center" id="pro_stock"></td>'+
-                                                    '    <td class="text-center"><input name="ProductRelation['+colorId+']['+i+'][\'barcode\']" type="text" class="form-control text-center" id="pro_barcode"></td>'+
+                                                    '    <input type="hidden" name="ProductRelation['+colorId+']['+i+'][color]" value="'+color+'">' +
+                                                    '    <input type="hidden" name="ProductRelation['+colorId+']['+i+'][size]" value="'+SizeArr[i]+'">' +
+                                                    '    <td class="text-center"><input name="ProductRelation['+colorId+']['+i+'][price]" type="text" class="form-control text-center" id="pro_price"></td>'+
+                                                    '    <td class="text-center"><input name="ProductRelation['+colorId+']['+i+'][stock]" type="text" class="form-control text-center" id="pro_stock"></td>'+
+                                                    '    <td class="text-center"><input name="ProductRelation['+colorId+']['+i+'][barcode]" type="text" class="form-control text-center" id="pro_barcode"></td>'+
                                                     '</tr>';
                                             }
                                         }
@@ -370,16 +361,41 @@ use yii\helpers\Url;
     </div>
 </div>
 
-
+<div style="display: none" id="up_form"></div>
+<style>
+    #up_form{
+        position: absolute;
+        top: 40%;
+        left: 40%;
+        z-index: 9999;
+        max-width: 300px;
+        max-height: 100px;
+        background: #09c;
+    }
+</style>
 <script src="/js/jquery.form.js"></script>
 <script>
-    $(function () {
-    });
-    function proFileUpdate(obj,id) {
+    function upForm(id){
+        $("#up_form").css({"display":"block"});
+        var html = '<form id="myupload_'+id+'" action="<?= Url::to(["/app/attachment/up"])?>" method="get" enctype="multipart/form-data">'+
+            '                       <div id="fileuploada_'+id+'">'+
+            '                            <input'+
+            '                                id="fileupload"'+
+            '                                class="btn btn-primary btn-xs"'+
+            '                                onchange="proFileUpdate('+id+')"'+
+            '                                type="file"'+
+            '                                name="UploadForm">'+
+            '                       </div>'+
+            '                    </form>';
+        $("#up_form").html(html);
+    }
+    function proFileUpdate(id) {
         var input1 = "#pro_color_img_"+id;
-        var ajaxId = '#myupload_'+id;
-        var imagelistFile = '#imagelistFile_'+id;
         console.log(input1);
+        var ajaxId = '#myupload_'+id;
+        console.log(ajaxId);
+        var imagelistFile = '#imagelistFile_'+id;
+        console.log(imagelistFile);
         $(ajaxId).ajaxSubmit({
             dataType: 'json',
             data:{
@@ -403,6 +419,8 @@ use yii\helpers\Url;
                     $(input1).val(img);
                     console.log($(input1).val());
                     $(imagelistFile).html("<img src='"+$(input1).val()+"' style=\"max-height: 50px;max-width: 50px\"/>");
+                    $("#up_form").css({"display":"none"});
+                    $("#up_form").html(" ");
                 }
             },
             error:function(xhr){

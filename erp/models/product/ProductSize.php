@@ -13,9 +13,6 @@ use Yii;
  * @property integer $color_id
  * @property string $barcode
  * @property string $create_time
- *
- * @property ProductColor $color
- * @property Product $product
  */
 class ProductSize extends \yii\db\ActiveRecord
 {
@@ -33,13 +30,10 @@ class ProductSize extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'product_id', 'color_id', 'barcode', 'create_time'], 'required'],
-            [['product_id', 'color_id'], 'integer'],
+            [['name', 'product_id', 'color_id'], 'required'],
+            [['product_id', 'color_id', 'create_time'], 'integer'],
             [['name'], 'string', 'max' => 64],
             [['barcode'], 'string', 'max' => 100],
-            [['create_time'], 'string', 'max' => 32],
-            [['color_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductColor::className(), 'targetAttribute' => ['color_id' => 'id']],
-            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
         ];
     }
 
@@ -56,21 +50,5 @@ class ProductSize extends \yii\db\ActiveRecord
             'barcode' => '产品条码',
             'create_time' => '创建时间',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getColor()
-    {
-        return $this->hasOne(ProductColor::className(), ['id' => 'color_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProduct()
-    {
-        return $this->hasOne(Product::className(), ['id' => 'product_id']);
     }
 }
